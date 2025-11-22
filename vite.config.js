@@ -4,8 +4,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   
-  // GitHub Pages base path (remove this line if using custom domain)
-  base: '/markaitek-ui-ux/',
+  // Conditionally set base path:
+  // - GitHub Pages: '/markaitek-ui-ux/' (subdirectory)
+  // - Tauri builds: '/' (root, loads from tauri://localhost)
+  // - Local dev: '/' (root)
+  base: process.env.GITHUB_PAGES === 'true' ? '/markaitek-ui-ux/' : '/',
   
   // Tauri expects a fixed port in development
   server: {
