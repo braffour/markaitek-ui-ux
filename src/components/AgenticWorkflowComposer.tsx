@@ -1,4 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import {
+  ReactFlow,
+  ReactFlowProvider,
+  Controls,
+  Background,
+  useNodesState,
+  useEdgesState,
+  addEdge,
+  useReactFlow,
+  BackgroundVariant,
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 
 import {
   MessageSquare,
@@ -22,8 +34,12 @@ import {
   Wand2,
   History,
   Layers,
-  X
+  X,
+  GitBranch
 } from 'lucide-react';
+
+import WorkflowNode from './nodes/WorkflowNode';
+import { getLayoutedElements } from '../utils/layoutUtils';
 
 
 // --- Mock Data & Constants ---
@@ -259,11 +275,167 @@ const YoloMode = () => {
 
 // --- Mode 2: Classic Mode ---
 
+// Node types mapping for ReactFlow
+const nodeTypes = {
+  workflow: WorkflowNode,
+};
 
-const ClassicMode = () => {
-  const [selectedNode, setSelectedNode] = useState('node-2');
+// Initial nodes with actual workflow data
+const initialNodes = [
+  {
+    id: 'node-1',
+    type: 'workflow',
+    position: { x: 100, y: 200 },
+    data: {
+      label: 'Webhook',
+      description: 'Listening on /hooks/v1/orders',
+      type: 'trigger',
+      meta: 'Ext. Access',
+    },
+  },
+  {
+    id: 'node-2',
+    type: 'workflow',
+    position: { x: 400, y: 200 },
+    data: {
+      label: 'Process Data',
+      description: 'Transform: JSON → SQL',
+      type: 'action',
+      meta: 'Safe',
+    },
+  },
+  {
+    id: 'node-3',
+    type: 'workflow',
+    position: { x: 700, y: 200 },
+    data: {
+      label: 'Postgres',
+      description: 'Insert into public.orders',
+      type: 'connector',
+      meta: 'Read-Only',
+    },
+  },
+];
 
-  // Mocking a visual graph
+// Initial edges connecting the nodes
+const initialEdges = [
+  {
+    id: 'edge-1-2',
+    source: 'node-1',
+    target: 'node-2',
+    type: 'smoothstep',
+    animated: false,
+  },
+  {
+    id: 'edge-2-3',
+    source: 'node-2',
+    target: 'node-3',
+    type: 'smoothstep',
+    animated: false,
+  },
+];
+
+let nodeId = 4;
+const getId = () => `node-${nodeId++}`;
+
+const ClassicModeInner = () => {
+  const reactFlowWrapper = useRef(null);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [selectedNode, setSelectedNode] = useState(null);
+  const { screenToFlowPosition } = useReactFlow();
+
+  // Handle node selection
+  const onSelectionChange = useCallback(({ nodes: selectedNodes }) => {
+    if (selectedNodes.length > 0) {
+      setSelectedNode(selectedNodes[0]);
+    } else {
+      setSelectedNode(null);
+    }
+  }, []);
+
+  // Handle new connections
+  const onConnect = useCallback(
+    (params) => {
+      setEdges((eds) => addEdge({ ...params, type: 'smoothstep' }, eds));
+    },
+    [setEdges]
+  );
+
+  // Handle drag over for drop zone
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }, []);
+
+  // Handle drop from component library
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const componentData = event.dataTransfer.getData('application/reactflow');
+      if (!componentData) return;
+
+      const component = JSON.parse(componentData);
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+
+      const newNode = {
+        id: getId(),
+        type: 'workflow',
+        position,
+        data: {
+          label: component.label,
+          type: component.type,
+          meta: component.meta,
+          description: '',
+        },
+      };
+
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [screenToFlowPosition, setNodes]
+  );
+
+  // Handle drag start from component library
+  const onDragStart = (event, component) => {
+    event.dataTransfer.setData('application/reactflow', JSON.stringify(component));
+    event.dataTransfer.effectAllowed = 'move';
+  };
+
+  // Auto-layout function
+  const onLayout = useCallback(() => {
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+      nodes,
+      edges
+    );
+    setNodes(layoutedNodes);
+    setEdges(layoutedEdges);
+  }, [nodes, edges, setNodes, setEdges]);
+
+  // Handle node data updates from inspector
+  const updateNodeData = useCallback(
+    (nodeId, field, value) => {
+      setNodes((nds) =>
+        nds.map((node) => {
+          if (node.id === nodeId) {
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                [field]: value,
+              },
+            };
+          }
+          return node;
+        })
+      );
+    },
+    [setNodes]
+  );
+
   return (
     <div className="h-full flex overflow-hidden bg-slate-50">
       {/* Left Rail: Component Library */}
@@ -274,15 +446,28 @@ const ClassicMode = () => {
           </h3>
         </div>
         <div className="flex-1 overflow-y-auto p-3 space-y-4">
-          {['Trigger', 'Action', 'Connector'].map(cat => (
+          {['Trigger', 'Action', 'Connector'].map((cat) => (
             <div key={cat}>
-              <h4 className="text-xs font-bold text-slate-400 uppercase mb-2 px-1">{cat}s</h4>
+              <h4 className="text-xs font-bold text-slate-400 uppercase mb-2 px-1">
+                {cat}s
+              </h4>
               <div className="space-y-2">
-                {COMPONENT_LIBRARY.filter(c => c.type === cat.toLowerCase()).map(comp => (
-                  <div key={comp.id} className="bg-white border border-slate-200 p-3 rounded-lg shadow-sm cursor-move hover:border-indigo-400 hover:shadow-md transition group">
+                {COMPONENT_LIBRARY.filter(
+                  (c) => c.type === cat.toLowerCase()
+                ).map((comp) => (
+                  <div
+                    key={comp.id}
+                    draggable
+                    onDragStart={(event) => onDragStart(event, comp)}
+                    className="bg-white border border-slate-200 p-3 rounded-lg shadow-sm cursor-move hover:border-indigo-400 hover:shadow-md transition group"
+                  >
                     <div className="flex justify-between items-center mb-1">
-                      <span className="font-medium text-sm text-slate-700">{comp.label}</span>
-                      <Badge type={comp.meta === 'Safe' ? 'success' : 'neutral'}>{comp.meta}</Badge>
+                      <span className="font-medium text-sm text-slate-700">
+                        {comp.label}
+                      </span>
+                      <Badge type={comp.meta === 'Safe' ? 'success' : 'neutral'}>
+                        {comp.meta}
+                      </Badge>
                     </div>
                     <div className="text-[10px] text-slate-400">v2.1.0 • Certified</div>
                   </div>
@@ -293,66 +478,49 @@ const ClassicMode = () => {
         </div>
       </div>
 
-      {/* Center: Canvas (ReactFlow Simulation) */}
-      <div className="flex-1 relative bg-slate-50 overflow-hidden">
-        {/* Grid Background */}
-        <div className="absolute inset-0 opacity-5"
-             style={{ backgroundImage: 'radial-gradient(#6366f1 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-        </div>
-
-        {/* Top Bar: Breadcrumbs & Versioning */}
+      {/* Center: ReactFlow Canvas */}
+      <div className="flex-1 relative bg-slate-50 overflow-hidden" ref={reactFlowWrapper}>
+        {/* Top Bar: Breadcrumbs & Controls */}
         <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10 pointer-events-none">
           <div className="flex items-center gap-2 bg-white/80 backdrop-blur border border-slate-200 px-4 py-2 rounded-full shadow-sm pointer-events-auto">
             <span className="text-sm font-semibold text-slate-600">Workflows</span>
             <span className="text-slate-400">/</span>
             <span className="text-sm font-semibold text-slate-900">Order Processing</span>
-            <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded ml-2">v4.2 (Draft)</span>
+            <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded ml-2">
+              v4.2 (Draft)
+            </span>
           </div>
-          <div className="bg-white/80 backdrop-blur border border-slate-200 px-4 py-2 rounded-full shadow-sm pointer-events-auto text-xs text-slate-500 font-mono">
-            Last Saved: 10:42 AM
-          </div>
-        </div>
-
-        {/* Simulated Nodes */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <svg className="absolute inset-0 pointer-events-none w-full h-full">
-            <path d="M 450 300 C 550 300, 550 300, 650 300" stroke="#94a3b8" strokeWidth="2" fill="none" />
-            <path d="M 850 300 C 950 300, 950 300, 1050 300" stroke="#94a3b8" strokeWidth="2" fill="none" />
-          </svg>
-
-          <div className="relative w-full max-w-4xl h-96 flex items-center justify-between px-20">
-            {/* Node 1 */}
-            <div onClick={() => setSelectedNode('node-1')} className={`w-48 bg-white rounded-xl shadow-lg border-2 p-4 cursor-pointer transition relative ${selectedNode === 'node-1' ? 'border-indigo-500 ring-4 ring-indigo-500/10' : 'border-slate-200 hover:border-slate-300'}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="bg-purple-100 p-1.5 rounded text-purple-600"><Zap size={16} /></div>
-                <span className="font-bold text-sm text-slate-700">Webhook</span>
-              </div>
-              <div className="text-xs text-slate-500 truncate">Listening on /hooks/v1/orders</div>
-              <div className="absolute -right-3 top-1/2 w-6 h-6 bg-white border-2 border-slate-300 rounded-full -mt-3 z-10"></div>
-            </div>
-
-            {/* Node 2 */}
-            <div onClick={() => setSelectedNode('node-2')} className={`w-48 bg-white rounded-xl shadow-lg border-2 p-4 cursor-pointer transition relative ${selectedNode === 'node-2' ? 'border-indigo-500 ring-4 ring-indigo-500/10' : 'border-slate-200 hover:border-slate-300'}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="bg-blue-100 p-1.5 rounded text-blue-600"><Cpu size={16} /></div>
-                <span className="font-bold text-sm text-slate-700">Process Data</span>
-              </div>
-              <div className="text-xs text-slate-500 truncate">Transform: JSON {'->'} SQL</div>
-              <div className="absolute -left-3 top-1/2 w-6 h-6 bg-white border-2 border-indigo-500 rounded-full -mt-3 z-10 bg-indigo-500"></div>
-              <div className="absolute -right-3 top-1/2 w-6 h-6 bg-white border-2 border-slate-300 rounded-full -mt-3 z-10"></div>
-            </div>
-
-            {/* Node 3 */}
-            <div onClick={() => setSelectedNode('node-3')} className={`w-48 bg-white rounded-xl shadow-lg border-2 p-4 cursor-pointer transition relative ${selectedNode === 'node-3' ? 'border-indigo-500 ring-4 ring-indigo-500/10' : 'border-slate-200 hover:border-slate-300'}`}>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="bg-emerald-100 p-1.5 rounded text-emerald-600"><Database size={16} /></div>
-                <span className="font-bold text-sm text-slate-700">Postgres</span>
-              </div>
-              <div className="text-xs text-slate-500 truncate">Insert into public.orders</div>
-              <div className="absolute -left-3 top-1/2 w-6 h-6 bg-white border-2 border-indigo-500 rounded-full -mt-3 z-10 bg-indigo-500"></div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onLayout}
+              className="bg-white/80 backdrop-blur border border-slate-200 px-3 py-2 rounded-lg shadow-sm pointer-events-auto text-xs text-slate-700 font-medium hover:bg-white hover:text-indigo-600 transition flex items-center gap-2"
+            >
+              <GitBranch size={14} />
+              Auto Layout
+            </button>
+            <div className="bg-white/80 backdrop-blur border border-slate-200 px-4 py-2 rounded-full shadow-sm pointer-events-auto text-xs text-slate-500 font-mono">
+              Last Saved: 10:42 AM
             </div>
           </div>
         </div>
+
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          onSelectionChange={onSelectionChange}
+          nodeTypes={nodeTypes}
+          fitView
+          className="bg-slate-50"
+          deleteKeyCode="Delete"
+        >
+          <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#6366f1" />
+          <Controls className="bg-white border border-slate-200 rounded-lg shadow-sm" />
+        </ReactFlow>
       </div>
 
       {/* Right Rail: Inspector */}
@@ -361,56 +529,106 @@ const ClassicMode = () => {
           <h3 className="font-bold text-slate-700">Inspector</h3>
           <Settings size={16} className="text-slate-400" />
         </div>
-        <div className="p-4 space-y-6 overflow-y-auto flex-1">
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase">Node Label</label>
-            <input type="text" defaultValue="Process Data" className="w-full border border-slate-200 rounded px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none" />
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase">Data Schema Map</label>
-            <div className="bg-slate-50 border border-slate-200 rounded p-3 text-xs font-mono text-slate-600">
-              <div className="flex justify-between"><span>source_id</span> <ArrowRight size={10} /> <span>id</span></div>
-              <div className="flex justify-between mt-1"><span>cust_email</span> <ArrowRight size={10} /> <span>email</span></div>
+        
+        {selectedNode ? (
+          <div className="p-4 space-y-6 overflow-y-auto flex-1">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 uppercase">Node Label</label>
+              <input
+                type="text"
+                value={selectedNode.data.label || ''}
+                onChange={(e) => updateNodeData(selectedNode.id, 'label', e.target.value)}
+                className="w-full border border-slate-200 rounded px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+              />
             </div>
-            <button className="text-xs text-indigo-600 hover:underline font-medium mt-1">+ Add Mapping</button>
-          </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase">Error Handling</label>
-            <select className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 bg-white">
-              <option>Stop Workflow</option>
-              <option>Retry (3x)</option>
-              <option>Ignore & Continue</option>
-              <option>Route to DLQ</option>
-            </select>
-          </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 uppercase">Description</label>
+              <input
+                type="text"
+                value={selectedNode.data.description || ''}
+                onChange={(e) => updateNodeData(selectedNode.id, 'description', e.target.value)}
+                className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+              />
+            </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase">Deploy Target</label>
-            <select className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 bg-white">
-              <option>Production</option>
-              <option>Staging</option>
-            </select>
-          </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 uppercase">Node Type</label>
+              <div className="bg-slate-50 border border-slate-200 rounded px-3 py-2 text-sm text-slate-700">
+                {selectedNode.data.type || 'N/A'}
+              </div>
+            </div>
 
-          <div className="pt-4 border-t border-slate-100">
-            <label className="flex items-center justify-between gap-2 p-3 border rounded-lg border-emerald-200 bg-emerald-50 cursor-pointer">
-              <span className="text-sm font-medium text-emerald-800">Policy Audit Checked</span>
-              <CheckCircle size={16} className="text-emerald-600" />
-            </label>
-          </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 uppercase">Data Schema Map</label>
+              <div className="bg-slate-50 border border-slate-200 rounded p-3 text-xs font-mono text-slate-600">
+                <div className="flex justify-between">
+                  <span>source_id</span> <ArrowRight size={10} /> <span>id</span>
+                </div>
+                <div className="flex justify-between mt-1">
+                  <span>cust_email</span> <ArrowRight size={10} /> <span>email</span>
+                </div>
+              </div>
+              <button className="text-xs text-indigo-600 hover:underline font-medium mt-1">
+                + Add Mapping
+              </button>
+            </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-slate-500 uppercase">Owner</label>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-700">JD</div>
-              <span className="text-sm text-slate-600">John Doe (DevOps)</span>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 uppercase">Error Handling</label>
+              <select className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 bg-white">
+                <option>Stop Workflow</option>
+                <option>Retry (3x)</option>
+                <option>Ignore & Continue</option>
+                <option>Route to DLQ</option>
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 uppercase">Deploy Target</label>
+              <select className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 bg-white">
+                <option>Production</option>
+                <option>Staging</option>
+              </select>
+            </div>
+
+            <div className="pt-4 border-t border-slate-100">
+              <label className="flex items-center justify-between gap-2 p-3 border rounded-lg border-emerald-200 bg-emerald-50 cursor-pointer">
+                <span className="text-sm font-medium text-emerald-800">
+                  Policy Audit Checked
+                </span>
+                <CheckCircle size={16} className="text-emerald-600" />
+              </label>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 uppercase">Owner</label>
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-700">
+                  JD
+                </div>
+                <span className="text-sm text-slate-600">John Doe (DevOps)</span>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex-1 flex items-center justify-center p-6">
+            <div className="text-center text-slate-400">
+              <Layers size={48} className="mx-auto mb-3 opacity-30" />
+              <p className="text-sm">Select a node to view details</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
+  );
+};
+
+const ClassicMode = () => {
+  return (
+    <ReactFlowProvider>
+      <ClassicModeInner />
+    </ReactFlowProvider>
   );
 };
 
