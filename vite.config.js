@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   
+  // GitHub Pages base path (remove this line if using custom domain)
+  base: '/markaitek-ui-ux/',
+  
   // Tauri expects a fixed port in development
   server: {
     port: 3000,
