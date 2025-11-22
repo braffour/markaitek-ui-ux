@@ -40,6 +40,7 @@ import {
 
 import WorkflowNode from './nodes/WorkflowNode';
 import { getLayoutedElements } from '../utils/layoutUtils';
+import { findAutoConnectCandidates } from '../utils/connectionUtils';
 
 
 // --- Mock Data & Constants ---
@@ -343,6 +344,7 @@ const ClassicModeInner = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
   const { screenToFlowPosition } = useReactFlow();
 
   // Handle node selection
@@ -366,44 +368,88 @@ const ClassicModeInner = () => {
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
+    setIsDraggingOver(true);
+  }, []);
+
+  // Handle drag leave
+  const onDragLeave = useCallback((event) => {
+    event.preventDefault();
+    setIsDraggingOver(false);
   }, []);
 
   // Handle drop from component library
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
+      setIsDraggingOver(false);
 
       const componentData = event.dataTransfer.getData('application/reactflow');
-      if (!componentData) return;
+      if (!componentData) {
+        console.warn('No component data found in drop event');
+        return;
+      }
 
-      const component = JSON.parse(componentData);
-      const position = screenToFlowPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
+      try {
+        const component = JSON.parse(componentData);
+        const position = screenToFlowPosition({
+          x: event.clientX,
+          y: event.clientY,
+        });
 
-      const newNode = {
-        id: getId(),
-        type: 'workflow',
-        position,
-        data: {
-          label: component.label,
-          type: component.type,
-          meta: component.meta,
-          description: '',
-        },
-      };
+        console.log('Dropping component:', component, 'at position:', position);
 
-      setNodes((nds) => nds.concat(newNode));
+        const newNode = {
+          id: getId(),
+          type: 'workflow',
+          position,
+          data: {
+            label: component.label,
+            type: component.type,
+            meta: component.meta,
+            description: '',
+          },
+        };
+
+        console.log('Creating new node:', newNode);
+        
+        // Find auto-connect candidates from existing nodes
+        const candidates = findAutoConnectCandidates(newNode, nodes);
+        console.log('Auto-connect candidates:', candidates);
+
+        // Create edges for auto-connections
+        if (candidates.length > 0) {
+          const newEdges = candidates.map((candidate) => ({
+            id: `edge-auto-${newNode.id}-${candidate.id}`,
+            source: candidate.isSource ? candidate.id : newNode.id,
+            target: candidate.isSource ? newNode.id : candidate.id,
+            type: 'smoothstep',
+            animated: true,
+            style: { stroke: '#6366f1', strokeWidth: 2 },
+          }));
+
+          console.log('Creating auto-connect edges:', newEdges);
+          setEdges((eds) => eds.concat(newEdges));
+        }
+
+        // Add the new node
+        setNodes((nds) => nds.concat(newNode));
+      } catch (error) {
+        console.error('Error creating node from drop:', error);
+      }
     },
-    [screenToFlowPosition, setNodes]
+    [screenToFlowPosition, setNodes, setEdges, nodes]
   );
 
   // Handle drag start from component library
-  const onDragStart = (event, component) => {
-    event.dataTransfer.setData('application/reactflow', JSON.stringify(component));
-    event.dataTransfer.effectAllowed = 'move';
-  };
+  const onDragStart = useCallback((event, component) => {
+    console.log('Drag started for component:', component);
+    try {
+      event.dataTransfer.setData('application/reactflow', JSON.stringify(component));
+      event.dataTransfer.effectAllowed = 'move';
+    } catch (error) {
+      console.error('Error setting drag data:', error);
+    }
+  }, []);
 
   // Auto-layout function
   const onLayout = useCallback(() => {
@@ -479,7 +525,12 @@ const ClassicModeInner = () => {
       </div>
 
       {/* Center: ReactFlow Canvas */}
-      <div className="flex-1 relative bg-slate-50 overflow-hidden" ref={reactFlowWrapper}>
+      <div 
+        className={`flex-1 relative bg-slate-50 overflow-hidden transition-all ${
+          isDraggingOver ? 'ring-4 ring-indigo-400 ring-inset bg-indigo-50/50' : ''
+        }`}
+        ref={reactFlowWrapper}
+      >
         {/* Top Bar: Breadcrumbs & Controls */}
         <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10 pointer-events-none">
           <div className="flex items-center gap-2 bg-white/80 backdrop-blur border border-slate-200 px-4 py-2 rounded-full shadow-sm pointer-events-auto">
@@ -512,6 +563,7 @@ const ClassicModeInner = () => {
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
           onSelectionChange={onSelectionChange}
           nodeTypes={nodeTypes}
           fitView
