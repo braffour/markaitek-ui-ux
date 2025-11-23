@@ -339,10 +339,11 @@ const initialEdges = [
 let nodeId = 4;
 const getId = () => `node-${nodeId++}`;
 
-const ClassicModeInner = () => {
+const ClassicModeInner = ({ 
+  nodes, setNodes, onNodesChange,
+  edges, setEdges, onEdgesChange 
+}) => {
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNode, setSelectedNode] = useState(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const { screenToFlowPosition } = useReactFlow();
@@ -584,6 +585,12 @@ const ClassicModeInner = () => {
         
         {selectedNode ? (
           <div className="p-4 space-y-6 overflow-y-auto flex-1">
+            {/* Delete hint */}
+            <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 p-2 rounded border border-slate-200">
+              <kbd className="px-2 py-1 bg-white border border-slate-300 rounded text-[10px] font-mono">Delete</kbd>
+              <span>to remove this node</span>
+            </div>
+            
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 uppercase">Node Label</label>
               <input
@@ -676,11 +683,16 @@ const ClassicModeInner = () => {
   );
 };
 
-const ClassicMode = () => {
+const ClassicMode = ({ nodes, setNodes, onNodesChange, edges, setEdges, onEdgesChange }) => {
   return (
-    <ReactFlowProvider>
-      <ClassicModeInner />
-    </ReactFlowProvider>
+    <ClassicModeInner 
+      nodes={nodes}
+      setNodes={setNodes}
+      onNodesChange={onNodesChange}
+      edges={edges}
+      setEdges={setEdges}
+      onEdgesChange={onEdgesChange}
+    />
   );
 };
 
@@ -798,10 +810,14 @@ const LuckyMode = () => {
 // --- Main App Shell ---
 
 
-export default function AgenticWorkflowComposer() {
+function AgenticWorkflowComposerInner() {
   const [mode, setMode] = useState('yolo');
   const [isQaOpen, setIsQaOpen] = useState(false);
   const [currentWorkspace, setCurrentWorkspace] = useState(WORKSPACES[0]);
+  
+  // Workflow state - shared across all modes
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   return (
     <div className="h-screen w-full flex flex-col bg-white text-slate-900 font-sans">
@@ -883,7 +899,16 @@ export default function AgenticWorkflowComposer() {
       {/* Main Content Area */}
       <main className="flex-1 overflow-hidden relative">
         {mode === 'yolo' && <YoloMode />}
-        {mode === 'classic' && <ClassicMode />}
+        {mode === 'classic' && (
+          <ClassicMode 
+            nodes={nodes}
+            setNodes={setNodes}
+            onNodesChange={onNodesChange}
+            edges={edges}
+            setEdges={setEdges}
+            onEdgesChange={onEdgesChange}
+          />
+        )}
         {mode === 'lucky' && <LuckyMode />}
       </main>
 
@@ -927,6 +952,15 @@ export default function AgenticWorkflowComposer() {
         </div>
       </Modal>
     </div>
+  );
+}
+
+// Wrap the entire component with ReactFlowProvider so hooks can access it
+export default function AgenticWorkflowComposer() {
+  return (
+    <ReactFlowProvider>
+      <AgenticWorkflowComposerInner />
+    </ReactFlowProvider>
   );
 }
 
