@@ -35,7 +35,8 @@ import {
   History,
   Layers,
   X,
-  GitBranch
+  GitBranch,
+  Trash2
 } from 'lucide-react';
 
 import WorkflowNode from './nodes/WorkflowNode';
@@ -483,6 +484,17 @@ const ClassicModeInner = ({
     [setNodes]
   );
 
+  // Handle node deletion
+  const onDeleteNode = useCallback(() => {
+    if (selectedNode) {
+      setNodes((nds) => nds.filter((node) => node.id !== selectedNode.id));
+      setEdges((eds) => eds.filter(
+        (edge) => edge.source !== selectedNode.id && edge.target !== selectedNode.id
+      ));
+      setSelectedNode(null);
+    }
+  }, [selectedNode, setNodes, setEdges]);
+
   return (
     <div className="h-full flex overflow-hidden bg-slate-50">
       {/* Left Rail: Component Library */}
@@ -569,7 +581,7 @@ const ClassicModeInner = ({
           nodeTypes={nodeTypes}
           fitView
           className="bg-slate-50"
-          deleteKeyCode="Delete"
+          deleteKeyCode={['Delete', 'Backspace']}
         >
           <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#6366f1" />
           <Controls className="bg-white border border-slate-200 rounded-lg shadow-sm" />
@@ -585,10 +597,19 @@ const ClassicModeInner = ({
         
         {selectedNode ? (
           <div className="p-4 space-y-6 overflow-y-auto flex-1">
-            {/* Delete hint */}
-            <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 p-2 rounded border border-slate-200">
-              <kbd className="px-2 py-1 bg-white border border-slate-300 rounded text-[10px] font-mono">Delete</kbd>
-              <span>to remove this node</span>
+            {/* Delete hint and button */}
+            <div className="flex items-center justify-between gap-2 text-xs bg-slate-50 p-2 rounded border border-slate-200">
+              <div className="flex items-center gap-2 text-slate-500">
+                <kbd className="px-2 py-1 bg-white border border-slate-300 rounded text-[10px] font-mono">Delete</kbd>
+                <span>to remove</span>
+              </div>
+              <button
+                onClick={onDeleteNode}
+                className="flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 rounded-lg text-xs font-medium transition"
+              >
+                <Trash2 size={14} />
+                Delete Node
+              </button>
             </div>
             
             <div className="space-y-1">
