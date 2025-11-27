@@ -143,7 +143,7 @@ const YoloMode = () => {
       <div className="flex-1 flex flex-col gap-6 overflow-y-auto">
         <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-2xl p-8 text-white shadow-lg shrink-0">
           <h2 className="text-3xl font-bold mb-2">What are we automating today?</h2>
-          <p className="text-indigo-100 mb-6">Express your goal. The OS handles the governance.</p>
+          <p className="text-indigo-100 mb-6">Express your goal. Markaitek handles the governance.</p>
 
           <div className="relative">
             <textarea
@@ -234,7 +234,7 @@ const YoloMode = () => {
         <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
           <div className="flex items-center gap-2">
             <Cpu className="text-indigo-400" size={20} />
-            <h3 className="font-mono text-indigo-100">Agent OS Terminal</h3>
+            <h3 className="font-mono text-indigo-100">Markaitek Agent Terminal</h3>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -848,9 +848,9 @@ function AgenticWorkflowComposerInner() {
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-200">
-              OS
+              M
             </div>
-            <h1 className="font-bold text-lg tracking-tight text-slate-800 hidden md:block">Agentic Composer</h1>
+            <h1 className="font-bold text-lg tracking-tight text-slate-800 hidden md:block">Markaitek Agentic Composer</h1>
           </div>
 
           <div className="h-6 w-px bg-slate-200 mx-2"></div>
