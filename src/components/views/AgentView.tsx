@@ -38,7 +38,7 @@ const AgentView = () => {
         <div className="h-full flex flex-col lg:flex-row gap-6 p-6 overflow-hidden">
             {/* Left: Intent Panel */}
             <div className="flex-1 flex flex-col gap-6 overflow-y-auto">
-                <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-2xl p-8 text-white shadow-xl shadow-indigo-900/20 shrink-0 relative overflow-hidden">
+                <div className="bg-gradient-to-br from-brand-blue to-indigo-900 rounded-2xl p-8 text-white shadow-glow-blue shrink-0 relative overflow-hidden border border-brand-border">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
 
                     <h2 className="text-3xl font-bold mb-2 relative z-10">What are we automating today?</h2>
@@ -54,7 +54,7 @@ const AgentView = () => {
                         <button
                             onClick={simulateAgent}
                             disabled={!input || isBuilding}
-                            className="absolute bottom-4 right-4 bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold hover:bg-indigo-50 transition-colors flex items-center gap-2 shadow-lg"
+                            className="absolute bottom-4 right-4 bg-white text-brand-blue px-4 py-2 rounded-full font-semibold hover:bg-indigo-50 transition-colors flex items-center gap-2 shadow-lg"
                         >
                             {isBuilding ? <Activity className="animate-spin" size={18} /> : <Zap size={18} />}
                             Execute
@@ -73,15 +73,15 @@ const AgentView = () => {
 
                 {/* Mandatory Inputs */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white/70 dark:bg-slate-800/50 backdrop-blur-md p-6 rounded-2xl border border-white/20 dark:border-white/5 shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-4 tracking-wider">Governance Context</h3>
+                    <div className="bg-brand-surface/70 backdrop-blur-md p-6 rounded-2xl border border-brand-border shadow-sm">
+                        <h3 className="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">Governance Context</h3>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Policy Scope</label>
+                                <label className="block text-sm font-medium text-slate-300 mb-1">Policy Scope</label>
                                 <div className="relative">
-                                    <ShieldCheck className="absolute left-3 top-2.5 text-emerald-500" size={16} />
-                                    <select className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-900/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-700 dark:text-slate-200 appearance-none">
+                                    <ShieldCheck className="absolute left-3 top-2.5 text-brand-blue" size={16} />
+                                    <select className="w-full pl-10 pr-4 py-2 border border-brand-border rounded-lg bg-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-blue text-slate-200 appearance-none">
                                         {POLICIES.map(p => <option key={p}>{p}</option>)}
                                     </select>
                                 </div>
@@ -89,23 +89,23 @@ const AgentView = () => {
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Context File (RAG)</label>
-                                <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-4 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition group">
-                                    <FileText className="mx-auto text-slate-400 group-hover:text-indigo-500 transition-colors mb-1" size={20} />
-                                    <span className="text-xs text-slate-500 dark:text-slate-400">Drag spec or click to upload</span>
+                                <div className="border-2 border-dashed border-brand-border rounded-lg p-4 text-center hover:bg-brand-surface cursor-pointer transition group">
+                                    <FileText className="mx-auto text-slate-500 group-hover:text-brand-blue transition-colors mb-1" size={20} />
+                                    <span className="text-xs text-slate-400">Drag spec or click to upload</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white/70 dark:bg-slate-800/50 backdrop-blur-md p-6 rounded-2xl border border-white/20 dark:border-white/5 shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-4 tracking-wider">Execution Parameters</h3>
+                    <div className="bg-brand-surface/70 backdrop-blur-md p-6 rounded-2xl border border-brand-border shadow-sm">
+                        <h3 className="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">Execution Parameters</h3>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Urgency</label>
-                                <div className="flex bg-slate-100 dark:bg-slate-900/50 rounded-lg p-1">
+                                <label className="block text-sm font-medium text-slate-300 mb-2">Urgency</label>
+                                <div className="flex bg-brand-dark rounded-lg p-1 border border-brand-border">
                                     {['ASAP', 'Today', 'Flexible'].map((u, i) => (
-                                        <button key={u} className={`flex-1 py-1.5 text-sm rounded-md font-medium transition ${i === 0 ? 'bg-white dark:bg-slate-700 shadow text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}>
+                                        <button key={u} className={`flex-1 py-1.5 text-sm rounded-md font-medium transition ${i === 0 ? 'bg-brand-blue shadow text-white' : 'text-slate-400 hover:text-slate-200'}`}>
                                             {u}
                                         </button>
                                     ))}
@@ -118,9 +118,9 @@ const AgentView = () => {
                                     {ENVIRONMENTS.map(env => (
                                         <label key={env} className="flex items-center gap-2 cursor-pointer group">
                                             <div className="relative flex items-center">
-                                                <input type="checkbox" defaultChecked={env === 'Dev'} className="peer h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+                                                <input type="checkbox" defaultChecked={env === 'Dev'} className="peer h-4 w-4 rounded border-slate-600 text-brand-blue focus:ring-brand-blue bg-brand-dark" />
                                             </div>
-                                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">{env}</span>
+                                            <span className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors">{env}</span>
                                         </label>
                                     ))}
                                 </div>
@@ -131,15 +131,15 @@ const AgentView = () => {
             </div>
 
             {/* Right: Live Transcript */}
-            <div className="w-full lg:w-96 bg-slate-900 rounded-2xl p-6 flex flex-col shadow-2xl shadow-black/20 shrink-0 border border-slate-800 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+            <div className="w-full lg:w-96 bg-brand-surface rounded-2xl p-6 flex flex-col shadow-2xl shadow-black/50 shrink-0 border border-brand-border relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-blue via-purple-500 to-pink-500"></div>
 
-                <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
+                <div className="flex items-center justify-between mb-4 pb-4 border-b border-brand-border">
                     <div className="flex items-center gap-2">
-                        <Cpu className="text-indigo-400" size={20} />
-                        <h3 className="font-mono text-indigo-100 font-semibold">Agent Terminal</h3>
+                        <Cpu className="text-brand-blue" size={20} />
+                        <h3 className="font-mono text-slate-200 font-semibold">Agent Terminal</h3>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-slate-800/50 px-2 py-1 rounded-full border border-slate-700">
+                    <div className="flex items-center gap-1.5 bg-brand-dark px-2 py-1 rounded-full border border-brand-border">
                         <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
                         <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wide">Online</span>
                     </div>
@@ -163,13 +163,13 @@ const AgentView = () => {
                         </div>
                     ))}
                     {isBuilding && (
-                        <div className="flex items-center gap-2 text-indigo-400 mt-4 pl-1">
+                        <div className="flex items-center gap-2 text-brand-blue mt-4 pl-1">
                             <span className="animate-pulse">_</span>
                         </div>
                     )}
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-slate-800">
+                <div className="mt-4 pt-4 border-t border-brand-border">
                     <div className="flex items-center gap-2 text-xs text-slate-500">
                         <ShieldCheck size={14} />
                         <span>Audit logging active</span>

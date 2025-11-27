@@ -230,18 +230,18 @@ const WorkflowEditorInner = () => {
     }, [selectedNode, setNodes, setEdges]);
 
     return (
-        <div className="h-full flex overflow-hidden bg-slate-50 dark:bg-slate-950">
+        <div className="h-full flex overflow-hidden bg-brand-dark">
             {/* Left Rail: Component Library */}
-            <div className="w-64 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-r border-slate-200 dark:border-slate-800 flex flex-col z-10 shadow-sm">
-                <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-                    <h3 className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2 text-sm uppercase tracking-wide">
+            <div className="w-64 bg-brand-surface/80 backdrop-blur-md border-r border-brand-border flex flex-col z-10 shadow-sm">
+                <div className="p-4 border-b border-brand-border bg-brand-dark/50">
+                    <h3 className="font-bold text-slate-200 flex items-center gap-2 text-sm uppercase tracking-wide">
                         <Layers size={16} /> Library
                     </h3>
                 </div>
                 <div className="flex-1 overflow-y-auto p-3 space-y-4">
                     {['Trigger', 'Action', 'Connector'].map((cat) => (
                         <div key={cat}>
-                            <h4 className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase mb-2 px-1">
+                            <h4 className="text-[10px] font-bold text-slate-500 uppercase mb-2 px-1">
                                 {cat}s
                             </h4>
                             <div className="space-y-2">
@@ -252,10 +252,10 @@ const WorkflowEditorInner = () => {
                                         key={comp.id}
                                         draggable
                                         onDragStart={(event) => onDragStart(event, comp)}
-                                        className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-sm cursor-move hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md transition group"
+                                        className="bg-brand-surface border border-brand-border p-3 rounded-lg shadow-sm cursor-move hover:border-brand-blue hover:shadow-glow-blue transition group"
                                     >
                                         <div className="flex justify-between items-center mb-1">
-                                            <span className="font-medium text-sm text-slate-700 dark:text-slate-200">
+                                            <span className="font-medium text-sm text-slate-200">
                                                 {comp.label}
                                             </span>
                                             <Badge type={comp.meta === 'Safe' ? 'success' : 'neutral'}>
@@ -273,29 +273,29 @@ const WorkflowEditorInner = () => {
 
             {/* Center: ReactFlow Canvas */}
             <div
-                className={`flex-1 relative bg-slate-50 dark:bg-slate-950 overflow-hidden transition-all ${isDraggingOver ? 'ring-4 ring-indigo-400/50 ring-inset bg-indigo-50/50 dark:bg-indigo-900/20' : ''
+                className={`flex-1 relative bg-brand-dark overflow-hidden transition-all ${isDraggingOver ? 'ring-4 ring-brand-blue/50 ring-inset bg-brand-blue/5' : ''
                     }`}
                 ref={reactFlowWrapper}
             >
                 {/* Top Bar: Breadcrumbs & Controls */}
                 <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10 pointer-events-none">
-                    <div className="flex items-center gap-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-full shadow-sm pointer-events-auto">
-                        <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">Workflows</span>
-                        <span className="text-slate-400">/</span>
-                        <span className="text-sm font-semibold text-slate-900 dark:text-white">Order Processing</span>
-                        <span className="text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded ml-2">
+                    <div className="flex items-center gap-2 bg-brand-surface/80 backdrop-blur border border-brand-border px-4 py-2 rounded-full shadow-sm pointer-events-auto">
+                        <span className="text-sm font-semibold text-slate-400">Workflows</span>
+                        <span className="text-slate-600">/</span>
+                        <span className="text-sm font-semibold text-white">Order Processing</span>
+                        <span className="text-xs bg-brand-blue/20 text-brand-blue px-2 py-0.5 rounded ml-2 border border-brand-blue/30">
                             v4.2 (Draft)
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
                         <button
                             onClick={onLayout}
-                            className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-700 px-3 py-2 rounded-lg shadow-sm pointer-events-auto text-xs text-slate-700 dark:text-slate-300 font-medium hover:bg-white dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition flex items-center gap-2"
+                            className="bg-brand-surface/80 backdrop-blur border border-brand-border px-3 py-2 rounded-full shadow-sm pointer-events-auto text-xs text-slate-300 font-medium hover:bg-brand-surface hover:text-brand-blue hover:border-brand-blue transition flex items-center gap-2"
                         >
                             <GitBranch size={14} />
                             Auto Layout
                         </button>
-                        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-full shadow-sm pointer-events-auto text-xs text-slate-500 dark:text-slate-400 font-mono">
+                        <div className="bg-brand-surface/80 backdrop-blur border border-brand-border px-4 py-2 rounded-full shadow-sm pointer-events-auto text-xs text-slate-400 font-mono">
                             Last Saved: 10:42 AM
                         </div>
                     </div>
@@ -313,32 +313,32 @@ const WorkflowEditorInner = () => {
                     onSelectionChange={onSelectionChange}
                     nodeTypes={nodeTypes}
                     fitView
-                    className="bg-slate-50 dark:bg-slate-950"
+                    className="bg-brand-dark"
                     deleteKeyCode={['Delete', 'Backspace']}
                 >
-                    <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#6366f1" className="opacity-20" />
-                    <Controls className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm" />
+                    <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#333" className="opacity-20" />
+                    <Controls className="bg-brand-surface border border-brand-border rounded-lg shadow-sm fill-white text-white" />
                 </ReactFlow>
             </div>
 
             {/* Right Rail: Inspector */}
-            <div className="w-80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-l border-slate-200 dark:border-slate-800 flex flex-col z-10 shadow-sm">
-                <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex justify-between items-center">
-                    <h3 className="font-bold text-slate-700 dark:text-slate-200 text-sm uppercase tracking-wide">Inspector</h3>
+            <div className="w-80 bg-brand-surface/80 backdrop-blur-md border-l border-brand-border flex flex-col z-10 shadow-sm">
+                <div className="p-4 border-b border-brand-border bg-brand-dark/50 flex justify-between items-center">
+                    <h3 className="font-bold text-slate-200 text-sm uppercase tracking-wide">Inspector</h3>
                     <Settings size={16} className="text-slate-400" />
                 </div>
 
                 {selectedNode ? (
                     <div className="p-4 space-y-6 overflow-y-auto flex-1">
                         {/* Delete hint and button */}
-                        <div className="flex items-center justify-between gap-2 text-xs bg-slate-50 dark:bg-slate-800/50 p-2 rounded border border-slate-200 dark:border-slate-700">
-                            <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
-                                <kbd className="px-2 py-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded text-[10px] font-mono">Delete</kbd>
+                        <div className="flex items-center justify-between gap-2 text-xs bg-brand-dark p-2 rounded border border-brand-border">
+                            <div className="flex items-center gap-2 text-slate-400">
+                                <kbd className="px-2 py-1 bg-brand-surface border border-brand-border rounded text-[10px] font-mono">Delete</kbd>
                                 <span>to remove</span>
                             </div>
                             <button
                                 onClick={onDeleteNode}
-                                className="flex items-center gap-1 px-3 py-1.5 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-900/50 rounded-lg text-xs font-medium transition"
+                                className="flex items-center gap-1 px-3 py-1.5 bg-red-900/20 text-red-400 hover:bg-red-900/30 border border-red-900/50 rounded-lg text-xs font-medium transition"
                             >
                                 <Trash2 size={14} />
                                 Delete Node
@@ -346,35 +346,35 @@ const WorkflowEditorInner = () => {
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase">Node Label</label>
+                            <label className="text-xs font-bold text-slate-500 uppercase">Node Label</label>
                             <input
                                 type="text"
                                 value={selectedNode.data.label as string || ''}
                                 onChange={(e) => updateNodeData(selectedNode.id, 'label', e.target.value)}
-                                className="w-full border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                                className="w-full border border-brand-border rounded px-3 py-2 text-sm font-medium text-slate-200 bg-brand-dark focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
                             />
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase">Description</label>
+                            <label className="text-xs font-bold text-slate-500 uppercase">Description</label>
                             <input
                                 type="text"
                                 value={selectedNode.data.description as string || ''}
                                 onChange={(e) => updateNodeData(selectedNode.id, 'description', e.target.value)}
-                                className="w-full border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                                className="w-full border border-brand-border rounded px-3 py-2 text-sm text-slate-300 bg-brand-dark focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none"
                             />
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase">Node Type</label>
-                            <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-slate-700 dark:text-slate-300">
+                            <label className="text-xs font-bold text-slate-500 uppercase">Node Type</label>
+                            <div className="bg-brand-dark border border-brand-border rounded px-3 py-2 text-sm text-slate-300">
                                 {selectedNode.data.type as string || 'N/A'}
                             </div>
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase">Data Schema Map</label>
-                            <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded p-3 text-xs font-mono text-slate-600 dark:text-slate-400">
+                            <label className="text-xs font-bold text-slate-500 uppercase">Data Schema Map</label>
+                            <div className="bg-brand-dark border border-brand-border rounded p-3 text-xs font-mono text-slate-400">
                                 <div className="flex justify-between">
                                     <span>source_id</span> <ArrowRight size={10} /> <span>id</span>
                                 </div>
@@ -382,14 +382,14 @@ const WorkflowEditorInner = () => {
                                     <span>cust_email</span> <ArrowRight size={10} /> <span>email</span>
                                 </div>
                             </div>
-                            <button className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-medium mt-1">
+                            <button className="text-xs text-brand-blue hover:underline font-medium mt-1">
                                 + Add Mapping
                             </button>
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase">Error Handling</label>
-                            <select className="w-full border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900">
+                            <label className="text-xs font-bold text-slate-500 uppercase">Error Handling</label>
+                            <select className="w-full border border-brand-border rounded px-3 py-2 text-sm text-slate-300 bg-brand-dark">
                                 <option>Stop Workflow</option>
                                 <option>Retry (3x)</option>
                                 <option>Ignore & Continue</option>
@@ -398,35 +398,35 @@ const WorkflowEditorInner = () => {
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase">Deploy Target</label>
-                            <select className="w-full border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900">
+                            <label className="text-xs font-bold text-slate-500 uppercase">Deploy Target</label>
+                            <select className="w-full border border-brand-border rounded px-3 py-2 text-sm text-slate-300 bg-brand-dark">
                                 <option>Production</option>
                                 <option>Staging</option>
                             </select>
                         </div>
 
-                        <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <label className="flex items-center justify-between gap-2 p-3 border rounded-lg border-emerald-200 dark:border-emerald-900/50 bg-emerald-50 dark:bg-emerald-900/20 cursor-pointer">
-                                <span className="text-sm font-medium text-emerald-800 dark:text-emerald-400">
+                        <div className="pt-4 border-t border-brand-border">
+                            <label className="flex items-center justify-between gap-2 p-3 border rounded-lg border-emerald-900/50 bg-emerald-900/20 cursor-pointer">
+                                <span className="text-sm font-medium text-emerald-400">
                                     Policy Audit Checked
                                 </span>
-                                <CheckCircle size={16} className="text-emerald-600 dark:text-emerald-400" />
+                                <CheckCircle size={16} className="text-emerald-400" />
                             </label>
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase">Owner</label>
+                            <label className="text-xs font-bold text-slate-500 uppercase">Owner</label>
                             <div className="flex items-center gap-2">
-                                <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-[10px] font-bold text-indigo-700 dark:text-indigo-300">
+                                <div className="w-6 h-6 rounded-full bg-brand-blue/20 flex items-center justify-center text-[10px] font-bold text-brand-blue">
                                     JD
                                 </div>
-                                <span className="text-sm text-slate-600 dark:text-slate-300">John Doe (DevOps)</span>
+                                <span className="text-sm text-slate-300">John Doe (DevOps)</span>
                             </div>
                         </div>
                     </div>
                 ) : (
                     <div className="flex-1 flex items-center justify-center p-6">
-                        <div className="text-center text-slate-400 dark:text-slate-600">
+                        <div className="text-center text-slate-600">
                             <Layers size={48} className="mx-auto mb-3 opacity-30" />
                             <p className="text-sm">Select a node to view details</p>
                         </div>

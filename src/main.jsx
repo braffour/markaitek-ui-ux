@@ -6,7 +6,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="system" storageKey="markaitek-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="markaitek-theme">
       <AgenticWorkflowComposer />
     </ThemeProvider>
   </React.StrictMode>,
