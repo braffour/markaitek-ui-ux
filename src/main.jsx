@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import AgenticWorkflowComposer from './components/AgenticWorkflowComposer'
+import { ThemeProvider } from './context/ThemeContext'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AgenticWorkflowComposer />
+    <ThemeProvider defaultTheme="system" storageKey="markaitek-theme">
+      <AgenticWorkflowComposer />
+    </ThemeProvider>
   </React.StrictMode>,
 )
 
