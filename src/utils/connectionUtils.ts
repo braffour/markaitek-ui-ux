@@ -1,9 +1,10 @@
-// Connection utility functions for auto-connecting nodes
+import { XYPosition } from '@xyflow/react';
+import { WorkflowNode, AutoConnectCandidate, NodeType } from '../types/workflow';
 
 /**
  * Calculate Euclidean distance between two positions
  */
-export const calculateDistance = (pos1, pos2) => {
+export const calculateDistance = (pos1: XYPosition, pos2: XYPosition): number => {
   const dx = pos2.x - pos1.x;
   const dy = pos2.y - pos1.y;
   return Math.sqrt(dx * dx + dy * dy);
@@ -12,7 +13,11 @@ export const calculateDistance = (pos1, pos2) => {
 /**
  * Find nodes within a given radius of a position
  */
-export const findNearbyNodes = (position, nodes, radius = 200) => {
+export const findNearbyNodes = (
+  position: XYPosition,
+  nodes: WorkflowNode[],
+  radius: number = 200
+): WorkflowNode[] => {
   return nodes.filter((node) => {
     const distance = calculateDistance(position, node.position);
     return distance <= radius;
@@ -21,12 +26,12 @@ export const findNearbyNodes = (position, nodes, radius = 200) => {
 
 /**
  * Check if two node types are compatible for connection
- * @param {string} sourceType - Type of the source node (trigger, action, connector)
- * @param {string} targetType - Type of the target node
- * @returns {boolean} - True if nodes can be connected
+ * @param sourceType - Type of the source node (trigger, action, connector)
+ * @param targetType - Type of the target node
+ * @returns True if nodes can be connected
  */
-export const areNodesCompatible = (sourceType, targetType) => {
-  const compatibilityRules = {
+export const areNodesCompatible = (sourceType: NodeType, targetType: NodeType): boolean => {
+  const compatibilityRules: Record<NodeType, NodeType[]> = {
     trigger: ['action'], // Triggers can connect TO actions
     action: ['action', 'connector'], // Actions can connect TO actions or connectors
     connector: [], // Connectors cannot be sources
@@ -37,16 +42,20 @@ export const areNodesCompatible = (sourceType, targetType) => {
 
 /**
  * Find the best auto-connect candidates for a newly dropped node
- * @param {Object} newNode - The newly created node
- * @param {Array} existingNodes - All existing nodes on the canvas
- * @param {number} radius - Search radius in pixels (default: 200)
- * @returns {Array} - Array of connection candidates with metadata
+ * @param newNode - The newly created node
+ * @param existingNodes - All existing nodes on the canvas
+ * @param radius - Search radius in pixels (default: 200)
+ * @returns Array of connection candidates with metadata
  */
-export const findAutoConnectCandidates = (newNode, existingNodes, radius = 200) => {
+export const findAutoConnectCandidates = (
+  newNode: WorkflowNode,
+  existingNodes: WorkflowNode[],
+  radius: number = 200
+): AutoConnectCandidate[] => {
   const newNodeType = newNode.data.type;
   const nearbyNodes = findNearbyNodes(newNode.position, existingNodes, radius);
 
-  const candidates = [];
+  const candidates: AutoConnectCandidate[] = [];
 
   // Find nodes that the new node can connect TO (as source)
   if (newNodeType === 'trigger' || newNodeType === 'action') {
@@ -98,4 +107,6 @@ export const findAutoConnectCandidates = (newNode, existingNodes, radius = 200) 
   // Limit to maximum 2 auto-connections (1 incoming, 1 outgoing)
   return candidates.slice(0, 2);
 };
+
+
 

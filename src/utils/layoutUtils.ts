@@ -1,14 +1,27 @@
 import dagre from 'dagre';
+import { Node, Edge } from '@xyflow/react';
+import { WorkflowNode } from '../types/workflow';
 
 const nodeWidth = 192; // 48 * 4 (w-48 in Tailwind)
 const nodeHeight = 100;
 
-export const getLayoutedElements = (nodes, edges, direction = 'LR') => {
+type Direction = 'LR' | 'TB' | 'BT' | 'RL';
+
+export interface LayoutedElements {
+  nodes: Node[];
+  edges: Edge[];
+}
+
+export const getLayoutedElements = (
+  nodes: WorkflowNode[],
+  edges: Edge[],
+  direction: Direction = 'LR'
+): LayoutedElements => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
   // Configure the graph
-  dagreGraph.setGraph({ 
+  dagreGraph.setGraph({
     rankdir: direction,
     nodesep: 80,
     ranksep: 150,
@@ -32,7 +45,7 @@ export const getLayoutedElements = (nodes, edges, direction = 'LR') => {
   // Apply the calculated positions to the nodes
   const layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
-    
+
     return {
       ...node,
       position: {
@@ -44,4 +57,6 @@ export const getLayoutedElements = (nodes, edges, direction = 'LR') => {
 
   return { nodes: layoutedNodes, edges };
 };
+
+
 
