@@ -8,7 +8,9 @@ import {
     ShieldCheck,
     User,
     Bell,
-    Search
+    Search,
+    Sun,
+    Moon
 } from 'lucide-react';
 import { WORKSPACES, INITIAL_NODES, INITIAL_EDGES } from '../../constants';
 import YoloView from '../views/YoloView';
@@ -19,7 +21,6 @@ import { Badge } from '../ui/Badge';
 import { EditableBreadcrumbs } from '../ui/EditableBreadcrumbs';
 import { useTheme } from '../../context/ThemeContext';
 import logo from '../../logo.png';
-import { Sun, Moon, Monitor } from 'lucide-react';
 
 const SECTIONS = [
     { id: 'yolo', label: 'Agent', icon: MessageSquare },
@@ -38,7 +39,7 @@ const AppShell = () => {
     const [edges, setEdges, onEdgesChange] = useEdgesState(INITIAL_EDGES as Edge[]);
 
     return (
-        <div className="h-screen w-full flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-300">
+        <div className="h-screen mobile-h-screen w-full flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-300">
 
             {/* Apple-style Top Bar */}
             <header className="h-16 shrink-0 z-50 flex items-center justify-between px-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border-b border-black/5 dark:border-white/5 transition-all sticky top-0">
@@ -50,9 +51,9 @@ const AppShell = () => {
                         <img src={logo} alt="Markaitek" className="w-8 h-8 rounded-lg shadow-lg ring-1 ring-black/5 dark:ring-white/10 relative z-10" />
                     </div>
 
-                    <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
+                    <div className="hidden md:block h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
 
-                    {/* Editable Breadcrumbs (Workspace / Workflow) */}
+                    {/* Editable Breadcrumbs (Workspace / Workflow) - Hidden on Mobile */}
                     <div className="hidden md:block">
                         <EditableBreadcrumbs
                             workspace={currentWorkspace}
@@ -64,12 +65,11 @@ const AppShell = () => {
                     </div>
                 </div>
 
-                {/* Center: Mode Toggles (Checkbox style interpretation) */}
-                <div className="flex items-center gap-2 p-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md rounded-lg ring-1 ring-black/5 dark:ring-white/5">
+                {/* Center: Mode Toggles (Desktop Only) */}
+                <div className="hidden md:flex items-center gap-2 p-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md rounded-lg ring-1 ring-black/5 dark:ring-white/5">
                     {SECTIONS.map(section => {
                         const Icon = section.icon;
                         const isActive = activeTab === section.id;
-                        // For demonstration, we treat them as tabs but styled to look "toggle-able"
                         return (
                             <button
                                 key={section.id}
@@ -93,7 +93,7 @@ const AppShell = () => {
                 {/* Right: Search & Actions */}
                 <div className="flex items-center justify-end gap-3">
 
-                    {/* Search Bar */}
+                    {/* Search Bar - Hidden on small mobile */}
                     <div className="hidden lg:flex items-center relative w-64 group">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={14} />
                         <input
@@ -106,7 +106,7 @@ const AppShell = () => {
                         </div>
                     </div>
 
-                    <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+                    <div className="hidden lg:block h-6 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
 
                     {/* Actions */}
                     <div className="flex items-center gap-2">
@@ -125,8 +125,8 @@ const AppShell = () => {
                 </div>
             </header>
 
-            {/* Main Content */}
-            <main className="flex-1 overflow-hidden relative bg-slate-50/50 dark:bg-slate-950/50 flex flex-col">
+            {/* Main Content - Padded at bottom for mobile nav */}
+            <main className="flex-1 overflow-hidden relative bg-slate-50/50 dark:bg-slate-950/50 flex flex-col pb-16 md:pb-0">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
 
                 {activeTab === 'yolo' && <YoloView />}
@@ -140,6 +140,24 @@ const AppShell = () => {
 
                 {activeTab === 'lucky' && <LuckyView />}
             </main>
+
+            {/* Mobile Bottom Navigation */}
+            <div className="md:hidden fixed bottom-0 inset-x-0 h-16 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center justify-around z-50 pb-safe">
+                {SECTIONS.map(section => {
+                    const Icon = section.icon;
+                    const isActive = activeTab === section.id;
+                    return (
+                        <button
+                            key={section.id}
+                            onClick={() => setActiveTab(section.id)}
+                            className={`flex flex-col items-center justify-center p-2 w-full transition-colors ${isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`}
+                        >
+                            <Icon size={20} className={`mb-1 ${isActive ? 'fill-current opacity-20' : ''}`} />
+                            <span className="text-[10px] font-bold uppercase tracking-wide">{section.label}</span>
+                        </button>
+                    )
+                })}
+            </div>
 
             {/* Global Modals */}
             <Modal
