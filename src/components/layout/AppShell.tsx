@@ -20,7 +20,7 @@ import { Modal } from '../ui/Modal';
 import { Badge } from '../ui/Badge';
 import { EditableBreadcrumbs } from '../ui/EditableBreadcrumbs';
 import { useTheme } from '../../context/ThemeContext';
-import logo from '../../logo.png';
+import logo from '../../markaitek.svg';
 
 const SECTIONS = [
     { id: 'yolo', label: 'Agent', icon: MessageSquare },

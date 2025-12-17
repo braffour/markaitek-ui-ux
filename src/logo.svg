@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="primary-gradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4F46E5" /> <!-- Indigo 600 -->
+      <stop offset="100%" stop-color="#818CF8" /> <!-- Indigo 400 -->
+    </linearGradient>
+  </defs>
+  
+  <!-- Background shape (optional, usually logos are transparent but user said 'Plain background' in request? No 'Plain background, no mockups' refers to the deliverable style. 'Logo' itself usually transparent background) -->
+  <!-- Actually user said "Plain background" might mean "Don't put it on a 3D wall". I will make the logo transparent background for the file so it works in the app which has dark/light mode -->
+
+  <!-- Modern M Shape -->
+  <path d="M140 100 
+           A 20 20 0 0 0 120 120 
+           L 120 392 
+           A 20 20 0 0 0 140 412 
+           L 180 412 
+           A 20 20 0 0 0 200 392 
+           L 200 240 
+           L 242 282 
+           A 20 20 0 0 0 270 282 
+           L 312 240 
+           L 312 392 
+           A 20 20 0 0 0 332 412 
+           L 372 412 
+           A 20 20 0 0 0 392 392 
+           L 392 120 
+           A 20 20 0 0 0 372 100 
+           L 332 100 
+           A 20 20 0 0 0 316 108 
+           L 256 168 
+           L 196 108 
+           A 20 20 0 0 0 180 100 
+           Z" 
+        fill="url(#primary-gradient)" 
+        stroke="white" 
+        stroke-width="8" 
+        stroke-linejoin="round" />
+</svg>
