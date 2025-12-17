@@ -26,10 +26,9 @@ import {
 } from 'lucide-react';
 
 import WorkflowNode from '../nodes/WorkflowNode';
+import { LibrarySidebar } from '../layout/LibrarySidebar';
 import { getLayoutedElements } from '../../utils/layoutUtils';
 import { findAutoConnectCandidates } from '../../utils/connectionUtils';
-import { COMPONENT_LIBRARY } from '../../constants';
-import { Badge } from '../ui/Badge';
 
 // Node types mapping for ReactFlow
 const nodeTypes = {
@@ -201,48 +200,7 @@ const ClassicView: React.FC<ClassicViewProps> = ({
     return (
         <div className="h-full flex overflow-hidden bg-slate-50 dark:bg-slate-950 relative">
             {/* Left Rail: Component Library */}
-            <div className="w-64 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200/60 dark:border-slate-800 flex flex-col z-10 shadow-sm transition-all duration-300">
-                <div className="p-4 border-b border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-2.5 text-slate-400" size={14} />
-                        <input type="text" placeholder="Search components..." className="w-full pl-9 pr-3 py-2 bg-slate-100/50 dark:bg-slate-800/50 border-none rounded-lg text-sm focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder-slate-400 font-medium text-slate-600 dark:text-slate-300" />
-                    </div>
-                </div>
-                <div className="flex-1 overflow-y-auto p-3 space-y-6">
-                    {['Trigger', 'Action', 'Connector'].map((cat) => (
-                        <div key={cat}>
-                            <h4 className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 px-1">
-                                {cat}s
-                            </h4>
-                            <div className="space-y-2">
-                                {COMPONENT_LIBRARY.filter(
-                                    (c) => c.type === cat.toLowerCase()
-                                ).map((comp) => (
-                                    <div
-                                        key={comp.id}
-                                        draggable
-                                        onDragStart={(event) => onDragStart(event, comp)}
-                                        className="bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 p-3 rounded-xl shadow-sm cursor-move hover:border-indigo-400 dark:hover:border-indigo-400 hover:shadow-md transition-all group relative overflow-hidden"
-                                    >
-                                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        <div className="flex justify-between items-center mb-1">
-                                            <span className="font-medium text-sm text-slate-700 dark:text-slate-200 group-hover:text-indigo-900 dark:group-hover:text-indigo-100 transition-colors">
-                                                {comp.label}
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-[10px] text-slate-400">v2.1.0</span>
-                                            <Badge type={comp.meta === 'Safe' ? 'success' : 'neutral'}>
-                                                {comp.meta}
-                                            </Badge>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <LibrarySidebar onDragStart={onDragStart} />
 
             {/* Center: ReactFlow Canvas */}
             <div
@@ -250,33 +208,18 @@ const ClassicView: React.FC<ClassicViewProps> = ({
                     }`}
                 ref={reactFlowWrapper}
             >
-                {/* Top Floating Bar */}
-                <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-10 pointer-events-none">
-                    <div className="flex items-center gap-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/20 dark:border-white/10 px-4 py-2 rounded-full shadow-sm pointer-events-auto ring-1 ring-black/5 dark:ring-white/10">
-                        <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">Workflows</span>
-                        <span className="text-slate-300 dark:text-slate-600">/</span>
-                        <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Order Processing</span>
-                        <span className="text-[10px] bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full ml-2 font-bold tracking-wide border border-indigo-200 dark:border-indigo-800">
-                            DRAFT
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl px-3 py-1.5 rounded-full shadow-sm border border-white/20 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/10 flex items-center gap-2 pointer-events-auto">
-                            <div className="flex -space-x-2">
-                                {[1, 2, 3].map(i => (
-                                    <div key={i} className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 border-2 border-white dark:border-slate-900 flex items-center justify-center text-[8px] font-bold text-slate-600 dark:text-slate-300">JD</div>
-                                ))}
-                            </div>
-                            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium pl-1">+2</span>
-                        </div>
-                        <button
-                            onClick={onLayout}
-                            className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/20 dark:border-white/10 px-4 py-2 rounded-full shadow-sm pointer-events-auto text-xs text-slate-700 dark:text-slate-300 font-bold hover:bg-white dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all flex items-center gap-2 ring-1 ring-black/5 dark:ring-white/10 hover:ring-indigo-200"
-                        >
-                            <GitBranch size={14} />
-                            Auto Layout
-                        </button>
-                    </div>
+                {/* Top Floating Bar (Canvas Tools) */}
+                <div className="absolute top-6 right-6 flex items-center gap-3 z-10 pointer-events-none">
+                    <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 bg-white/50 dark:bg-slate-900/50 px-2 py-1 rounded border border-slate-200 dark:border-slate-800 backdrop-blur-sm">
+                        Last Saved: 10:42 AM
+                    </span>
+                    <button
+                        onClick={onLayout}
+                        className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/20 dark:border-white/10 px-4 py-2 rounded-full shadow-sm pointer-events-auto text-xs text-slate-700 dark:text-slate-300 font-bold hover:bg-white dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all flex items-center gap-2 ring-1 ring-black/5 dark:ring-white/10 hover:ring-indigo-200"
+                    >
+                        <GitBranch size={14} />
+                        Auto Layout
+                    </button>
                 </div>
 
                 <ReactFlow
