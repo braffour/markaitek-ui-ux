@@ -48,7 +48,7 @@ const AppShell = () => {
                 <div className="flex items-center gap-4">
                     <div className="relative group cursor-pointer">
                         <div className="absolute inset-0 bg-indigo-500 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                        <img src={logo} alt="Markaitek" className="w-8 h-8 rounded-lg shadow-lg ring-1 ring-black/5 dark:ring-white/10 relative z-10" />
+                        <img src={logo} alt="Markaitek" className="w-16 h-16 rounded-lg shadow-lg ring-1 ring-black/5 dark:ring-white/10 relative z-10" />
                     </div>
 
                     <div className="hidden md:block h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
