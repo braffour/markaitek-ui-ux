@@ -10,12 +10,14 @@ import {
     Bell,
     Search,
     Sun,
-    Moon
+    Moon,
+    BrainCircuit
 } from 'lucide-react';
 import { WORKSPACES, INITIAL_NODES, INITIAL_EDGES } from '../../constants';
 import YoloView from '../views/YoloView';
 import ClassicView from '../views/ClassicView';
 import LuckyView from '../views/LuckyView';
+import AdvisorView from '../views/AdvisorView';
 import { Modal } from '../ui/Modal';
 import { Badge } from '../ui/Badge';
 import { EditableBreadcrumbs } from '../ui/EditableBreadcrumbs';
@@ -23,13 +25,14 @@ import { useTheme } from '../../context/ThemeContext';
 import logo from '../../markaitek.svg';
 
 const SECTIONS = [
+    { id: 'advisor', label: 'Advisor', icon: BrainCircuit },
     { id: 'yolo', label: 'Agent', icon: MessageSquare },
     { id: 'classic', label: 'Editor', icon: Layers },
     { id: 'lucky', label: 'Insights', icon: Wand2 },
 ];
 
 const AppShell = () => {
-    const [activeTab, setActiveTab] = useState('yolo');
+    const [activeTab, setActiveTab] = useState('advisor');
     const [currentWorkspace, setCurrentWorkspace] = useState(WORKSPACES[0]);
     const [isQaOpen, setIsQaOpen] = useState(false);
     const { theme, setTheme } = useTheme();
@@ -129,6 +132,7 @@ const AppShell = () => {
             <main className="flex-1 overflow-hidden relative bg-slate-50/50 dark:bg-slate-950/50 flex flex-col pb-16 md:pb-0">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
 
+                {activeTab === 'advisor' && <AdvisorView />}
                 {activeTab === 'yolo' && <YoloView />}
 
                 {activeTab === 'classic' && (
