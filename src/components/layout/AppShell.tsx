@@ -23,6 +23,7 @@ import { Badge } from '../ui/Badge';
 import { EditableBreadcrumbs } from '../ui/EditableBreadcrumbs';
 import { useTheme } from '../../context/ThemeContext';
 import logo from '../../markaitek.svg';
+import { ExecutionPanel } from '../execution/ExecutionPanel';
 
 const SECTIONS = [
     { id: 'advisor', label: 'Advisor', icon: BrainCircuit },
@@ -128,22 +129,26 @@ const AppShell = () => {
                 </div>
             </header>
 
-            {/* Main Content - Padded at bottom for mobile nav */}
-            <main className="flex-1 overflow-hidden relative bg-slate-50/50 dark:bg-slate-950/50 flex flex-col pb-16 md:pb-0">
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
+            {/* Main Content Area + Persistent Execution Panel */}
+            <div className="flex-1 flex overflow-hidden relative">
+                <main className="flex-1 overflow-hidden relative bg-slate-50/50 dark:bg-slate-950/50 flex flex-col pb-16 md:pb-0">
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
 
-                {activeTab === 'advisor' && <AdvisorView />}
-                {activeTab === 'yolo' && <YoloView />}
+                    {activeTab === 'advisor' && <AdvisorView />}
+                    {activeTab === 'yolo' && <YoloView />}
 
-                {activeTab === 'classic' && (
-                    <ClassicView
-                        nodes={nodes} setNodes={setNodes} onNodesChange={onNodesChange}
-                        edges={edges} setEdges={setEdges} onEdgesChange={onEdgesChange}
-                    />
-                )}
+                    {activeTab === 'classic' && (
+                        <ClassicView
+                            nodes={nodes} setNodes={setNodes} onNodesChange={onNodesChange}
+                            edges={edges} setEdges={setEdges} onEdgesChange={onEdgesChange}
+                        />
+                    )}
 
-                {activeTab === 'lucky' && <LuckyView />}
-            </main>
+                    {activeTab === 'lucky' && <LuckyView />}
+                </main>
+
+                <ExecutionPanel />
+            </div>
 
             {/* Mobile Bottom Navigation */}
             <div className="md:hidden fixed bottom-0 inset-x-0 h-16 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center justify-around z-50 pb-safe">
