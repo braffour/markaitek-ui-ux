@@ -8,13 +8,13 @@ interface DividerProps {
 export const Divider: React.FC<DividerProps> = ({ children, className = '' }) => {
     return (
         <div className={`relative flex items-center py-4 ${className}`}>
-            <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+            <div className="flex-grow border-t border-brand-border-base opacity-40"></div>
             {children && (
-                <span className="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">
+                <span className="flex-shrink mx-6 text-[10px] font-extrabold uppercase tracking-[0.3em] text-brand-text-muted opacity-60">
                     {children}
                 </span>
             )}
-            <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+            <div className="flex-grow border-t border-brand-border-base opacity-40"></div>
         </div>
     );
 };

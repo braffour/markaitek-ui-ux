@@ -30,15 +30,15 @@ export const TextField: React.FC<TextFieldProps> = ({
                 )}
                 <input
                     className={`
-                        w-full px-4 py-3 bg-brand-surface-1 border rounded-xl text-sm font-medium
+                        w-full px-4 py-3 bg-[#1A2328] border rounded-xl text-sm font-medium
                         transition-all duration-300 outline-none
-                        placeholder:text-brand-text-muted/50
+                        placeholder:text-brand-text-muted/60
                         text-brand-text-primary
                         ${leftIcon ? 'pl-11' : ''}
                         ${rightIcon ? 'pr-11' : ''}
                         ${error
                             ? 'border-brand-warning/50 focus:ring-4 focus:ring-brand-warning/10'
-                            : 'border-brand-border-low focus:border-brand-accent/50 focus:ring-4 focus:ring-brand-accent/5 dark:focus:ring-brand-accent/5'
+                            : 'border-brand-border-base focus:border-brand-accent/50 focus:ring-4 focus:ring-brand-accent/5'
                         }
                     `}
                     {...props}

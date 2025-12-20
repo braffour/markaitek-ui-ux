@@ -22,8 +22,8 @@ export default {
           },
           text: {
             primary: '#F8FAFC',
-            secondary: '#94A3B8',
-            muted: '#64748B',
+            secondary: '#CBD5E1', // Slate 300 (was 400)
+            muted: '#94A3B8',     // Slate 400 (was 500)
           },
           accent: {
             DEFAULT: '#0D9488', // Teal 600

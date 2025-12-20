@@ -98,7 +98,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                         <button
                             type="button"
                             onClick={() => onNavigate('forgot-password')}
-                            className="text-xs font-bold text-brand-accent hover:text-brand-accent-light transition-colors"
+                            className="text-xs font-semibold text-brand-accent-light hover:text-white transition-colors"
                         >
                             {t('auth.forgotPassword')}
                         </button>
@@ -149,7 +149,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                     {i18n.language.startsWith('fr') ? 'Nouveau sur Markaitek ?' : t('auth.newToMarkaitek').split('?')[0] + '?'}{' '}
                     <button
                         onClick={() => onNavigate('register')}
-                        className="text-brand-accent font-bold hover:underline ml-1"
+                        className="text-brand-accent-light font-bold hover:text-white ml-1 transition-colors"
                     >
                         {i18n.language.startsWith('fr') ? 'Créer un compte' : t('auth.createAccount')}
                     </button>
