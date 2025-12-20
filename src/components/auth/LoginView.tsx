@@ -74,7 +74,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                 subtitle={t('auth.signInDesc')}
             />
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 {error && <InlineErrorText message={error} />}
 
                 <TextField
@@ -87,7 +87,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                     error={emailError || undefined}
                 />
 
-                <div className="space-y-1">
+                <div className="space-y-2">
                     <PasswordField
                         label={t('auth.password')}
                         value={password}
@@ -98,20 +98,20 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                         <button
                             type="button"
                             onClick={() => onNavigate('forgot-password')}
-                            className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
+                            className="text-xs font-bold text-brand-accent hover:text-brand-accent-light transition-colors"
                         >
                             {t('auth.forgotPassword')}
                         </button>
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between py-1">
                     <Checkbox label={t('auth.keepSignedIn')} />
                 </div>
 
                 <Button
                     type="submit"
-                    className="w-full py-3 text-base font-bold"
+                    className="w-full py-3.5 text-base font-bold"
                     isLoading={isLoading}
                     rightIcon={!isLoading && <ArrowRight size={18} />}
                 >
@@ -119,8 +119,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                 </Button>
             </form>
 
-            <Divider>{t('auth.or')}</Divider>
-            <div className="grid grid-cols-2 gap-3">
+            <Divider className="my-8">{t('auth.or')}</Divider>
+
+            <div className="grid grid-cols-2 gap-3.5">
                 <SocialAuthButton
                     provider="google"
                     isLoading={socialLoading === 'google'}
@@ -143,14 +144,14 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                 />
             </div>
 
-            <div className="mt-8 text-center">
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+            <div className="mt-10 text-center">
+                <p className="text-sm text-brand-text-secondary font-medium">
                     {i18n.language.startsWith('fr') ? 'Nouveau sur Markaitek ?' : t('auth.newToMarkaitek').split('?')[0] + '?'}{' '}
                     <button
                         onClick={() => onNavigate('register')}
-                        className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline"
+                        className="text-brand-accent font-bold hover:underline ml-1"
                     >
-                        {i18n.language.startsWith('fr') ? 'Créer un compte' : t('auth.newToMarkaitek').split('?')[1].trim()}
+                        {i18n.language.startsWith('fr') ? 'Créer un compte' : t('auth.createAccount')}
                     </button>
                 </p>
             </div>

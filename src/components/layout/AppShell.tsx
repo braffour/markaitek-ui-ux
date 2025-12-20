@@ -26,6 +26,7 @@ import { useTheme } from '../../context/ThemeContext';
 import logo from '../../markaitek.svg';
 import { ExecutionPanel } from '../execution/ExecutionPanel';
 import { LanguageSelector } from '../ui/LanguageSelector';
+import bgImage from '../../assets/auth-bg.png';
 
 const SECTIONS = [
     { id: 'advisor', label: 'nav.advisor', icon: BrainCircuit },
@@ -46,19 +47,24 @@ const AppShell = () => {
     const [edges, setEdges, onEdgesChange] = useEdgesState(INITIAL_EDGES as Edge[]);
 
     return (
-        <div className="h-screen mobile-h-screen w-full flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-300">
+        <div className="h-screen mobile-h-screen w-full flex flex-col bg-brand-bg text-brand-text-primary font-sans selection:bg-brand-accent/30 transition-colors duration-300">
 
-            {/* Apple-style Top Bar */}
-            <header className="h-16 shrink-0 z-50 flex items-center justify-between px-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border-b border-black/5 dark:border-white/5 transition-all sticky top-0">
+            {/* Premium Header with Blurred Background */}
+            <header className="h-16 shrink-0 z-50 flex items-center justify-between px-6 bg-brand-surface-1/40 backdrop-blur-xl border-b border-brand-border-low transition-all sticky top-0 overflow-hidden">
+                {/* Header Background Image with Gradient */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center grayscale scale-110 blur-xl opacity-20 -z-10 after:absolute after:inset-0 after:bg-gradient-to-b after:from-[#0F1519]/80 after:to-transparent"
+                    style={{ backgroundImage: `url(${bgImage})` }}
+                ></div>
 
                 {/* Left: Brand & Context */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-6">
                     <div className="relative group cursor-pointer">
-                        <div className="absolute inset-0 bg-indigo-500 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                        <img src={logo} alt="Markaitek" className="w-16 h-16 rounded-lg shadow-lg ring-1 ring-black/5 dark:ring-white/10 relative z-10" />
+                        <div className="absolute inset-0 bg-brand-accent blur-xl opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
+                        <img src={logo} alt="Markaitek" className="w-14 h-14 rounded-2xl shadow-xl relative z-10" />
                     </div>
 
-                    <div className="hidden md:block h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
+                    <div className="hidden md:block h-6 w-px bg-brand-border-base mx-1"></div>
 
                     {/* Editable Breadcrumbs (Workspace / Workflow) - Hidden on Mobile */}
                     <div className="hidden md:block">
@@ -73,7 +79,7 @@ const AppShell = () => {
                 </div>
 
                 {/* Center: Mode Toggles (Desktop Only) */}
-                <div className="hidden md:flex items-center gap-2 p-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md rounded-lg ring-1 ring-black/5 dark:ring-white/5">
+                <div className="hidden md:flex items-center gap-1.5 p-1 bg-brand-surface-2/40 backdrop-blur-md rounded-2xl border border-brand-border-low">
                     {SECTIONS.map(section => {
                         const Icon = section.icon;
                         const isActive = activeTab === section.id;
@@ -82,16 +88,16 @@ const AppShell = () => {
                                 key={section.id}
                                 onClick={() => setActiveTab(section.id)}
                                 className={`
-                                    relative flex items-center gap-2 px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wide transition-all duration-300
+                                    relative flex items-center gap-2.5 px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-500
                                     ${isActive
-                                        ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm ring-1 ring-black/5 dark:ring-white/10'
-                                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5'
+                                        ? 'bg-brand-surface-1 text-brand-accent shadow-lg shadow-black/20 ring-1 ring-brand-border-high'
+                                        : 'text-brand-text-muted hover:text-brand-text-secondary hover:bg-white/5'
                                     }
                                 `}
                             >
-                                <Icon size={14} className={isActive ? 'text-indigo-500' : 'text-slate-400'} />
+                                <Icon size={15} className={isActive ? 'text-brand-accent' : 'text-brand-text-muted'} />
                                 {t(section.label)}
-                                {isActive && <div className="ml-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500"></div>}
+                                {isActive && <div className="ml-1 w-1 h-1 rounded-full bg-brand-accent animate-pulse-soft"></div>}
                             </button>
                         )
                     })}
@@ -101,35 +107,35 @@ const AppShell = () => {
                 <div className="flex items-center justify-end gap-3">
 
                     {/* Search Bar - Hidden on small mobile */}
-                    <div className="hidden lg:flex items-center relative w-64 group">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={14} />
+                    <div className="hidden lg:flex items-center relative w-72 group">
+                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-text-muted group-focus-within:text-brand-accent transition-colors" size={14} />
                         <input
                             type="text"
                             placeholder={t('shell.searchPlaceholder')}
-                            className="w-full pl-9 pr-3 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-xs font-medium focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder-slate-400 text-slate-700 dark:text-slate-200"
+                            className="w-full pl-10 pr-4 py-2 bg-brand-surface-2/50 border border-brand-border-low rounded-xl text-xs font-medium focus:ring-4 focus:ring-brand-accent/5 focus:border-brand-accent/30 focus:bg-brand-surface-2 outline-none transition-all placeholder-brand-text-muted/50 text-brand-text-primary"
                         />
-                        <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
-                            <span className="text-[10px] text-slate-400 bg-white dark:bg-slate-700 px-1 rounded shadow-sm border border-slate-200 dark:border-slate-600">⌘K</span>
+                        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
+                            <span className="text-[10px] text-brand-text-muted/60 bg-brand-surface-3 px-1.5 py-0.5 rounded-md border border-brand-border-low">⌘K</span>
                         </div>
                     </div>
 
-                    <div className="hidden lg:block h-6 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+                    <div className="hidden lg:block h-6 w-px bg-brand-border-base mx-1"></div>
 
                     {/* Actions */}
                     <div className="flex items-center gap-2">
                         {/* Theme Switcher */}
                         <button
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                            className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-full transition-all"
+                            className="p-2.5 text-brand-text-muted hover:text-brand-accent hover:bg-brand-accent/5 rounded-xl transition-all"
                         >
-                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
                         </button>
 
-                        <div className="hidden md:block h-6 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+                        <div className="hidden md:block h-6 w-px bg-brand-border-base mx-1"></div>
 
                         <LanguageSelector />
 
-                        <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold shadow-lg ring-2 ring-white dark:ring-white/10 cursor-pointer">
+                        <div className="w-9 h-9 rounded-2xl bg-brand-accent flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-brand-accent/20 cursor-pointer hover:scale-105 transition-transform">
                             BR
                         </div>
                     </div>
@@ -138,8 +144,8 @@ const AppShell = () => {
 
             {/* Main Content Area + Persistent Execution Panel */}
             <div className="flex-1 flex overflow-hidden relative">
-                <main className="flex-1 overflow-hidden relative bg-slate-50/50 dark:bg-slate-950/50 flex flex-col pb-16 md:pb-0">
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
+                <main className="flex-1 overflow-hidden relative bg-brand-bg flex flex-col pb-16 md:pb-0">
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none mix-blend-overlay"></div>
 
                     {activeTab === 'advisor' && <AdvisorView />}
                     {activeTab === 'yolo' && <YoloView />}
@@ -158,7 +164,7 @@ const AppShell = () => {
             </div>
 
             {/* Mobile Bottom Navigation */}
-            <div className="md:hidden fixed bottom-0 inset-x-0 h-16 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center justify-around z-50 pb-safe">
+            <div className="md:hidden fixed bottom-6 inset-x-6 h-16 bg-brand-surface-1/40 backdrop-blur-2xl border border-brand-border-low flex items-center justify-around z-50 rounded-[32px] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.8)] px-4">
                 {SECTIONS.map(section => {
                     const Icon = section.icon;
                     const isActive = activeTab === section.id;
@@ -166,10 +172,14 @@ const AppShell = () => {
                         <button
                             key={section.id}
                             onClick={() => setActiveTab(section.id)}
-                            className={`flex flex-col items-center justify-center p-2 w-full transition-colors ${isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`}
+                            className={`flex flex-col items-center justify-center p-2 w-full transition-all duration-300 ${isActive ? 'text-brand-accent transform -translate-y-1' : 'text-brand-text-muted hover:text-brand-text-secondary'}`}
                         >
-                            <Icon size={20} className={`mb-1 ${isActive ? 'fill-current opacity-20' : ''}`} />
-                            <span className="text-[10px] font-bold uppercase tracking-wide">{t(section.label)}</span>
+                            <div className={`relative p-2 rounded-xl transition-all duration-300 ${isActive ? 'bg-brand-accent/10 shadow-lg shadow-brand-accent/5' : ''}`}>
+                                <Icon size={20} className={isActive ? 'animate-pulse-soft' : ''} />
+                                {isActive && (
+                                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-brand-accent rounded-full shadow-[0_0_8px_rgba(45,212,191,0.8)]"></div>
+                                )}
+                            </div>
                         </button>
                     )
                 })}

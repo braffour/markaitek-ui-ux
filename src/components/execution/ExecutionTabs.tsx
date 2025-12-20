@@ -18,7 +18,7 @@ export const ExecutionTabs: React.FC<ExecutionTabsProps> = ({ activeTab, onChang
     ] as const;
 
     return (
-        <div className="flex p-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg mx-6 my-4">
+        <div className="flex p-1.5 bg-brand-surface-2/60 backdrop-blur-md rounded-2xl mx-6 my-6 border border-brand-border-low">
             {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -27,14 +27,14 @@ export const ExecutionTabs: React.FC<ExecutionTabsProps> = ({ activeTab, onChang
                         key={tab.id}
                         onClick={() => onChange(tab.id)}
                         className={`
-                            flex-1 flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-bold transition-all
+                            flex-1 flex items-center justify-center gap-2.5 py-2.5 rounded-xl text-[11px] font-bold tracking-wider uppercase transition-all duration-300
                             ${isActive
-                                ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
+                                ? 'bg-brand-surface-1 text-brand-accent shadow-xl shadow-black/30 border border-brand-border-base'
+                                : 'text-brand-text-muted hover:text-brand-text-primary hover:bg-white/5'
                             }
                         `}
                     >
-                        <Icon size={14} className={isActive ? 'text-indigo-500' : ''} />
+                        <Icon size={14} className={isActive ? 'text-brand-accent' : 'text-brand-text-muted'} />
                         {tab.label}
                     </button>
                 );

@@ -20,10 +20,10 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ variant = 'h
         return (
             <button
                 onClick={toggleLanguage}
-                className="flex items-center gap-1.5 px-2 py-1 bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[10px] font-bold text-slate-500 dark:text-slate-400 transition-all shadow-sm"
+                className="flex items-center gap-2 px-3 py-1.5 bg-brand-surface-1/50 hover:bg-brand-surface-1 border border-brand-border-low rounded-xl text-[11px] font-bold text-brand-text-secondary transition-all shadow-sm"
             >
-                <Languages size={12} />
-                <span>{currentLang === 'EN' ? 'FR' : 'EN'}</span>
+                <Languages size={14} />
+                <span className="uppercase">{currentLang === 'EN' ? 'FR' : 'EN'}</span>
             </button>
         );
     }
@@ -31,16 +31,16 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ variant = 'h
     return (
         <button
             onClick={toggleLanguage}
-            className="flex items-center gap-2 px-2.5 py-1.5 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg transition-all group"
+            className="flex items-center gap-2 px-2.5 py-1.5 hover:bg-brand-surface-1 rounded-xl transition-all group"
             title="Switch Language"
         >
-            <div className={`p-1 rounded-md transition-colors ${i18n.language.startsWith('fr') ? 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400' : 'text-slate-400 group-hover:text-indigo-500'}`}>
+            <div className={`p-1 rounded-lg transition-colors ${i18n.language.startsWith('fr') ? 'bg-brand-accent/20 text-brand-accent' : 'text-brand-text-muted group-hover:text-brand-accent'}`}>
                 <Languages size={14} />
             </div>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+            <span className="text-[11px] font-bold text-brand-text-secondary group-hover:text-brand-text-primary uppercase tracking-wider">
                 {currentLang}
             </span>
-            <ChevronDown size={12} className="text-slate-300 dark:text-slate-600" />
+            <ChevronDown size={12} className="text-brand-text-muted/50" />
         </button>
     );
 };

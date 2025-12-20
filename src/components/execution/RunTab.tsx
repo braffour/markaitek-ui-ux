@@ -26,26 +26,26 @@ export const RunTab: React.FC<RunTabProps> = ({
     if (status === 'idle') {
         return (
             <div className="h-full flex flex-col items-center justify-center px-8 py-12 text-center">
-                <div className="w-16 h-16 rounded-3xl bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center mb-6 ring-1 ring-slate-100 dark:ring-slate-800">
-                    <PlayCircle size={32} className="text-slate-300 dark:text-slate-600" />
+                <div className="w-20 h-20 rounded-[32px] bg-brand-surface-2/40 border border-brand-border-low flex items-center justify-center mb-10 shadow-inner group">
+                    <PlayCircle size={40} className="text-brand-text-muted transition-colors group-hover:text-brand-accent group-hover:scale-110 duration-300" />
                 </div>
-                <h3 className="text-[15px] font-bold text-slate-900 dark:text-slate-100 mb-2">{t('execution.run.noRuns')}</h3>
-                <p className="text-[12px] text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
+                <h3 className="text-xl font-bold text-brand-text-primary mb-3 tracking-tight">{t('execution.run.noRuns')}</h3>
+                <p className="text-sm text-brand-text-muted leading-relaxed mb-10 max-w-sm mx-auto">
                     {t('execution.run.noRunsDesc')}
                 </p>
-                <div className="flex flex-col w-full gap-3">
+                <div className="flex flex-col w-full gap-4 max-w-xs mx-auto">
                     <button
                         onClick={onRun}
-                        className="w-full flex items-center justify-center gap-2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-indigo-500/10"
+                        className="w-full flex items-center justify-center gap-3 py-4 bg-brand-accent hover:bg-brand-accent-hover text-[#0F1519] text-[13px] font-bold rounded-2xl transition-all shadow-2xl shadow-brand-accent/20 active:scale-95 uppercase tracking-widest"
                     >
-                        <Zap size={18} fill="currentColor" />
+                        <Zap size={20} fill="currentColor" />
                         {t('execution.run.runWorkflow')}
                     </button>
-                    <button className="w-full flex items-center justify-center gap-2 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-750 transition-all">
+                    <button className="w-full flex items-center justify-center gap-3 py-4 bg-brand-surface-1 border border-brand-border-low text-brand-text-secondary text-[13px] font-bold rounded-2xl hover:bg-white/5 transition-all active:scale-95 uppercase tracking-widest">
                         {t('execution.run.useSample')}
                     </button>
                 </div>
-                <p className="mt-8 text-[11px] text-slate-400 font-medium italic">
+                <p className="mt-12 text-[10px] text-brand-text-muted font-bold italic uppercase tracking-[0.2em] opacity-40">
                     {t('execution.run.hint')}
                 </p>
             </div>
@@ -57,43 +57,46 @@ export const RunTab: React.FC<RunTabProps> = ({
     return (
         <div className="pb-12">
             {/* Header Status Card */}
-            <div className="px-6 mb-8">
+            <div className="px-6 mb-10">
                 {status === 'running' && (
-                    <div className="p-4 bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 rounded-2xl">
-                        <div className="flex items-center justify-between mb-3">
-                            <span className="text-[11px] font-bold text-indigo-900 dark:text-indigo-200 uppercase tracking-widest">{t('execution.run.nowRunning')}</span>
-                            <span className="text-[11px] font-bold text-indigo-500">{t('execution.run.stepCount', { current: 3, total: steps.length })}</span>
+                    <div className="p-8 bg-brand-accent/5 backdrop-blur-xl border border-brand-accent/20 rounded-[32px] shadow-[0_40px_100px_-20px_rgba(45,212,191,0.2)]">
+                        <div className="flex items-center justify-between mb-6">
+                            <span className="text-[10px] font-extrabold text-brand-accent uppercase tracking-[0.3em]">{t('execution.run.nowRunning')}</span>
+                            <span className="text-[10px] font-extrabold text-brand-accent/40 uppercase tracking-[0.2em]">{t('execution.run.stepCount', { current: 3, total: steps.length })}</span>
                         </div>
-                        <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                            <div className="h-full bg-indigo-500 rounded-full transition-all duration-500" style={{ width: '60%' }} />
+                        <div className="h-2 w-full bg-brand-bg/50 rounded-full overflow-hidden border border-white/5 shadow-inner">
+                            <div className="h-full bg-brand-accent rounded-full transition-all duration-700 shadow-[0_0_15px_rgba(45,212,191,0.6)]" style={{ width: '60%' }} />
                         </div>
-                        <div className="mt-4 flex items-center gap-3">
+                        <div className="mt-8 flex items-center gap-5">
                             <div className="flex-1 min-w-0">
-                                <p className="text-[13px] font-bold text-slate-900 dark:text-slate-100 truncate">Data Enrichment</p>
-                                <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-medium">Fetching additional contact details...</p>
+                                <p className="text-[15px] font-extrabold text-brand-text-primary tracking-tight">Data Enrichment</p>
+                                <p className="text-[12px] text-brand-text-muted font-bold uppercase tracking-wider mt-1 opacity-60">Fetching contact details...</p>
                             </div>
-                            <RotateCcw size={16} className="text-slate-400 animate-spin" />
+                            <div className="w-12 h-12 rounded-2xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center shadow-lg">
+                                <RotateCcw size={20} className="text-brand-accent animate-spin" />
+                            </div>
                         </div>
                     </div>
                 )}
 
                 {status === 'success' && (
-                    <div className="p-4 bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 rounded-2xl text-center">
-                        <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white mx-auto mb-3 shadow-lg shadow-emerald-500/20">
-                            <CheckCircle2 size={24} />
+                    <div className="p-10 bg-emerald-400/5 backdrop-blur-xl border border-emerald-400/20 rounded-[32px] text-center shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-emerald-400/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div className="w-16 h-16 rounded-[24px] bg-emerald-400 flex items-center justify-center text-[#0F1519] mx-auto mb-8 shadow-[0_0_32px_rgba(52,211,153,0.4)] relative z-10 transition-transform group-hover:scale-110 duration-500">
+                            <CheckCircle2 size={36} />
                         </div>
-                        <h3 className="text-[15px] font-bold text-slate-900 dark:text-slate-100 mb-1">{t('execution.run.completed')}</h3>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mb-4">{t('execution.run.summary', { duration: '1.4s', count: 5, total: 5 })}</p>
-                        <div className="flex items-center gap-2">
-                            <button className="flex-1 flex items-center justify-center gap-2 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold rounded-lg transition-all">
-                                <BarChart3 size={14} />
+                        <h3 className="text-2xl font-extrabold text-brand-text-primary mb-3 tracking-tight relative z-10">{t('execution.run.completed')}</h3>
+                        <p className="text-sm text-brand-text-muted mb-10 font-bold uppercase tracking-widest opacity-60 relative z-10">{t('execution.run.summary', { duration: '1.4s', count: 5, total: 5 })}</p>
+                        <div className="flex items-center gap-4 relative z-10">
+                            <button className="flex-1 flex items-center justify-center gap-3 py-4 bg-brand-accent hover:bg-brand-accent-hover text-[#0F1519] text-[11px] font-extrabold rounded-2xl transition-all uppercase tracking-[0.2em] active:scale-95 shadow-xl shadow-brand-accent/20">
+                                <BarChart3 size={18} />
                                 {t('execution.run.viewInsights')}
                             </button>
                             <button
                                 onClick={onRun}
-                                className="flex-1 flex items-center justify-center gap-2 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[11px] font-bold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-750 transition-all"
+                                className="flex-1 flex items-center justify-center gap-3 py-4 bg-brand-surface-1 border border-brand-border-low text-brand-text-primary text-[11px] font-extrabold rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.2em] active:scale-95 shadow-lg"
                             >
-                                <RotateCcw size={14} />
+                                <RotateCcw size={18} />
                                 {t('execution.run.runAgain')}
                             </button>
                         </div>
@@ -126,9 +129,9 @@ export const RunTab: React.FC<RunTabProps> = ({
 
             {/* Step Timeline */}
             <div className="relative">
-                <div className="px-6 mb-4 flex items-center justify-between">
-                    <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{t('execution.run.timeline')}</h4>
-                    <span className="text-[9px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded uppercase">{t('execution.run.steps', { count: steps.length })}</span>
+                <div className="px-6 mb-6 flex items-center justify-between">
+                    <h4 className="text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.25em]">{t('execution.run.timeline')}</h4>
+                    <span className="text-[9px] font-bold text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-2 py-0.5 rounded-lg uppercase tracking-widest">{t('execution.run.steps', { count: steps.length })}</span>
                 </div>
                 {steps.map((step, index) => (
                     <StepTimelineItem

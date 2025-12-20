@@ -1,5 +1,6 @@
 import React from 'react';
 import { Lightbulb, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Suggestion {
     id: string;
@@ -12,26 +13,24 @@ interface SuggestedFixCardProps {
 }
 
 export const SuggestedFixCard: React.FC<SuggestedFixCardProps> = ({ suggestions, onApply }) => {
+    const { t } = useTranslation();
     return (
-        <div className="mx-6 mb-6 p-4 bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 rounded-xl shadow-sm">
-            <div className="flex items-center gap-2 mb-3">
-                <Lightbulb size={16} className="text-indigo-600 dark:text-indigo-400" />
-                <h4 className="text-[11px] font-bold text-indigo-900 dark:text-indigo-200 uppercase tracking-widest">
-                    Suggested Fixes
-                </h4>
+        <div className="mx-6 mb-10 p-8 bg-brand-surface-2/40 backdrop-blur-xl border border-brand-border-low rounded-[32px] shadow-2xl relative overflow-hidden group">
+            <div className="flex items-center gap-4 mb-8">
+                <div className="w-10 h-10 rounded-xl bg-brand-accent/5 flex items-center justify-center border border-brand-accent/10">
+                    <Lightbulb className="text-brand-accent" size={20} />
+                </div>
+                <h3 className="text-xs font-extrabold text-brand-text-primary uppercase tracking-[0.3em] opacity-80">{t('execution.run.suggestedFixes')}</h3>
             </div>
-
-            <div className="space-y-2">
-                {suggestions.map((suggestion) => (
+            <div className="space-y-3">
+                {suggestions.map((fix) => (
                     <button
-                        key={suggestion.id}
-                        onClick={() => onApply?.(suggestion.id)}
-                        className="w-full flex items-center justify-between p-2.5 bg-white dark:bg-slate-900/50 border border-indigo-100/50 dark:border-indigo-900/50 rounded-lg text-left group hover:border-indigo-500 transition-all"
+                        key={fix.id}
+                        onClick={() => onApply?.(fix.id)}
+                        className="w-full flex items-center justify-between p-4 bg-brand-surface-3/30 hover:bg-brand-surface-3/60 border border-brand-border-low rounded-2xl text-left transition-all group/item hover:border-brand-accent/30 hover:shadow-lg active:scale-[0.98]"
                     >
-                        <span className="text-[11px] text-slate-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                            {suggestion.text}
-                        </span>
-                        <ArrowRight size={12} className="text-slate-300 group-hover:text-indigo-500 transition-colors" />
+                        <span className="text-[13px] text-brand-text-secondary font-bold group-hover/item:text-brand-text-primary transition-colors tracking-tight">{fix.text}</span>
+                        <ArrowRight size={16} className="text-brand-text-muted group-hover/item:text-brand-accent transform group-hover/item:translate-x-1 transition-all" />
                     </button>
                 ))}
             </div>

@@ -200,7 +200,7 @@ const ClassicView: React.FC<ClassicViewProps> = ({
     }, [selectedNode, setNodes, setEdges]);
 
     return (
-        <div className="h-full flex overflow-hidden bg-slate-50 dark:bg-slate-950 relative">
+        <div className="h-full flex overflow-hidden bg-brand-bg relative">
             {/* Left Rail: Component Library - Hidden on mobile */}
             <div className="hidden md:block h-full">
                 <LibrarySidebar onDragStart={onDragStart} />
@@ -208,20 +208,24 @@ const ClassicView: React.FC<ClassicViewProps> = ({
 
             {/* Center: ReactFlow Canvas */}
             <div
-                className={`flex-1 relative bg-slate-50 dark:bg-slate-950 overflow-hidden transition-all duration-500 ${isDraggingOver ? 'ring-4 ring-indigo-400/30 ring-inset bg-indigo-50/30 dark:bg-indigo-900/30' : ''
+                className={`flex-1 relative bg-brand-bg overflow-hidden transition-all duration-500 ${isDraggingOver ? 'ring-8 ring-brand-accent/10 ring-inset bg-brand-accent/[0.02]' : ''
                     }`}
                 ref={reactFlowWrapper}
             >
                 {/* Top Floating Bar (Canvas Tools) */}
-                <div className="absolute top-6 right-6 flex items-center gap-3 z-10 pointer-events-none">
-                    <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 bg-white/50 dark:bg-slate-900/50 px-2 py-1 rounded border border-slate-200 dark:border-slate-800 backdrop-blur-sm hidden sm:inline-block">
-                        {t('editor.lastSaved', { time: '10:42 AM' })}
-                    </span>
+                <div className="absolute top-8 right-8 flex items-center gap-4 z-10 pointer-events-none">
+                    <div className="flex items-center gap-3 bg-brand-surface-1/60 backdrop-blur-3xl border border-brand-border-low px-5 py-3 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] pointer-events-auto group">
+                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.6)] animate-pulse"></div>
+                        <span className="text-[10px] font-extrabold text-brand-text-muted uppercase tracking-[0.2em] group-hover:text-brand-text-primary transition-colors">
+                            {t('editor.lastSaved', { time: '10:42 AM' })}
+                        </span>
+                    </div>
+
                     <button
                         onClick={onLayout}
-                        className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/20 dark:border-white/10 px-4 py-2 rounded-full shadow-sm pointer-events-auto text-xs text-slate-700 dark:text-slate-300 font-bold hover:bg-white dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all flex items-center gap-2 ring-1 ring-black/5 dark:ring-white/10 hover:ring-indigo-200"
+                        className="bg-brand-accent hover:bg-brand-accent-hover text-brand-bg px-8 py-3 rounded-2xl shadow-[0_20px_50px_-12px_rgba(45,212,191,0.3)] pointer-events-auto text-[11px] font-extrabold transition-all flex items-center gap-3 hover:scale-105 active:scale-95 uppercase tracking-[0.2em]"
                     >
-                        <GitBranch size={14} />
+                        <GitBranch size={18} />
                         <span className="hidden sm:inline">{t('editor.autoLayout')}</span>
                     </button>
                 </div>
@@ -238,93 +242,96 @@ const ClassicView: React.FC<ClassicViewProps> = ({
                     onSelectionChange={onSelectionChange}
                     nodeTypes={nodeTypes}
                     fitView
-                    className="bg-slate-50 dark:bg-slate-950"
+                    className="bg-brand-bg"
                     deleteKeyCode={['Delete', 'Backspace']}
                     proOptions={{ hideAttribution: true }}
                 >
-                    <Background variant={BackgroundVariant.Dots} gap={24} size={1.5} color="#cbd5e1" className="dark:opacity-20" />
-                    <Controls className="!bg-white/90 dark:!bg-slate-800/90 !backdrop-blur-xl !border-white/20 dark:!border-white/10 !shadow-lg !rounded-xl overflow-hidden [&>button]:!border-slate-100 dark:[&>button]:!border-slate-700 [&>button]:!text-slate-600 dark:[&>button]:!text-slate-300 hover:[&>button]:!bg-slate-50 dark:hover:[&>button]:!bg-slate-700" />
+                    <Background variant={BackgroundVariant.Dots} gap={32} size={1} color="rgba(45, 212, 191, 0.1)" />
+                    <Controls className="!bg-brand-surface-1/80 !backdrop-blur-3xl !border-brand-border-low !shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] !rounded-[24px] !p-2 !m-4 [&>button]:!bg-transparent [&>button]:!border-none [&>button]:!text-brand-text-muted hover:[&>button]:!text-brand-accent [&>button]:!transition-all group" />
                 </ReactFlow>
             </div>
 
             {/* Right Rail: Inspector - Hidden on mobile */}
-            <div className="hidden lg:flex w-80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-l border-slate-200/60 dark:border-slate-800 flex-col z-10 shadow-sm">
-                <div className="p-5 border-b border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 flex justify-between items-center">
-                    <h3 className="font-bold text-slate-800 dark:text-slate-200">{t('editor.inspector')}</h3>
-                    <button className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition">
-                        <Settings size={18} className="text-slate-400" />
-                    </button>
+            <div className="hidden lg:flex w-80 bg-brand-surface-1/40 backdrop-blur-2xl border-l border-brand-border-low flex-col z-10 shadow-[-20px_0_40px_-15px_rgba(0,0,0,0.5)]">
+                <div className="p-6 border-b border-brand-border-low bg-brand-surface-1/20 flex justify-between items-center">
+                    <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center">
+                            <Settings size={16} className="text-brand-accent" />
+                        </div>
+                        <h3 className="font-bold text-sm text-brand-text-primary tracking-tight">{t('editor.inspector')}</h3>
+                    </div>
                 </div>
 
                 {selectedNode ? (
-                    <div className="p-5 space-y-8 overflow-y-auto flex-1">
-                        <div className="space-y-4">
+                    <div className="p-6 space-y-8 overflow-y-auto flex-1 custom-scrollbar">
+                        <div className="space-y-5">
                             <div>
-                                <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1 block">Node Label</label>
+                                <label className="text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.2em] mb-2.5 block px-1">Node Title</label>
                                 <input
                                     type="text"
                                     value={(selectedNode.data.label as string) || ''}
                                     onChange={(e) => updateNodeData(selectedNode.id, 'label', e.target.value)}
-                                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
+                                    className="w-full bg-brand-surface-2/40 border border-brand-border-low rounded-xl px-4 py-3 text-[13px] font-bold text-brand-text-primary focus:ring-4 focus:ring-brand-accent/5 focus:border-brand-accent/40 outline-none transition-all shadow-inner"
                                 />
                             </div>
                             <div>
-                                <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1 block">Description</label>
+                                <label className="text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.2em] mb-2.5 block px-1">Description</label>
                                 <textarea
-                                    rows={2}
+                                    rows={3}
                                     value={(selectedNode.data.description as string) || ''}
                                     onChange={(e) => updateNodeData(selectedNode.id, 'description', e.target.value)}
-                                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-600 dark:text-slate-300 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all resize-none"
+                                    className="w-full bg-brand-surface-2/40 border border-brand-border-low rounded-xl px-4 py-3 text-[13px] text-brand-text-secondary focus:ring-4 focus:ring-brand-accent/5 focus:border-brand-accent/40 outline-none transition-all resize-none shadow-inner leading-relaxed"
+                                    placeholder="Briefly describe what this step does..."
                                 />
                             </div>
                         </div>
 
-                        <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 border-l-2 border-indigo-500 pl-2">Configuration</h4>
+                        <div className="space-y-4 pt-4 border-t border-brand-border-low">
+                            <h4 className="text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.25em] mb-4 px-1">Configuration</h4>
 
-                            <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800 space-y-3">
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-slate-500 dark:text-slate-400">Retry Policy</span>
-                                    <select className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-xs font-medium py-1 px-2 outline-none dark:text-slate-300">
+                            <div className="bg-brand-surface-2/30 rounded-2xl p-4 border border-brand-border-low space-y-4 shadow-inner">
+                                <div className="flex justify-between items-center text-[12px]">
+                                    <span className="text-brand-text-secondary font-medium">Retry Policy</span>
+                                    <select className="bg-brand-surface-1 border border-brand-border-low rounded-lg text-[11px] font-bold py-1.5 px-3 outline-none text-brand-text-primary focus:border-brand-accent/40 transition-colors">
                                         <option>3 Retries</option>
                                         <option>Linear Backoff</option>
                                         <option>None</option>
                                     </select>
                                 </div>
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-slate-500 dark:text-slate-400">Timeout</span>
-                                    <span className="text-xs font-mono bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded dark:text-slate-300">30s</span>
+                                <div className="flex justify-between items-center text-[12px]">
+                                    <span className="text-brand-text-secondary font-medium">Timeout</span>
+                                    <span className="text-[11px] font-mono bg-brand-surface-1 border border-brand-border-low px-2.5 py-1 rounded-lg text-brand-accent font-bold">30s</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                            <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 border-l-2 border-emerald-500 pl-2">Governance</h4>
-                            <label className="flex items-center justify-between gap-3 p-3 border rounded-xl border-emerald-200/50 bg-emerald-50/50 dark:bg-emerald-900/10 dark:border-emerald-800/50 cursor-pointer hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors">
-                                <span className="text-sm font-medium text-emerald-800 dark:text-emerald-400">
+                        <div className="space-y-4 pt-4 border-t border-brand-border-low">
+                            <h4 className="text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.25em] mb-4 px-1">Governance</h4>
+                            <label className="flex items-center justify-between gap-3 p-4 border-2 rounded-2xl border-emerald-400/20 bg-emerald-400/5 cursor-pointer hover:bg-emerald-400/10 hover:border-emerald-400/40 transition-all shadow-inner group">
+                                <span className="text-[12px] font-bold text-emerald-400 uppercase tracking-widest">
                                     Policy Audit Checked
                                 </span>
-                                <CheckCircle size={18} className="text-emerald-500" />
+                                <CheckCircle size={20} className="text-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.3)] transition-transform group-hover:scale-110" />
                             </label>
                         </div>
 
-                        <div className="pt-8 mt-auto">
+                        <div className="pt-8 mt-auto px-1">
                             <button
                                 onClick={onDeleteNode}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/20 hover:text-red-700 dark:hover:text-red-300 border border-red-100 dark:border-red-900/30 rounded-xl text-sm font-bold transition-all shadow-sm"
+                                className="w-full flex items-center justify-center gap-3 px-4 py-4 bg-red-400/5 hover:bg-red-400/10 text-red-400 border border-red-400/20 rounded-2xl text-[11px] font-bold transition-all shadow-xl hover:shadow-red-400/5 active:scale-95 uppercase tracking-widest group"
                             >
-                                <Trash2 size={16} />
+                                <Trash2 size={16} className="group-hover:rotate-12 transition-transform" />
                                 Delete Component
                             </button>
                         </div>
                     </div>
                 ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-slate-50/30 dark:bg-slate-900/30">
-                        <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-sm mb-4 border border-slate-100 dark:border-slate-700">
-                            <Layers size={32} className="text-slate-300 dark:text-slate-600" />
+                    <div className="flex-1 flex flex-col items-center justify-center p-12 text-center bg-brand-surface-1/5">
+                        <div className="w-24 h-24 bg-brand-surface-1/40 backdrop-blur-3xl rounded-[40px] flex items-center justify-center shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] mb-8 border border-brand-border-low group hover:scale-110 transition-transform duration-700">
+                            <Layers size={42} className="text-brand-accent opacity-40 group-hover:opacity-100 transition-opacity" />
                         </div>
-                        <h4 className="font-bold text-slate-700 dark:text-slate-300 mb-1">{t('editor.noSelection')}</h4>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 max-w-[160px] leading-relaxed">{t('editor.noSelectionDesc')}</p>
+                        <h4 className="font-extrabold text-brand-text-primary text-base mb-3 tracking-tight">{t('editor.noSelection')}</h4>
+                        <p className="text-[12px] text-brand-text-muted max-w-[220px] leading-relaxed font-medium uppercase tracking-[0.2em] opacity-40">{t('editor.noSelectionDesc')}</p>
                     </div>
                 )}
             </div>

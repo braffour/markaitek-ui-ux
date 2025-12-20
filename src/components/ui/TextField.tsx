@@ -16,41 +16,41 @@ export const TextField: React.FC<TextFieldProps> = ({
     ...props
 }) => {
     return (
-        <div className={`flex flex-col gap-1.5 w-full ${className}`}>
+        <div className={`flex flex-col gap-2 w-full ${className}`}>
             {label && (
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 ml-1">
+                <label className="text-xs font-bold uppercase tracking-wider text-brand-text-muted ml-0.5">
                     {label}
                 </label>
             )}
             <div className="relative group">
                 {leftIcon && (
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors">
+                    <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-text-muted group-focus-within:text-brand-accent transition-colors">
                         {leftIcon}
                     </div>
                 )}
                 <input
                     className={`
-                        w-full px-4 py-2.5 bg-white dark:bg-slate-800 border rounded-xl text-sm font-medium
-                        transition-all duration-200 outline-none
-                        placeholder:text-slate-400 dark:placeholder:text-slate-500
-                        text-slate-900 dark:text-slate-100
-                        ${leftIcon ? 'pl-10' : ''}
-                        ${rightIcon ? 'pr-10' : ''}
+                        w-full px-4 py-3 bg-brand-surface-1 border rounded-xl text-sm font-medium
+                        transition-all duration-300 outline-none
+                        placeholder:text-brand-text-muted/50
+                        text-brand-text-primary
+                        ${leftIcon ? 'pl-11' : ''}
+                        ${rightIcon ? 'pr-11' : ''}
                         ${error
-                            ? 'border-red-500 focus:ring-4 focus:ring-red-500/10'
-                            : 'border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 dark:focus:ring-indigo-500/5'
+                            ? 'border-brand-warning/50 focus:ring-4 focus:ring-brand-warning/10'
+                            : 'border-brand-border-low focus:border-brand-accent/50 focus:ring-4 focus:ring-brand-accent/5 dark:focus:ring-brand-accent/5'
                         }
                     `}
                     {...props}
                 />
                 {rightIcon && (
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer">
+                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-text-muted hover:text-brand-text-secondary transition-colors cursor-pointer">
                         {rightIcon}
                     </div>
                 )}
             </div>
             {error && (
-                <span className="text-[11px] font-medium text-red-500 ml-1 mt-0.5 animate-in fade-in slide-in-from-top-1">
+                <span className="text-[11px] font-semibold text-brand-warning ml-0.5 mt-0.5 animate-in">
                     {error}
                 </span>
             )}

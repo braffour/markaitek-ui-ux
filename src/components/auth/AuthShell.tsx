@@ -7,6 +7,7 @@ import { ForgotPasswordView } from './ForgotPasswordView';
 import { ResetLinkSentView } from './ResetLinkSentView';
 import { EmailVerificationView } from './EmailVerificationView';
 import { Toast } from '../ui/Toast';
+import bgImage from '../../assets/auth-bg.png';
 
 interface AuthShellProps {
     onAuthenticated: () => void;
@@ -62,9 +63,12 @@ export const AuthShell: React.FC<AuthShellProps> = ({ onAuthenticated }) => {
     };
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 overflow-hidden relative">
-            {/* Grid Pattern Background */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+        <div className="min-h-screen w-full flex items-center justify-center p-4 bg-brand-bg transition-colors duration-500 overflow-hidden relative">
+            {/* Background Image with Blur and Gradient Overlay */}
+            <div
+                className="absolute inset-0 bg-cover bg-center grayscale-[20%] scale-105 blur-sm opacity-40 after:absolute after:inset-0 after:bg-gradient-to-b after:from-[#0F1519]/75 after:via-brand-bg/40 after:to-transparent"
+                style={{ backgroundImage: `url(${bgImage})` }}
+            ></div>
 
             <div className="relative z-10 w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {renderView()}

@@ -6,54 +6,65 @@ import { PAST_SUCCESS_INSIGHTS } from '../../constants';
 const LuckyView = () => {
     const { t, i18n } = useTranslation();
     return (
-        <div className="h-full flex flex-col items-center justify-center p-4 md:p-6 overflow-y-auto w-full">
-            <div className="w-full max-w-4xl space-y-6 md:space-y-8 animate-in fade-in zoom-in-95 duration-500 pb-20 md:pb-0">
+        <div className="h-full flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto w-full custom-scrollbar">
+            <div className="w-full max-w-5xl space-y-10 md:space-y-12 animate-in fade-in zoom-in-95 duration-700 pb-20 md:pb-0">
 
-                <div className="text-center space-y-3">
-                    <div className="inline-flex items-center justify-center p-3 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/50 dark:to-indigo-900/50 rounded-2xl mb-2 shadow-inner">
-                        <Wand2 className="text-indigo-600 dark:text-indigo-300" size={32} />
+                <div className="text-center space-y-4">
+                    <div className="inline-flex items-center justify-center p-6 bg-brand-accent/5 backdrop-blur-3xl rounded-[32px] mb-4 border border-brand-accent/20 shadow-2xl relative group">
+                        <div className="absolute inset-0 bg-brand-accent/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+                        <Wand2 className="text-brand-accent shadow-[0_0_15px_rgba(45,212,191,0.5)] transition-transform group-hover:scale-110 group-hover:rotate-12 duration-500" size={48} />
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">{t('insights.magic')}</h2>
-                    <p className="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-lg mx-auto leading-relaxed">{t('insights.description')}</p>
+                    <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-brand-text-primary leading-tight">
+                        {t('insights.magic')}
+                    </h2>
+                    <p className="text-brand-text-muted text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-medium uppercase tracking-[0.1em] opacity-60">
+                        {t('insights.description')}
+                    </p>
                 </div>
 
-                <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-indigo-100/50 dark:shadow-black/50 overflow-hidden border border-white/50 dark:border-white/10 ring-1 ring-slate-900/5 dark:ring-white/5">
+                <div className="bg-brand-surface-1/30 backdrop-blur-3xl rounded-[40px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] overflow-hidden border border-brand-border-low relative group/card">
+                    {/* Background Accents */}
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-brand-accent/5 blur-[120px] -mr-48 -mt-48 pointer-events-none group-hover/card:bg-brand-accent/10 transition-all duration-1000"></div>
+
                     {/* Main Intent Card */}
-                    <div className="p-6 md:p-10 bg-gradient-to-br from-white via-slate-50/50 to-indigo-50/30 dark:from-slate-900 dark:via-slate-800/50 dark:to-indigo-900/10">
-                        <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 pl-1">{t('insights.intent')}</label>
-                        <div className="relative mb-8 group">
-                            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-slate-200 dark:bg-slate-700 group-focus-within:bg-indigo-600 dark:group-focus-within:bg-indigo-400 transition-colors duration-300"></div>
+                    <div className="p-8 md:p-14 relative z-10 transition-all">
+                        <label className="block text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.3em] mb-4 px-2 opacity-50">{t('insights.intent')}</label>
+                        <div className="relative mb-12 group/input">
+                            <div className="absolute -inset-4 bg-brand-accent/5 rounded-3xl opacity-0 group-focus-within/input:opacity-100 transition-all duration-500 blur-xl"></div>
                             <input
                                 type="text"
                                 placeholder={t('insights.intentPlaceholder')}
-                                className="w-full text-lg md:text-2xl py-4 bg-transparent border-none outline-none placeholder-slate-300 dark:placeholder-slate-600 font-medium text-slate-800 dark:text-slate-100"
+                                className="w-full text-2xl md:text-4xl py-6 bg-transparent border-none outline-none placeholder-brand-text-muted/20 font-extrabold text-brand-text-primary relative z-10 tracking-tight"
                             />
-                            <button className="absolute right-0 top-1/2 -translate-y-1/2 bg-indigo-600 text-white p-2 rounded-full opacity-0 group-focus-within:opacity-100 transition-all hover:bg-indigo-700 shadow-lg shadow-indigo-600/30">
-                                <ArrowRight size={20} />
+                            <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-border-low rounded-full overflow-hidden">
+                                <div className="h-full bg-brand-accent w-0 group-focus-within/input:w-full transition-all duration-700 shadow-[0_0_10px_rgba(45,212,191,0.5)]"></div>
+                            </div>
+                            <button className="absolute right-0 top-1/2 -translate-y-1/2 bg-brand-accent hover:bg-brand-accent-hover text-brand-bg p-4 rounded-2xl opacity-0 group-focus-within/input:opacity-100 transition-all shadow-2xl shadow-brand-accent/20 hover:scale-105 active:scale-95">
+                                <ArrowRight size={24} />
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 pl-1">{t('insights.primarySystems')}</label>
-                                <div className="flex flex-wrap gap-2">
+                                <label className="block text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.3em] mb-5 px-2 opacity-50">{t('insights.primarySystems')}</label>
+                                <div className="flex flex-wrap gap-3">
                                     {['SalesForce', 'NetSuite', 'Slack', 'Gmail'].map(sys => (
-                                        <button key={sys} className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all bg-white dark:bg-slate-800 hover:shadow-md hover:-translate-y-0.5">
+                                        <button key={sys} className="px-5 py-2.5 bg-brand-surface-2/40 border border-brand-border-low rounded-xl text-[12px] font-bold text-brand-text-secondary hover:border-brand-accent/40 hover:text-brand-accent transition-all hover:bg-brand-surface-2 hover:shadow-xl hover:-translate-y-0.5 shadow-sm uppercase tracking-wider">
                                             {sys}
                                         </button>
                                     ))}
-                                    <button className="px-4 py-2 border border-dashed border-slate-300 dark:border-slate-600 rounded-full text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:border-slate-400 transition-colors">+</button>
+                                    <button className="w-10 h-10 flex items-center justify-center border-2 border-dashed border-brand-border-low rounded-xl text-brand-text-muted hover:text-brand-accent hover:border-brand-accent/40 transition-all hover:bg-brand-surface-2">+</button>
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 pl-1">{t('insights.constraints')}</label>
-                                <div className="flex flex-col sm:flex-row gap-3">
-                                    <select className="flex-1 p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                <label className="block text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.3em] mb-5 px-2 opacity-50">{t('insights.constraints')}</label>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <select className="flex-1 px-4 py-3 bg-brand-surface-2/40 border border-brand-border-low rounded-xl text-[12px] font-bold text-brand-text-primary outline-none focus:ring-4 focus:ring-brand-accent/5 focus:border-brand-accent/40 shadow-inner appearance-none custom-select uppercase tracking-widest">
                                         <option>{t('insights.budget')}</option>
                                         <option>{i18n.language.startsWith('fr') ? 'Budget : Économique' : 'Budget: Low Cost'}</option>
                                     </select>
-                                    <select className="flex-1 p-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                    <select className="flex-1 px-4 py-3 bg-brand-surface-2/40 border border-brand-border-low rounded-xl text-[12px] font-bold text-brand-text-primary outline-none focus:ring-4 focus:ring-brand-accent/5 focus:border-brand-accent/40 shadow-inner appearance-none custom-select uppercase tracking-widest">
                                         <option>{t('insights.security')}</option>
                                         <option>{i18n.language.startsWith('fr') ? 'Séc : Standard' : 'Sec: Standard'}</option>
                                     </select>
@@ -63,30 +74,37 @@ const LuckyView = () => {
                     </div>
 
                     {/* Insights Panel */}
-                    <div className="bg-slate-50/80 dark:bg-slate-800/50 backdrop-blur-md p-6 md:p-8 border-t border-slate-100 dark:border-slate-700 relative">
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm px-3 py-1 rounded-full text-xs font-semibold text-slate-400 uppercase tracking-widest">
+                    <div className="bg-brand-surface-2/20 backdrop-blur-md p-8 md:p-12 border-t border-brand-border-low relative shadow-inner">
+                        <div className="absolute top-0 left-12 -translate-x-1/2 -translate-y-1/2 bg-brand-accent text-brand-bg shadow-2xl px-5 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-[0.25em]">
                             {t('insights.suggestion')}
                         </div>
-                        <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-5">
-                            <div className="hidden sm:block bg-white dark:bg-slate-800 p-3 rounded-2xl text-indigo-600 dark:text-indigo-400 shadow-sm border border-slate-100 dark:border-slate-700">
-                                <History size={24} />
-                            </div>
-                            <div className="flex-1 w-full">
-                                <div className="flex items-center gap-2 mb-2 sm:mb-1">
-                                    <div className="sm:hidden bg-white dark:bg-slate-800 p-2 rounded-xl text-indigo-600 dark:text-indigo-400 shadow-sm border border-slate-100 dark:border-slate-700">
-                                        <History size={18} />
-                                    </div>
-                                    <h4 className="font-bold text-slate-800 dark:text-slate-200 text-lg">{t('insights.memoryInsight')}</h4>
-                                </div>
-                                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">{t('insights.recommendation')}</p>
 
-                                <div className="space-y-2.5">
+                        <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
+                            <div className="hidden lg:flex w-16 h-16 bg-brand-surface-1 border border-brand-border-low rounded-[24px] items-center justify-center text-brand-accent shadow-2xl group/icon transition-all hover:scale-105">
+                                <History size={28} className="group-hover/icon:-rotate-45 transition-transform duration-500" />
+                            </div>
+
+                            <div className="flex-1 w-full">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="lg:hidden bg-brand-surface-1 p-2.5 rounded-xl text-brand-accent border border-brand-border-low">
+                                        <History size={20} />
+                                    </div>
+                                    <h4 className="font-extrabold text-brand-text-primary text-xl md:text-2xl tracking-tight">{t('insights.memoryInsight')}</h4>
+                                </div>
+                                <p className="text-[14px] text-brand-text-secondary mb-10 leading-relaxed font-medium max-w-3xl">{t('insights.recommendation')}</p>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {PAST_SUCCESS_INSIGHTS.map(item => (
-                                        <div key={item.id} className="flex justify-between items-center bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700 text-sm shadow-sm hover:shadow-md transition-shadow cursor-default group">
-                                            <span className="text-slate-700 dark:text-slate-200 font-semibold group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors uppercase tracking-tight text-[11px]">{item.name}</span>
-                                            <div className="flex items-center gap-4">
-                                                <span className="text-xs text-slate-400 font-medium">{t('insights.timeAgo', { time: item.time })}</span>
-                                                <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800 px-2 py-0.5 rounded-full">{t('insights.reliable', { value: item.reliable.replace('%', '') })}</span>
+                                        <div key={item.id} className="flex justify-between items-center bg-brand-surface-1/40 backdrop-blur-xl p-5 rounded-2xl border border-brand-border-low hover:bg-brand-surface-1 hover:border-brand-accent/30 transition-all cursor-default group/item shadow-sm hover:shadow-2xl hover:shadow-black/40">
+                                            <div>
+                                                <span className="text-brand-text-primary font-bold group-hover/item:text-brand-accent transition-colors uppercase tracking-widest text-[11px] block mb-1">{item.name}</span>
+                                                <span className="text-[10px] text-brand-text-muted font-bold opacity-60 uppercase tracking-tighter">{t('insights.timeAgo', { time: item.time })}</span>
+                                            </div>
+                                            <div className="flex flex-col items-end gap-1.5">
+                                                <div className="flex items-center gap-1.5 bg-emerald-400/10 border border-emerald-400/20 px-2.5 py-1 rounded-lg">
+                                                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.6)]"></div>
+                                                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">{t('insights.reliable', { value: item.reliable.replace('%', '') })}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}

@@ -38,69 +38,84 @@ const YoloView = () => {
                 setIsBuilding(false);
                 return;
             }
-            setTranscript(prev => [...prev, { text: steps[stepIndex], time: new Date().toLocaleTimeString() }]);
+            setTranscript(prev => [...prev, { text: steps[stepIndex], time: new Date().toLocaleTimeString().split(' ')[0] }]);
             stepIndex++;
         }, 800);
     };
 
     return (
-        <div className="h-full flex flex-col lg:flex-row gap-6 p-4 md:p-6 overflow-y-auto lg:overflow-hidden max-w-7xl mx-auto w-full pb-20 md:pb-6">
+        <div className="h-full flex flex-col lg:flex-row gap-8 p-6 lg:p-10 overflow-y-auto lg:overflow-hidden max-w-7xl mx-auto w-full pb-20 lg:pb-10">
             {/* Left: Intent Panel */}
-            <div className="flex-1 flex flex-col gap-6 overflow-visible lg:overflow-y-auto">
-                <div className="bg-gradient-to-br from-indigo-600 to-violet-700 dark:from-indigo-900 dark:to-violet-900 rounded-2xl p-6 md:p-8 text-white shadow-xl shadow-indigo-900/10 shrink-0 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-12 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+            <div className="flex-1 flex flex-col gap-8 overflow-visible lg:overflow-y-auto custom-scrollbar pr-2">
+                <div className="bg-brand-surface-1/40 backdrop-blur-2xl rounded-3xl p-8 md:p-10 border border-brand-border-low shadow-2xl relative overflow-hidden group min-h-[400px]">
+                    {/* Background Glows */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 blur-[100px] -mr-32 -mt-32 pointer-events-none group-hover:bg-brand-accent/10 transition-all duration-1000"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-accent/5 blur-[100px] -ml-32 -mb-32 pointer-events-none group-hover:bg-brand-accent/10 transition-all duration-1000"></div>
 
-                    <div className="flex items-center gap-3 mb-4 relative z-10">
-                        <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                            <MessageSquare className="text-white" size={24} />
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="p-3 bg-brand-accent/10 border border-brand-accent/20 rounded-2xl shadow-inner">
+                                <MessageSquare className="text-brand-accent shadow-[0_0_10px_rgba(45,212,191,0.5)] transition-transform group-hover:scale-110" size={28} />
+                            </div>
+                            <div>
+                                <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-brand-text-primary">{t('agent.terminal')}</h2>
+                                <p className="text-brand-text-muted mt-1 text-[13px] font-bold uppercase tracking-[0.2em] opacity-60">Neural Engine v4.0</p>
+                            </div>
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{t('agent.terminal')}</h2>
-                    </div>
-                    <p className="text-indigo-100 mb-6 text-sm md:text-lg font-light relative z-10">{t('agent.description')}</p>
 
-                    <div className="relative group z-10">
-                        <div className="absolute inset-0 bg-white/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition duration-1000"></div>
-                        <textarea
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            placeholder={t('agent.placeholder')}
-                            className="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-base md:text-lg text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[120px] md:min-h-[140px] relative z-10 backdrop-blur-sm transition-all resize-none font-medium"
-                        />
-                        <button
-                            onClick={simulateAgent}
-                            disabled={!input || isBuilding}
-                            className="absolute bottom-4 right-4 bg-white text-indigo-600 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold hover:bg-indigo-50 transition-all flex items-center gap-2 z-20 shadow-lg shadow-indigo-900/20 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
-                        >
-                            {isBuilding ? <Activity className="animate-spin" size={18} /> : <Zap size={18} />}
-                            {t('agent.execute')}
-                        </button>
-                    </div>
+                        <p className="text-brand-text-secondary mb-8 text-base md:text-lg leading-relaxed max-w-2xl font-medium">{t('agent.description')}</p>
 
-                    <div className="mt-6 flex gap-2 md:gap-3 flex-wrap items-center relative z-10">
-                        <span className="text-xs text-indigo-200 font-bold uppercase tracking-widest mr-2 w-full md:w-auto">{t('agent.quickPrompts')}</span>
-                        {[
-                            { key: 'agent.syncLeads' },
-                            { key: 'agent.dailyReport' },
-                            { key: 'agent.onboardUser' }
-                        ].map(p => (
-                            <button key={p.key} onClick={() => setInput(t(p.key))} className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-xs md:text-sm text-white transition-all backdrop-blur-sm border border-white/10 hover:border-white/30">
-                                {t(p.key)}
+                        <div className="relative group/input">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-brand-accent/20 to-purple-400/20 rounded-2xl blur opacity-0 group-focus-within/input:opacity-100 transition duration-700"></div>
+                            <textarea
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                placeholder={t('agent.placeholder')}
+                                className="w-full bg-brand-surface-2/40 border border-brand-border-low rounded-2xl p-6 text-base md:text-lg text-brand-text-primary placeholder-brand-text-muted/40 focus:outline-none focus:border-brand-accent/40 min-h-[160px] md:min-h-[200px] relative z-10 backdrop-blur-md transition-all resize-none font-bold shadow-inner leading-relaxed"
+                            />
+                            <button
+                                onClick={simulateAgent}
+                                disabled={!input || isBuilding}
+                                className="absolute bottom-6 right-6 bg-brand-accent hover:bg-brand-accent-hover text-brand-bg px-6 py-3 rounded-xl font-bold transition-all flex items-center gap-3 z-20 shadow-2xl shadow-brand-accent/20 disabled:opacity-30 disabled:cursor-not-allowed text-sm md:text-base active:scale-95 group/btn uppercase tracking-widest"
+                            >
+                                {isBuilding ? <Activity className="animate-spin" size={20} /> : <Zap size={20} className="group-hover/btn:scale-125 transition-transform" />}
+                                {t('agent.execute')}
                             </button>
-                        ))}
+                        </div>
+
+                        <div className="mt-8 flex gap-3 flex-wrap items-center">
+                            <span className="text-[10px] text-brand-text-muted font-bold uppercase tracking-[0.25em] mr-4 w-full md:w-auto opacity-60">{t('agent.quickPrompts')}</span>
+                            {[
+                                { key: 'agent.syncLeads' },
+                                { key: 'agent.dailyReport' },
+                                { key: 'agent.onboardUser' }
+                            ].map(p => (
+                                <button
+                                    key={p.key}
+                                    onClick={() => setInput(t(p.key))}
+                                    className="bg-brand-surface-1/40 hover:bg-brand-accent/10 px-4 py-2 rounded-full text-[12px] font-bold text-brand-text-secondary hover:text-brand-accent transition-all backdrop-blur-md border border-brand-border-low hover:border-brand-accent/40 active:scale-95 shadow-sm"
+                                >
+                                    {t(p.key)}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
                 {/* Mandatory Inputs */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 rounded-2xl border border-slate-200/60 dark:border-slate-800 shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">{t('agent.governance')}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-brand-surface-1/40 backdrop-blur-2xl p-8 rounded-3xl border border-brand-border-low shadow-xl group">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                            <h3 className="text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.25em]">{t('agent.governance')}</h3>
+                        </div>
 
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{t('agent.policyScope')}</label>
+                                <label className="block text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-3 px-1">{t('agent.policyScope')}</label>
                                 <div className="relative">
-                                    <ShieldCheck className="absolute left-3 top-2.5 text-emerald-500" size={16} />
-                                    <select className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50/50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none dark:text-slate-200 text-sm">
+                                    <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400" size={18} />
+                                    <select className="w-full pl-12 pr-4 py-3 border border-brand-border-low rounded-xl bg-brand-surface-2/40 focus:outline-none focus:ring-4 focus:ring-brand-accent/5 focus:border-brand-accent/40 transition-all appearance-none text-brand-text-primary text-sm font-bold shadow-inner custom-select">
                                         {i18n.language.startsWith('fr') ? <option>RGPD strict</option> : <option>GDPR Strict</option>}
                                         <option>ISO27001</option>
                                         <option>SOC2 Type II</option>
@@ -109,28 +124,31 @@ const YoloView = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{t('agent.contextFile')}</label>
-                                <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-5 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-all group">
-                                    <FileText className="mx-auto text-slate-400 group-hover:text-indigo-500 transition-colors mb-2" size={24} />
-                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">{t('agent.uploadHint')}</span>
+                                <label className="block text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-3 px-1">{t('agent.contextFile')}</label>
+                                <div className="border-2 border-dashed border-brand-border-low rounded-xl p-8 text-center hover:bg-brand-surface-2/40 hover:border-brand-accent/40 cursor-pointer transition-all group/upload shadow-inner">
+                                    <FileText className="mx-auto text-brand-text-muted group-hover/upload:text-brand-accent group-hover/upload:scale-110 transition-all mb-3" size={32} />
+                                    <span className="text-[11px] text-brand-text-muted font-bold uppercase tracking-widest leading-loose">{t('agent.uploadHint')}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 rounded-2xl border border-slate-200/60 dark:border-slate-800 shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">{t('agent.params')}</h3>
+                    <div className="bg-brand-surface-1/40 backdrop-blur-2xl p-8 rounded-3xl border border-brand-border-low shadow-xl group">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-1.5 h-1.5 rounded-full bg-brand-accent"></div>
+                            <h3 className="text-[10px] font-bold text-brand-text-muted uppercase tracking-[0.25em]">{t('agent.params')}</h3>
+                        </div>
 
-                        <div className="space-y-5">
+                        <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('agent.urgency')}</label>
-                                <div className="flex bg-slate-100/80 dark:bg-slate-800 p-1 rounded-xl">
+                                <label className="block text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-3 px-1">{t('agent.urgency')}</label>
+                                <div className="flex bg-brand-surface-2/40 p-1.5 rounded-2xl shadow-inner border border-brand-border-low">
                                     {[
                                         { key: 'agent.asap' },
                                         { key: 'agent.today' },
                                         { key: 'agent.flexible' }
                                     ].map((u, i) => (
-                                        <button key={u.key} className={`flex-1 py-1.5 text-sm rounded-lg font-medium transition-all ${i === 0 ? 'bg-white dark:bg-slate-700 shadow-sm text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}>
+                                        <button key={u.key} className={`flex-1 py-2.5 text-[11px] rounded-xl font-bold uppercase transition-all tracking-wider ${i === 0 ? 'bg-brand-surface-1 text-brand-accent shadow-xl border border-brand-border-low shadow-black/40' : 'text-brand-text-muted hover:text-brand-text-primary'}`}>
                                             {t(u.key)}
                                         </button>
                                     ))}
@@ -138,18 +156,21 @@ const YoloView = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('agent.environments')}</label>
-                                <div className="flex flex-wrap gap-4">
+                                <label className="block text-[11px] font-bold text-brand-text-muted uppercase tracking-widest mb-3 px-1">{t('agent.environments')}</label>
+                                <div className="flex flex-wrap gap-6 pt-2 px-1">
                                     {[
                                         { id: 'dev', key: 'agent.dev' },
                                         { id: 'staging', key: 'agent.staging' },
                                         { id: 'prod', key: 'agent.prod' }
                                     ].map(env => (
-                                        <label key={env.id} className="flex items-center gap-2 cursor-pointer group">
+                                        <label key={env.id} className="flex items-center gap-3 cursor-pointer group/env">
                                             <div className="relative flex items-center">
-                                                <input type="checkbox" defaultChecked={env.id === 'dev'} className="peer w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 transition-all bg-transparent" />
+                                                <input type="checkbox" defaultChecked={env.id === 'dev'} className="peer hidden" />
+                                                <div className="w-5 h-5 rounded-lg border-2 border-brand-border-low peer-checked:bg-brand-accent peer-checked:border-brand-accent transition-all group-hover/env:border-brand-accent/40 shadow-inner">
+                                                    <ShieldCheck className="text-brand-bg opacity-0 peer-checked:opacity-100 transition-opacity p-0.5" size={16} />
+                                                </div>
                                             </div>
-                                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">{t(env.key)}</span>
+                                            <span className="text-[12px] font-bold text-brand-text-secondary group-hover/env:text-brand-text-primary transition-colors tracking-tight uppercase">{t(env.key)}</span>
                                         </label>
                                     ))}
                                 </div>
@@ -160,49 +181,63 @@ const YoloView = () => {
             </div>
 
             {/* Right: Live Transcript */}
-            <div className="w-full lg:w-96 bg-slate-900 dark:bg-black rounded-2xl p-6 flex flex-col shadow-2xl shrink-0 border border-slate-800 dark:border-slate-800 relative overflow-hidden min-h-[300px] lg:h-auto">
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-                <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-800/50">
-                    <div className="flex items-center gap-2">
-                        <div className="p-1.5 bg-indigo-500/20 rounded-md">
-                            <Cpu className="text-indigo-400" size={16} />
+            <div className="w-full lg:w-[400px] bg-[#0F1519] rounded-3xl p-8 flex flex-col shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] shrink-0 border border-brand-border-low relative overflow-hidden min-h-[400px] lg:h-auto group">
+                {/* Decoration */}
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-accent/30 to-transparent"></div>
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-brand-accent/5 blur-[80px] rounded-full pointer-events-none"></div>
+
+                <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/5">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-brand-accent/10 rounded-xl border border-brand-accent/20">
+                            <Cpu className="text-brand-accent" size={18} />
                         </div>
-                        <h3 className="font-mono text-indigo-100 font-semibold tracking-tight">{t('agent.trace')}</h3>
+                        <div>
+                            <h3 className="text-[11px] font-bold text-brand-text-primary uppercase tracking-[0.2em]">{t('agent.trace')}</h3>
+                            <p className="text-[9px] font-mono text-brand-accent/60 mt-0.5">LATENCY: 12ms</p>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-green-500/10 px-2 py-1 rounded-full border border-green-500/20">
-                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                        <span className="text-[10px] font-bold text-green-400 uppercase tracking-wider">{t('agent.online')}</span>
+                    <div className="flex items-center gap-2 bg-brand-surface-1/40 px-3 py-1.5 rounded-full border border-brand-border-low shadow-sm">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]"></div>
+                        <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">{t('agent.online')}</span>
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto font-mono text-sm space-y-4 pr-1 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+                <div className="flex-1 overflow-y-auto font-mono text-[13px] space-y-5 pr-2 custom-scrollbar">
                     {transcript.length === 0 && !isBuilding && (
-                        <div className="h-full flex flex-col items-center justify-center text-slate-600 italic">
-                            <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mb-3">
-                                <Activity size={24} className="opacity-20" />
+                        <div className="h-full flex flex-col items-center justify-center text-brand-text-muted/30 italic py-20">
+                            <div className="w-20 h-20 rounded-[32px] bg-brand-surface-2/40 flex items-center justify-center mb-6 border border-brand-border-low shadow-inner">
+                                <Activity size={32} className="opacity-20" />
                             </div>
-                            {t('agent.waiting')}
+                            <p className="text-[11px] font-bold uppercase tracking-[0.3em]">{t('agent.waiting')}</p>
                         </div>
                     )}
                     {transcript.map((log, idx) => (
-                        <div key={idx} className="flex gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <span className="text-slate-600 shrink-0 text-[10px] pt-1 font-medium opacity-70">{log.time}</span>
-                            <div className="text-emerald-400 pl-3 border-l-2 border-emerald-500/30">
-                                {log.text}
+                        <div key={idx} className="flex gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                            <span className="text-brand-text-muted/40 shrink-0 text-[10px] pt-1.5 font-bold tracking-tighter w-12">{log.time}</span>
+                            <div className="text-emerald-400/90 pl-4 border-l border-emerald-400/20 leading-relaxed font-medium">
+                                <span className="opacity-40 text-brand-text-muted mr-1">❯</span> {log.text}
                             </div>
                         </div>
                     ))}
                     {isBuilding && (
-                        <div className="flex items-center gap-2 text-indigo-400 mt-4 pl-12">
-                            <span className="animate-pulse">_</span>
+                        <div className="flex items-center gap-3 text-brand-accent mt-6 pl-16">
+                            <div className="flex gap-1.5">
+                                <div className="w-1.5 h-1.5 bg-brand-accent rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                                <div className="w-1.5 h-1.5 bg-brand-accent rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                                <div className="w-1.5 h-1.5 bg-brand-accent rounded-full animate-bounce"></div>
+                            </div>
+                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Architecting...</span>
                         </div>
                     )}
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-slate-800/50">
-                    <div className="flex items-center gap-2 text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
-                        <ShieldCheck size={12} />
-                        <span>{t('agent.auditActive')}</span>
+                <div className="mt-8 pt-6 border-t border-white/5">
+                    <div className="flex items-center justify-between text-[10px] text-brand-text-muted uppercase tracking-widest font-bold px-1">
+                        <div className="flex items-center gap-2.5">
+                            <ShieldCheck size={14} className="text-brand-accent" />
+                            <span>{t('agent.auditActive')}</span>
+                        </div>
+                        <span className="font-mono opacity-40">NODE_X92</span>
                     </div>
                 </div>
             </div>

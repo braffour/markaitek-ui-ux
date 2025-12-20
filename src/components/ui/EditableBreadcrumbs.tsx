@@ -47,12 +47,9 @@ export const EditableBreadcrumbs: React.FC<EditableBreadcrumbsProps> = ({
     };
 
     return (
-        <div className="flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-lg border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all group">
-            <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">{t('shell.workflows')}</span>
-            <span className="text-slate-300 dark:text-slate-600">/</span>
-
-            {/* Workspace (Optional in breadcrumbs, but adhering to request) */}
-            {/* For now keeping standard format: Workflows / [Name] */}
+        <div className="flex items-center gap-2 px-4 py-2 bg-brand-surface-1/40 backdrop-blur-md rounded-2xl border border-brand-border-low hover:border-brand-border-base transition-all group">
+            <span className="text-sm font-bold text-brand-text-muted">{t('shell.workflows')}</span>
+            <span className="text-brand-border-high">/</span>
 
             {isEditing === 'workflow' ? (
                 <input
@@ -61,22 +58,22 @@ export const EditableBreadcrumbs: React.FC<EditableBreadcrumbsProps> = ({
                     onChange={(e) => setTempValue(e.target.value)}
                     onBlur={handleSave}
                     onKeyDown={handleKeyDown}
-                    className="bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-indigo-500 outline-none text-sm font-bold text-slate-800 dark:text-slate-200 min-w-[150px]"
+                    className="bg-brand-surface-2 px-2.5 py-1 rounded-lg border border-brand-accent outline-none text-sm font-bold text-brand-text-primary min-w-[160px]"
                 />
             ) : (
                 <div
                     onClick={() => handleStartEdit('workflow', workflow)}
-                    className="relative flex items-center gap-2 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 px-2 py-0.5 rounded transition-colors"
+                    className="relative flex items-center gap-2 cursor-pointer hover:bg-white/5 px-2.5 py-1 rounded-xl transition-all"
                 >
-                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{workflow}</span>
-                    <Pencil size={12} className="opacity-0 group-hover:opacity-50 text-slate-400" />
+                    <span className="text-sm font-bold text-brand-text-primary">{workflow}</span>
+                    <Pencil size={12} className="opacity-0 group-hover:opacity-40 text-brand-text-muted" />
                 </div>
             )}
 
-            <div className="flex items-center gap-2 ml-2">
-                <span className="text-xs font-mono text-slate-400 dark:text-slate-500">{version}</span>
+            <div className="flex items-center gap-2.5 ml-2">
+                <span className="text-[11px] font-mono font-bold text-brand-text-muted uppercase tracking-tight">{version}</span>
                 {isDraft && (
-                    <span className="text-[10px] bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full font-bold tracking-wide border border-indigo-200 dark:border-indigo-800">
+                    <span className="text-[10px] bg-brand-accent/10 text-brand-accent px-2.5 py-0.5 rounded-lg font-bold tracking-wider border border-brand-accent/20">
                         {t('shell.draft')}
                     </span>
                 )}
