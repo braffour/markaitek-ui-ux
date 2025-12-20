@@ -1,5 +1,6 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SocialAuthButtonProps {
     provider: 'google' | 'apple' | 'microsoft' | 'github';
@@ -12,6 +13,7 @@ export const SocialAuthButton: React.FC<SocialAuthButtonProps> = ({
     onClick,
     isLoading = false
 }) => {
+    const { t } = useTranslation();
     const providers = {
         google: {
             name: 'Google',
@@ -74,7 +76,7 @@ export const SocialAuthButton: React.FC<SocialAuthButtonProps> = ({
             ) : (
                 <>
                     {config.icon}
-                    <span>Continue with {config.name}</span>
+                    <span>{t('auth.continueWith', { provider: config.name })}</span>
                 </>
             )}
         </button>

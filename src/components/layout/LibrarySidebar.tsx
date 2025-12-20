@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, ChevronDown, ChevronRight, GripVertical } from 'lucide-react';
 import { Badge } from '../ui/Badge';
+import { useTranslation } from 'react-i18next';
 import { COMPONENT_LIBRARY } from '../../constants';
 
 interface LibrarySidebarProps {
@@ -8,6 +9,7 @@ interface LibrarySidebarProps {
 }
 
 export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ onDragStart }) => {
+    const { t } = useTranslation();
     const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
         'Triggers': true,
         'Actions': true,
@@ -29,13 +31,13 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ onDragStart }) =
             <div className="p-4 border-b border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50">
                 <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-                    Library
+                    {t('editor.library')}
                 </h2>
                 <div className="relative">
                     <Search className="absolute left-3 top-2.5 text-slate-400" size={14} />
                     <input
                         type="text"
-                        placeholder="Search workspace..."
+                        placeholder={t('editor.searchWorkspace')}
                         className="w-full pl-9 pr-3 py-2 bg-slate-100/50 dark:bg-slate-800/50 border-none rounded-lg text-xs focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder-slate-400 font-medium text-slate-600 dark:text-slate-300"
                     />
                 </div>
@@ -55,7 +57,7 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ onDragStart }) =
                                 className="w-full flex items-center gap-2 px-3 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                             >
                                 {isExpanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-                                {sectionTitle}
+                                {t(`editor.${cat.toLowerCase()}s`)}
                             </button>
 
                             {isExpanded && (
@@ -76,11 +78,11 @@ export const LibrarySidebar: React.FC<LibrarySidebarProps> = ({ onDragStart }) =
                                                         {comp.label}
                                                     </span>
                                                     {comp.meta === 'Safe' && (
-                                                        <span className="text-[9px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded border border-emerald-100">Safe</span>
+                                                        <span className="text-[9px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded border border-emerald-100">{t('editor.safe')}</span>
                                                     )}
                                                 </div>
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-[10px] text-slate-400 truncate">v2.1.0 • Certified</span>
+                                                    <span className="text-[10px] text-slate-400 truncate">v2.1.0 • {t('editor.certified')}</span>
                                                 </div>
                                             </div>
                                         </div>

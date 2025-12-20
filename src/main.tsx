@@ -5,6 +5,7 @@ import AppShell from './components/layout/AppShell'
 import { AuthShell } from './components/auth/AuthShell'
 import { ThemeProvider } from './context/ThemeContext'
 import './index.css'
+import './i18n'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

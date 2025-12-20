@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, ArrowLeft, Send } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { AuthHeader } from './AuthHeader';
 import { AuthCard } from './AuthCard';
 import { TextField } from '../ui/TextField';
@@ -11,6 +12,7 @@ interface ForgotPasswordViewProps {
 }
 
 export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({ onNavigate, onSuccess }) => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -18,7 +20,7 @@ export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({ onNaviga
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setError('Please enter a valid email address');
+            setError(t('auth.validation.emailInvalidForgot'));
             return;
         }
 
@@ -36,17 +38,17 @@ export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({ onNaviga
                 className="group flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mb-6"
             >
                 <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                Back to login
+                {t('auth.backToLogin')}
             </button>
 
             <AuthHeader
-                title="Forgot Password?"
-                subtitle="No worries, we'll send you reset instructions"
+                title={t('auth.forgotPasswordTitle')}
+                subtitle={t('auth.forgotPasswordSubtitle')}
             />
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <TextField
-                    label="Email Address"
+                    label={t('auth.email')}
                     placeholder="name@company.com"
                     type="email"
                     value={email}
@@ -64,7 +66,7 @@ export const ForgotPasswordView: React.FC<ForgotPasswordViewProps> = ({ onNaviga
                     isLoading={isLoading}
                     rightIcon={!isLoading && <Send size={18} />}
                 >
-                    Send reset link
+                    {t('auth.sendResetLink')}
                 </Button>
             </form>
         </AuthCard>

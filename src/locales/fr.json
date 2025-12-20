@@ -1,0 +1,194 @@
+{
+    "nav": {
+        "workflows": "Flux de travail",
+        "advisor": "CONSEIL",
+        "agent": "AGENT",
+        "editor": "ÉDITEUR",
+        "insights": "ANALYSES"
+    },
+    "shell": {
+        "searchPlaceholder": "Rechercher dans la bibliothèque de flux…",
+        "draft": "Brouillon"
+    },
+    "advisor": {
+        "welcome": "Comment puis-je vous aider aujourd’hui ?",
+        "description": "Je vous aide à clarifier votre stratégie, diagnostiquer des problèmes et préparer des plans d’exécution. Choisissez une intention pour commencer.",
+        "intents": {
+            "objective": {
+                "title": "Définir un objectif métier",
+                "desc": "Clarifiez ce que vous souhaitez accomplir et pourquoi."
+            },
+            "diagnose": {
+                "title": "Diagnostiquer un problème",
+                "desc": "Identifiez les causes profondes de problèmes métiers ou marketing."
+            },
+            "strategy": {
+                "title": "Planifier une stratégie",
+                "desc": "Élaborez une feuille de route pour une croissance ou un lancement."
+            },
+            "tools": {
+                "title": "Évaluer les outils et flux",
+                "desc": "Trouvez la stack technique adaptée à vos besoins."
+            },
+            "brief": {
+                "title": "Préparer un brief d’exécution",
+                "desc": "Rédigez une spécification claire pour l’équipe technique."
+            }
+        }
+    },
+    "execution": {
+        "title": "Exécution",
+        "status": {
+            "idle": "INACTIF",
+            "running": "EN COURS",
+            "success": "RÉUSSI",
+            "failed": "ÉCHEC",
+            "warning": "AVERTISSEMENT"
+        },
+        "tabs": {
+            "run": "Lancer",
+            "debug": "Déboguer",
+            "history": "Historique"
+        },
+        "idle": {
+            "title": "Aucune exécution",
+            "desc": "Lancez un flux de travail pour voir les détails d’exécution, les logs et les erreurs potentielles ici.",
+            "runMain": "Lancer le flux",
+            "useSample": "Utiliser un exemple",
+            "hint": "Note : Les exécutions et erreurs s'afficheront ici."
+        },
+        "running": {
+            "title": "En cours d'exécution",
+            "stepProgress": "Étape {{current}} sur {{total}}"
+        },
+        "success": {
+            "title": "Exécution terminée",
+            "metrics": "Durée totale : {{duration}} • {{passed}}/{{total}} étapes réussies",
+            "viewInsights": "Voir les analyses",
+            "runAgain": "Relancer"
+        },
+        "error": {
+            "banner": "Échec à l'étape {{step}}",
+            "techDetails": "Détails techniques",
+            "suggestedFixes": "Solutions suggérées",
+            "openDebug": "Ouvrir le débogage",
+            "retry": "Réessayer"
+        },
+        "history": {
+            "search": "Rechercher des exécutions…",
+            "filter": {
+                "all": "TOUT",
+                "success": "RÉUSSI",
+                "failed": "ÉCHEC"
+            },
+            "lastRun": "Dernière exécution : {{time}}",
+            "duration": "Durée : {{duration}}"
+        }
+    },
+    "agent": {
+        "terminal": "Terminal de l'agent",
+        "description": "Qu’automatisons-nous aujourd’hui ? Markaitek gère la gouvernance.",
+        "placeholder": "Ex. : Lorsqu’un ticket prioritaire arrive dans Jira, résumez-le avec GPT-4 et envoyez-le sur Slack au canal Engineering Ops…",
+        "execute": "Exécuter",
+        "quickPrompts": "RACCOURCIS",
+        "syncLeads": "Synchroniser les leads vers le CRM",
+        "dailyReport": "Rapport quotidien",
+        "onboardUser": "Intégrer un utilisateur",
+        "governance": "CONTEXTE DE GOUVERNANCE",
+        "policyScope": "Périmètre de politique",
+        "gdprStrict": "RGPD strict",
+        "contextFile": "Fichier de contexte (RAG)",
+        "uploadHint": "Glissez la spécification ou cliquez pour téléverser",
+        "params": "PARAMÈTRES D'EXÉCUTION",
+        "urgency": "Urgence",
+        "asap": "Dès que possible",
+        "today": "Aujourd’hui",
+        "flexible": "Flexible",
+        "environments": "Environnements cibles",
+        "dev": "Dev",
+        "staging": "Préprod",
+        "prod": "Prod",
+        "trace": "Trace de l'agent",
+        "online": "EN LIGNE",
+        "waiting": "En attente d'une intention...",
+        "auditActive": "JOURNAL D'AUDIT ACTIF"
+    },
+    "editor": {
+        "library": "Bibliothèque",
+        "searchWorkspace": "Rechercher dans l'espace...",
+        "triggers": "DÉCLENCHEURS",
+        "webhookListener": "Écouteur Webhook",
+        "certified": "Certifié",
+        "actions": "ACTIONS",
+        "transformJson": "Transformer JSON",
+        "safe": "Sécurisé",
+        "postgresQuery": "Requête PostgreSQL",
+        "connectors": "CONNECTEURS",
+        "inspector": "Inspecteur",
+        "noSelection": "Aucune sélection",
+        "noSelectionDesc": "Sélectionnez un nœud sur le canevas pour accéder aux propriétés de configuration.",
+        "lastSaved": "Dernière sauvegarde : {{time}}",
+        "autoLayout": "Mise en page auto"
+    },
+    "insights": {
+        "magic": "Faisons opérer la magie.",
+        "description": "Ajustez automatiquement l’automatisation selon vos historiques de réussite.",
+        "intent": "DÉCRIRE L’INTENTION D’INTÉGRATION",
+        "intentPlaceholder": "Ex. : Synchroniser les opportunités gagnées Salesforce vers NetSuite en tant que factures",
+        "primarySystems": "SYSTÈMES PRINCIPAUX",
+        "constraints": "CONTRAINTES",
+        "budget": "Budget : Standard",
+        "security": "Sécurité : Élevée",
+        "suggestion": "SUGGESTION IA",
+        "memoryInsight": "Aperçu mémoire",
+        "recommendation": "D’après vos 50 derniers flux, nous recommandons le pack de connecteurs Finance-v2.",
+        "reliable": "{{value}} % Fiable",
+        "timeAgo": "il y a {{time}}"
+    },
+    "auth": {
+        "welcomeBack": "Bon retour",
+        "signInDesc": "Connectez-vous à votre compte pour continuer",
+        "email": "Adresse e-mail",
+        "password": "Mot de passe",
+        "forgotPassword": "Mot de passe oublié ?",
+        "keepSignedIn": "Rester connecté",
+        "login": "Se connecter",
+        "or": "OU",
+        "continueWith": "Continuer avec {{provider}}",
+        "newToMarkaitek": "Nouveau sur Markaitek ? Créer un compte",
+        "createAccount": "Créer un compte",
+        "joinTeams": "Rejoignez des milliers d'équipes qui construisent avec l'IA",
+        "fullName": "Nom complet",
+        "fullNamePlaceholder": "Jean Dupont",
+        "passwordHint": "Utilisez 8 caractères ou plus avec un mélange de lettres, chiffres et symboles",
+        "agreeTerms": "J'accepte les conditions d'utilisation et la politique de confidentialité",
+        "createAccountBtn": "Créer le compte",
+        "alreadyHaveAccount": "Vous avez déjà un compte ? Se connecter",
+        "validation": {
+            "nameRequired": "Le nom complet est requis",
+            "emailRequired": "L'e-mail est requis",
+            "emailInvalid": "Format d'e-mail invalide",
+            "passwordLength": "Le mot de passe doit comporter au moins 8 caractères",
+            "agreeRequired": "Vous devez accepter les conditions",
+            "emailInvalidForgot": "Veuillez saisir une adresse e-mail valide"
+        },
+        "backToLogin": "Retour à la connexion",
+        "forgotPasswordTitle": "Mot de passe oublié ?",
+        "forgotPasswordSubtitle": "Pas d'inquiétude, nous vous enverrons les instructions",
+        "sendResetLink": "Envoyer le lien de réinitialisation",
+        "checkEmail": "Vérifiez vos e-mails",
+        "resetSentDesc": "Nous avons envoyé un lien de réinitialisation à",
+        "didntReceiveEmail": "Vous n'avez pas reçu l'e-mail ? Vérifiez vos spams ou",
+        "resendEmail": "Renvoyer l'e-mail",
+        "clickToResend": "Cliquez pour renvoyer",
+        "resendIn": "Renvoyer dans {{seconds}}s",
+        "verifyEmailTitle": "Vérifiez votre e-mail",
+        "verifyEmailDesc": "Nous avons envoyé un code de vérification à",
+        "enterCode": "Saisissez le code à 6 chiffres reçu",
+        "verifyEmailBtn": "Vérifier l'e-mail",
+        "verifiedBtn": "J'ai vérifié mon e-mail",
+        "didntReceiveCode": "Vous n'avez pas reçu le code ?",
+        "resendCode": "Renvoyer le code",
+        "changeEmail": "Modifier l'e-mail"
+    }
+}

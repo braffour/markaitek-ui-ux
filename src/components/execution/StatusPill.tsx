@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export type ExecutionStatus = 'idle' | 'running' | 'success' | 'failed' | 'warning';
 
@@ -8,6 +9,7 @@ interface StatusPillProps {
 }
 
 export const StatusPill: React.FC<StatusPillProps> = ({ status, className = '' }) => {
+    const { t } = useTranslation();
     const styles = {
         idle: 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700',
         running: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 border-indigo-100 dark:border-indigo-800',
@@ -17,11 +19,11 @@ export const StatusPill: React.FC<StatusPillProps> = ({ status, className = '' }
     };
 
     const labels = {
-        idle: 'Idle',
-        running: 'Running',
-        success: 'Succeeded',
-        failed: 'Failed',
-        warning: 'Warning',
+        idle: t('execution.status.idle'),
+        running: t('execution.status.running'),
+        success: t('execution.status.success'),
+        failed: t('execution.status.failed'),
+        warning: t('execution.status.warning'),
     };
 
     return (

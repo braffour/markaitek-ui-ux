@@ -13,8 +13,10 @@ import {
     TrendingUp,
     Shield,
     Users,
-    Clock
+    Clock,
+    ArrowRight
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // --- Types ---
 
@@ -24,8 +26,8 @@ type IntentId = 'objective' | 'diagnosis' | 'strategy' | 'tools' | 'brief';
 
 interface IntentOption {
     id: IntentId;
-    label: string;
-    description: string;
+    labelKey: string;
+    descKey: string;
     icon: React.ElementType;
     color: string;
 }
@@ -50,36 +52,36 @@ interface BusinessContext {
 const INTENTS: IntentOption[] = [
     {
         id: 'objective',
-        label: 'Define a business objective',
-        description: 'Clarify what you want to achieve and why.',
+        labelKey: 'advisor.intents.objective.title',
+        descKey: 'advisor.intents.objective.desc',
         icon: Target,
         color: 'text-blue-500 bg-blue-50 dark:bg-blue-900/20'
     },
     {
         id: 'diagnosis',
-        label: 'Diagnose a problem',
-        description: 'Identify root causes of business or marketing issues.',
+        labelKey: 'advisor.intents.diagnose.title',
+        descKey: 'advisor.intents.diagnose.desc',
         icon: Stethoscope,
         color: 'text-red-500 bg-red-50 dark:bg-red-900/20'
     },
     {
         id: 'strategy',
-        label: 'Plan a strategy',
-        description: 'Map out a roadmap for growth or launch.',
+        labelKey: 'advisor.intents.strategy.title',
+        descKey: 'advisor.intents.strategy.desc',
         icon: Map,
         color: 'text-purple-500 bg-purple-50 dark:bg-purple-900/20'
     },
     {
         id: 'tools',
-        label: 'Evaluate tools & workflows',
-        description: 'Find the right tech stack for your needs.',
+        labelKey: 'advisor.intents.tools.title',
+        descKey: 'advisor.intents.tools.desc',
         icon: Wrench,
         color: 'text-amber-500 bg-amber-50 dark:bg-amber-900/20'
     },
     {
         id: 'brief',
-        label: 'Prepare execution brief',
-        description: 'Create a clear spec for the technical team.',
+        labelKey: 'advisor.intents.brief.title',
+        descKey: 'advisor.intents.brief.desc',
         icon: FileText,
         color: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20'
     }
@@ -88,6 +90,7 @@ const INTENTS: IntentOption[] = [
 // --- Main Component ---
 
 const AdvisorView = () => {
+    const { t, i18n } = useTranslation();
     const [step, setStep] = useState<AdvisorStep>('INTENT');
     const [selectedIntent, setSelectedIntent] = useState<IntentId | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
@@ -118,7 +121,9 @@ const AdvisorView = () => {
         const initialMsg: Message = {
             id: 'init-1',
             role: 'advisor',
-            content: `I can help you ${INTENTS.find(i => i.id === intent)?.label.toLowerCase()}. To get started, could you tell me a bit more about the specific outcome you're looking for?`,
+            content: i18n.language.startsWith('fr')
+                ? `Je peux vous aider à ${t(INTENTS.find(i => i.id === intent)?.labelKey || '').toLowerCase()}. Pour commencer, pourriez-vous m'en dire un peu plus sur l'objectif spécifique que vous recherchez ?`
+                : `I can help you ${t(INTENTS.find(i => i.id === intent)?.labelKey || '').toLowerCase()}. To get started, could you tell me a bit more about the specific outcome you're looking for?`,
             timestamp: new Date()
         };
         setMessages([initialMsg]);
@@ -147,12 +152,19 @@ const AdvisorView = () => {
         // Mock Advisor Reply
         setTimeout(() => {
             setIsTyping(false);
-            const replies = [
-                "That makes sense. Who is the primary target audience for this?",
-                "Understood. Are there any specific constraints (budget, time, resources) we should be aware of?",
-                "Got it. How will you measure success? What are your key KPIs?",
-                "I see. Let's look at the risks. What's the biggest concern you have right now?"
-            ];
+            const replies = i18n.language.startsWith('fr')
+                ? [
+                    "C'est logique. Quel est le public cible principal pour cela ?",
+                    "Compris. Y a-t-il des contraintes spécifiques (budget, temps, ressources) dont nous devrions tenir compte ?",
+                    "C'est noté. Comment mesurerez-vous le succès ? Quels sont vos principaux indicateurs de performance ?",
+                    "Je vois. Regardons les risques. Quelle est votre plus grande préoccupation en ce moment ?"
+                ]
+                : [
+                    "That makes sense. Who is the primary target audience for this?",
+                    "Understood. Are there any specific constraints (budget, time, resources) we should be aware of?",
+                    "Got it. How will you measure success? What are your key KPIs?",
+                    "I see. Let's look at the risks. What's the biggest concern you have right now?"
+                ];
             // Simple rotation or logic could be added here. For now, randomish or sequential.
             const nextReply = replies[messages.length % replies.length];
 
@@ -187,9 +199,9 @@ const AdvisorView = () => {
                 <div className="w-16 h-16 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-indigo-500/20">
                     <BrainCircuit size={32} className="text-white" />
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">How can I advise you today?</h2>
+                <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">{t('advisor.welcome')}</h2>
                 <p className="text-slate-500 dark:text-slate-400 max-w-lg mx-auto text-lg">
-                    I help clarify strategy, diagnose issues, and prepare execution plans. Choose an intent to get started.
+                    {t('advisor.description')}
                 </p>
             </div>
 
@@ -207,10 +219,10 @@ const AdvisorView = () => {
                             </div>
                             <div>
                                 <h3 className="font-bold text-slate-800 dark:text-slate-100 text-lg group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                                    {intent.label}
+                                    {t(intent.labelKey)}
                                 </h3>
                                 <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 leading-relaxed">
-                                    {intent.description}
+                                    {t(intent.descKey)}
                                 </p>
                             </div>
                         </button>
@@ -230,7 +242,7 @@ const AdvisorView = () => {
             <div className="space-y-6">
                 <div className="space-y-2">
                     <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-medium text-sm">
-                        <Target size={14} /> Objective
+                        <Target size={14} /> {t('insights.intent')}
                     </div>
                     <div className="text-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
                         {context.objective || <span className="text-slate-400 italic">Defining...</span>}
@@ -294,11 +306,11 @@ const AdvisorView = () => {
                         </button>
                         <div className="h-4 w-px bg-slate-200 dark:bg-slate-700"></div>
                         <span className="font-semibold text-slate-700 dark:text-slate-200 text-sm">
-                            {INTENTS.find(i => i.id === selectedIntent)?.label}
+                            {t(INTENTS.find(i => i.id === selectedIntent)?.labelKey || '')}
                         </span>
                     </div>
                     <button onClick={() => setStep('SUMMARY')} className="text-xs font-bold text-indigo-600 hover:text-indigo-700 px-3 py-1.5 bg-indigo-50 rounded-md border border-indigo-100 transition-colors">
-                        View Draft Summary
+                        {t('advisor.intents.brief.title')}
                     </button>
                 </div>
 
@@ -312,8 +324,8 @@ const AdvisorView = () => {
                                 </div>
                             )}
                             <div className={`max-w-[80%] md:max-w-2xl p-4 rounded-2xl shadow-sm text-sm leading-relaxed ${msg.role === 'advisor'
-                                    ? 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-tl-none border border-slate-100 dark:border-slate-700'
-                                    : 'bg-indigo-600 text-white rounded-tr-none'
+                                ? 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-tl-none border border-slate-100 dark:border-slate-700'
+                                : 'bg-indigo-600 text-white rounded-tr-none'
                                 }`}>
                                 {msg.content}
                             </div>
@@ -341,7 +353,7 @@ const AdvisorView = () => {
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyDown={handleKeyDown}
-                            placeholder="Type your response..."
+                            placeholder={i18n.language.startsWith('fr') ? "Tapez votre réponse..." : "Type your response..."}
                             className="w-full pl-5 pr-14 py-4 min-h-[60px] max-h-[200px] bg-slate-50 dark:bg-slate-800 border-2 border-transparent focus:border-indigo-500/20 focus:bg-white dark:focus:bg-slate-900 rounded-2xl resize-none outline-none transition-all shadow-sm group-hover:shadow-md text-slate-800 dark:text-slate-100 text-sm"
                         />
                         <button
@@ -364,7 +376,7 @@ const AdvisorView = () => {
         <div className="flex flex-col h-full bg-slate-50 dark:bg-slate-950 overflow-y-auto">
             <div className="max-w-4xl mx-auto w-full p-8 md:p-12">
                 <button onClick={() => setStep('CONVERSATION')} className="text-slate-400 hover:text-indigo-500 transition-colors flex items-center gap-2 mb-8 text-sm font-medium">
-                    <ChevronRight size={16} className="rotate-180" /> Back to Conversation
+                    <ChevronRight size={16} className="rotate-180" /> {i18n.language.startsWith('fr') ? 'Retour à la conversation' : 'Back to Conversation'}
                 </button>
 
                 <div className="flex items-center gap-4 mb-2">
@@ -372,18 +384,19 @@ const AdvisorView = () => {
                         <CheckCircle2 size={24} />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Decision Summary</h1>
-                        <p className="text-slate-500">Generated on {new Date().toLocaleDateString()}</p>
+                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">{i18n.language.startsWith('fr') ? 'Résumé de la décision' : 'Decision Summary'}</h1>
+                        <p className="text-slate-500">{i18n.language.startsWith('fr') ? 'Généré le' : 'Generated on'} {new Intl.DateTimeFormat(i18n.language).format(new Date())}</p>
                     </div>
                 </div>
 
                 <div className="mt-8 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
                     <div className="p-8 border-b border-slate-100 dark:border-slate-800">
-                        <h3 className="text-sm font-bold uppercase text-slate-400 mb-4 tracking-wider">Business Diagnosis</h3>
+                        <h3 className="text-sm font-bold uppercase text-slate-400 mb-4 tracking-wider">{i18n.language.startsWith('fr') ? 'Diagnostic métier' : 'Business Diagnosis'}</h3>
                         <p className="text-lg text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
-                            The user requires a solution to <span className="text-indigo-600 dark:text-indigo-400">{context.objective || 'achieve specific business goals'}</span>.
-                            The primary focus is on entering the <span className="text-indigo-600 dark:text-indigo-400">{context.targetMarket || 'designated target market'}</span>
-                            while adhering to strict budgetary and timeline constraints.
+                            {i18n.language.startsWith('fr')
+                                ? <>L'utilisateur a besoin d'une solution pour <span className="text-indigo-600 dark:text-indigo-400">{context.objective || 'atteindre des objectifs commerciaux spécifiques'}</span>. L'accent principal est mis sur l'entrée dans le <span className="text-indigo-600 dark:text-indigo-400">{context.targetMarket || 'marché cible désigné'}</span> tout en respectant des contraintes budgétaires et de calendrier strictes.</>
+                                : <>The user requires a solution to <span className="text-indigo-600 dark:text-indigo-400">{context.objective || 'achieve specific business goals'}</span>. The primary focus is on entering the <span className="text-indigo-600 dark:text-indigo-400">{context.targetMarket || 'designated target market'}</span> while adhering to strict budgetary and timeline constraints.</>
+                            }
                         </p>
                     </div>
 
@@ -391,7 +404,7 @@ const AdvisorView = () => {
                         <div className="p-8 border-r border-slate-100 dark:border-slate-800">
                             <h3 className="text-sm font-bold uppercase text-slate-400 mb-4 tracking-wider flex items-center gap-2">
                                 <TrendingUp size={16} className="text-emerald-500" />
-                                Recommended Strategy
+                                {i18n.language.startsWith('fr') ? 'Stratégie recommandée' : 'Recommended Strategy'}
                             </h3>
                             <ul className="space-y-3">
                                 <li className="flex items-start gap-2">
@@ -407,7 +420,7 @@ const AdvisorView = () => {
                         <div className="p-8">
                             <h3 className="text-sm font-bold uppercase text-slate-400 mb-4 tracking-wider flex items-center gap-2">
                                 <Shield size={16} className="text-amber-500" />
-                                Risks & Trade-offs
+                                {i18n.language.startsWith('fr') ? 'Risques et compromis' : 'Risks & Trade-offs'}
                             </h3>
                             <ul className="space-y-3">
                                 {context.risks?.map((risk, i) => (
@@ -422,11 +435,11 @@ const AdvisorView = () => {
                 </div>
 
                 <div className="mt-8 flex gap-4">
-                    <button className="flex-1 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2">
-                        Hand off to AGENT <ArrowRight size={18} />
+                    <button className="flex-1 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide">
+                        {i18n.language.startsWith('fr') ? 'Transférer à l\'AGENT' : 'Hand off to AGENT'} <ArrowRight size={18} />
                     </button>
-                    <button className="flex-1 py-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-bold rounded-xl transition-all flex items-center justify-center gap-2">
-                        <FileText size={18} /> Save as Brief
+                    <button className="flex-1 py-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-bold rounded-xl transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide">
+                        <FileText size={18} /> {i18n.language.startsWith('fr') ? 'Enregistrer comme brief' : 'Save as Brief'}
                     </button>
                 </div>
 

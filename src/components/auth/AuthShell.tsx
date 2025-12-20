@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { LoginView } from './LoginView';
+import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from '../ui/LanguageSelector';
 import { RegisterView } from './RegisterView';
 import { ForgotPasswordView } from './ForgotPasswordView';
 import { ResetLinkSentView } from './ResetLinkSentView';
@@ -11,6 +13,7 @@ interface AuthShellProps {
 }
 
 export const AuthShell: React.FC<AuthShellProps> = ({ onAuthenticated }) => {
+    const { t, i18n } = useTranslation();
     const [view, setView] = useState('login');
     const [email, setEmail] = useState('');
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -21,12 +24,12 @@ export const AuthShell: React.FC<AuthShellProps> = ({ onAuthenticated }) => {
     };
 
     const handleLoginSuccess = () => {
-        showToast('Login successful! Redirecting...');
+        showToast(i18n.language.startsWith('fr') ? 'Connexion réussie ! Redirection...' : 'Login successful! Redirecting...');
         setTimeout(onAuthenticated, 1000);
     };
 
     const handleRegisterSuccess = () => {
-        showToast('Account created successfully!');
+        showToast(i18n.language.startsWith('fr') ? 'Compte créé avec succès !' : 'Account created successfully!');
         setView('verify-email');
     };
 
@@ -65,6 +68,11 @@ export const AuthShell: React.FC<AuthShellProps> = ({ onAuthenticated }) => {
 
             <div className="relative z-10 w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {renderView()}
+            </div>
+
+            {/* Language Selector in Auth Flow */}
+            <div className="fixed bottom-6 right-6 z-20">
+                <LanguageSelector variant="login" />
             </div>
 
             {toast && (

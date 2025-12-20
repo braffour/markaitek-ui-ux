@@ -1,5 +1,6 @@
 import React from 'react';
 import { PlayCircle, Bug, History } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export type ExecutionTabId = 'run' | 'debug' | 'history';
 
@@ -9,10 +10,11 @@ interface ExecutionTabsProps {
 }
 
 export const ExecutionTabs: React.FC<ExecutionTabsProps> = ({ activeTab, onChange }) => {
+    const { t } = useTranslation();
     const tabs = [
-        { id: 'run', label: 'Run', icon: PlayCircle },
-        { id: 'debug', label: 'Debug', icon: Bug },
-        { id: 'history', label: 'History', icon: History },
+        { id: 'run', label: t('execution.tabs.run'), icon: PlayCircle },
+        { id: 'debug', label: t('execution.tabs.debug'), icon: Bug },
+        { id: 'history', label: t('execution.tabs.history'), icon: History },
     ] as const;
 
     return (

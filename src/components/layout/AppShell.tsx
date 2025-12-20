@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNodesState, useEdgesState, Node, Edge } from '@xyflow/react';
+import { useTranslation } from 'react-i18next';
 import {
     MessageSquare,
     Layers,
@@ -24,15 +25,17 @@ import { EditableBreadcrumbs } from '../ui/EditableBreadcrumbs';
 import { useTheme } from '../../context/ThemeContext';
 import logo from '../../markaitek.svg';
 import { ExecutionPanel } from '../execution/ExecutionPanel';
+import { LanguageSelector } from '../ui/LanguageSelector';
 
 const SECTIONS = [
-    { id: 'advisor', label: 'Advisor', icon: BrainCircuit },
-    { id: 'yolo', label: 'Agent', icon: MessageSquare },
-    { id: 'classic', label: 'Editor', icon: Layers },
-    { id: 'lucky', label: 'Insights', icon: Wand2 },
+    { id: 'advisor', label: 'nav.advisor', icon: BrainCircuit },
+    { id: 'yolo', label: 'nav.agent', icon: MessageSquare },
+    { id: 'classic', label: 'nav.editor', icon: Layers },
+    { id: 'lucky', label: 'nav.insights', icon: Wand2 },
 ];
 
 const AppShell = () => {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('advisor');
     const [currentWorkspace, setCurrentWorkspace] = useState(WORKSPACES[0]);
     const [isQaOpen, setIsQaOpen] = useState(false);
@@ -87,7 +90,7 @@ const AppShell = () => {
                                 `}
                             >
                                 <Icon size={14} className={isActive ? 'text-indigo-500' : 'text-slate-400'} />
-                                {section.label}
+                                {t(section.label)}
                                 {isActive && <div className="ml-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500"></div>}
                             </button>
                         )
@@ -102,7 +105,7 @@ const AppShell = () => {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={14} />
                         <input
                             type="text"
-                            placeholder="Search workflows library..."
+                            placeholder={t('shell.searchPlaceholder')}
                             className="w-full pl-9 pr-3 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-xs font-medium focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder-slate-400 text-slate-700 dark:text-slate-200"
                         />
                         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
@@ -121,6 +124,10 @@ const AppShell = () => {
                         >
                             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                         </button>
+
+                        <div className="hidden md:block h-6 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+
+                        <LanguageSelector />
 
                         <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold shadow-lg ring-2 ring-white dark:ring-white/10 cursor-pointer">
                             BR
@@ -162,7 +169,7 @@ const AppShell = () => {
                             className={`flex flex-col items-center justify-center p-2 w-full transition-colors ${isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`}
                         >
                             <Icon size={20} className={`mb-1 ${isActive ? 'fill-current opacity-20' : ''}`} />
-                            <span className="text-[10px] font-bold uppercase tracking-wide">{section.label}</span>
+                            <span className="text-[10px] font-bold uppercase tracking-wide">{t(section.label)}</span>
                         </button>
                     )
                 })}

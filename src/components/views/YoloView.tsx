@@ -1,22 +1,33 @@
 import React, { useState } from 'react';
 import { Activity, Zap, ShieldCheck, FileText, Cpu, MessageSquare } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { WORKSPACES, POLICIES, ENVIRONMENTS } from '../../constants';
 
 const YoloView = () => {
+    const { t, i18n } = useTranslation();
     const [transcript, setTranscript] = useState<{ text: string, time: string }[]>([]);
     const [isBuilding, setIsBuilding] = useState(false);
     const [input, setInput] = useState('');
 
     const simulateAgent = () => {
         setIsBuilding(true);
-        const steps = [
-            "Parsing intent...",
-            "Retrieving context from vectorized docs...",
-            "Matching against SOC2 Policy scope...",
-            "Drafting workflow definition...",
-            "Simulating dry-run...",
-            "Ready for review."
-        ];
+        const steps = i18n.language.startsWith('fr')
+            ? [
+                "Analyse de l'intention...",
+                "Récupération du contexte à partir des docs vectorisés...",
+                "Vérification de la conformité SOC2...",
+                "Rédaction de la définition du flux...",
+                "Simulation d'exécution à blanc...",
+                "Prêt pour révision."
+            ]
+            : [
+                "Parsing intent...",
+                "Retrieving context from vectorized docs...",
+                "Matching against SOC2 Policy scope...",
+                "Drafting workflow definition...",
+                "Simulating dry-run...",
+                "Ready for review."
+            ];
 
         let stepIndex = 0;
         setTranscript([]);
@@ -43,16 +54,16 @@ const YoloView = () => {
                         <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                             <MessageSquare className="text-white" size={24} />
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Agent Terminal</h2>
+                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{t('agent.terminal')}</h2>
                     </div>
-                    <p className="text-indigo-100 mb-6 text-sm md:text-lg font-light relative z-10">What are we automating today? Markaitek handles the governance.</p>
+                    <p className="text-indigo-100 mb-6 text-sm md:text-lg font-light relative z-10">{t('agent.description')}</p>
 
                     <div className="relative group z-10">
                         <div className="absolute inset-0 bg-white/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition duration-1000"></div>
                         <textarea
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
-                            placeholder="e.g., Whenever a high-priority ticket arrives in Jira, summarize it with GPT-4 and slack the Engineering Ops channel..."
+                            placeholder={t('agent.placeholder')}
                             className="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-base md:text-lg text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-[120px] md:min-h-[140px] relative z-10 backdrop-blur-sm transition-all resize-none font-medium"
                         />
                         <button
@@ -61,15 +72,19 @@ const YoloView = () => {
                             className="absolute bottom-4 right-4 bg-white text-indigo-600 px-4 py-2 md:px-5 md:py-2.5 rounded-lg font-bold hover:bg-indigo-50 transition-all flex items-center gap-2 z-20 shadow-lg shadow-indigo-900/20 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
                         >
                             {isBuilding ? <Activity className="animate-spin" size={18} /> : <Zap size={18} />}
-                            Execute
+                            {t('agent.execute')}
                         </button>
                     </div>
 
                     <div className="mt-6 flex gap-2 md:gap-3 flex-wrap items-center relative z-10">
-                        <span className="text-xs text-indigo-200 font-bold uppercase tracking-widest mr-2 w-full md:w-auto">Quick Prompts</span>
-                        {['Sync Leads to CRM', 'Daily Report', 'Onboard User'].map(p => (
-                            <button key={p} onClick={() => setInput(p)} className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-xs md:text-sm text-white transition-all backdrop-blur-sm border border-white/10 hover:border-white/30">
-                                {p}
+                        <span className="text-xs text-indigo-200 font-bold uppercase tracking-widest mr-2 w-full md:w-auto">{t('agent.quickPrompts')}</span>
+                        {[
+                            { key: 'agent.syncLeads' },
+                            { key: 'agent.dailyReport' },
+                            { key: 'agent.onboardUser' }
+                        ].map(p => (
+                            <button key={p.key} onClick={() => setInput(t(p.key))} className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-xs md:text-sm text-white transition-all backdrop-blur-sm border border-white/10 hover:border-white/30">
+                                {t(p.key)}
                             </button>
                         ))}
                     </div>
@@ -78,53 +93,63 @@ const YoloView = () => {
                 {/* Mandatory Inputs */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 rounded-2xl border border-slate-200/60 dark:border-slate-800 shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Governance Context</h3>
+                        <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">{t('agent.governance')}</h3>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Policy Scope</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{t('agent.policyScope')}</label>
                                 <div className="relative">
                                     <ShieldCheck className="absolute left-3 top-2.5 text-emerald-500" size={16} />
                                     <select className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50/50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all appearance-none dark:text-slate-200 text-sm">
-                                        {POLICIES.map(p => <option key={p}>{p}</option>)}
+                                        {i18n.language.startsWith('fr') ? <option>RGPD strict</option> : <option>GDPR Strict</option>}
+                                        <option>ISO27001</option>
+                                        <option>SOC2 Type II</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Context File (RAG)</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{t('agent.contextFile')}</label>
                                 <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-5 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-all group">
                                     <FileText className="mx-auto text-slate-400 group-hover:text-indigo-500 transition-colors mb-2" size={24} />
-                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Drag spec or click to upload</span>
+                                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">{t('agent.uploadHint')}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl p-6 rounded-2xl border border-slate-200/60 dark:border-slate-800 shadow-sm">
-                        <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Execution Parameters</h3>
+                        <h3 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">{t('agent.params')}</h3>
 
                         <div className="space-y-5">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Urgency</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('agent.urgency')}</label>
                                 <div className="flex bg-slate-100/80 dark:bg-slate-800 p-1 rounded-xl">
-                                    {['ASAP', 'Today', 'Flexible'].map((u, i) => (
-                                        <button key={u} className={`flex-1 py-1.5 text-sm rounded-lg font-medium transition-all ${i === 0 ? 'bg-white dark:bg-slate-700 shadow-sm text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}>
-                                            {u}
+                                    {[
+                                        { key: 'agent.asap' },
+                                        { key: 'agent.today' },
+                                        { key: 'agent.flexible' }
+                                    ].map((u, i) => (
+                                        <button key={u.key} className={`flex-1 py-1.5 text-sm rounded-lg font-medium transition-all ${i === 0 ? 'bg-white dark:bg-slate-700 shadow-sm text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}>
+                                            {t(u.key)}
                                         </button>
                                     ))}
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Target Environments</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('agent.environments')}</label>
                                 <div className="flex flex-wrap gap-4">
-                                    {ENVIRONMENTS.map(env => (
-                                        <label key={env} className="flex items-center gap-2 cursor-pointer group">
+                                    {[
+                                        { id: 'dev', key: 'agent.dev' },
+                                        { id: 'staging', key: 'agent.staging' },
+                                        { id: 'prod', key: 'agent.prod' }
+                                    ].map(env => (
+                                        <label key={env.id} className="flex items-center gap-2 cursor-pointer group">
                                             <div className="relative flex items-center">
-                                                <input type="checkbox" defaultChecked={env === 'Dev'} className="peer w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 transition-all bg-transparent" />
+                                                <input type="checkbox" defaultChecked={env.id === 'dev'} className="peer w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 transition-all bg-transparent" />
                                             </div>
-                                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">{env}</span>
+                                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">{t(env.key)}</span>
                                         </label>
                                     ))}
                                 </div>
@@ -142,11 +167,11 @@ const YoloView = () => {
                         <div className="p-1.5 bg-indigo-500/20 rounded-md">
                             <Cpu className="text-indigo-400" size={16} />
                         </div>
-                        <h3 className="font-mono text-indigo-100 font-semibold tracking-tight">Agent Trace</h3>
+                        <h3 className="font-mono text-indigo-100 font-semibold tracking-tight">{t('agent.trace')}</h3>
                     </div>
                     <div className="flex items-center gap-1.5 bg-green-500/10 px-2 py-1 rounded-full border border-green-500/20">
                         <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                        <span className="text-[10px] font-bold text-green-400 uppercase tracking-wider">Online</span>
+                        <span className="text-[10px] font-bold text-green-400 uppercase tracking-wider">{t('agent.online')}</span>
                     </div>
                 </div>
 
@@ -156,7 +181,7 @@ const YoloView = () => {
                             <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mb-3">
                                 <Activity size={24} className="opacity-20" />
                             </div>
-                            Waiting for intent...
+                            {t('agent.waiting')}
                         </div>
                     )}
                     {transcript.map((log, idx) => (
@@ -177,7 +202,7 @@ const YoloView = () => {
                 <div className="mt-4 pt-4 border-t border-slate-800/50">
                     <div className="flex items-center gap-2 text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
                         <ShieldCheck size={12} />
-                        <span>Audit logging active</span>
+                        <span>{t('agent.auditActive')}</span>
                     </div>
                 </div>
             </div>

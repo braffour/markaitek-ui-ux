@@ -12,6 +12,7 @@ import {
     RotateCcw,
     History as HistoryIcon
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface RunHistoryItem {
     id: string;
@@ -23,6 +24,7 @@ interface RunHistoryItem {
 }
 
 export const HistoryTab: React.FC = () => {
+    const { t } = useTranslation();
     const [filter, setFilter] = useState<'all' | 'success' | 'failed'>('all');
 
     const runs: RunHistoryItem[] = [
@@ -52,7 +54,7 @@ export const HistoryTab: React.FC = () => {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors" size={12} />
                     <input
                         type="text"
-                        placeholder="Search runs..."
+                        placeholder={t('execution.history.search')}
                         className="w-full pl-9 pr-3 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-[11px] focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder-slate-400"
                     />
                 </div>
@@ -64,7 +66,7 @@ export const HistoryTab: React.FC = () => {
                             onClick={() => setFilter(f)}
                             className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all border ${filter === f ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400 hover:border-slate-400'}`}
                         >
-                            {f}
+                            {t(`execution.history.filter${f.charAt(0).toUpperCase() + f.slice(1)}`)}
                         </button>
                     ))}
                 </div>
@@ -99,7 +101,7 @@ export const HistoryTab: React.FC = () => {
                 {filteredRuns.length === 0 && (
                     <div className="py-12 text-center text-slate-400">
                         <HistoryIcon size={24} className="mx-auto mb-3 opacity-20" />
-                        <p className="text-[11px] font-medium">No {filter !== 'all' ? filter : ''} runs found.</p>
+                        <p className="text-[11px] font-medium">{t('execution.history.empty', { filter: filter !== 'all' ? t(`execution.history.filter${filter.charAt(0).toUpperCase() + filter.slice(1)}`).toLowerCase() : '' })}</p>
                     </div>
                 )}
             </div>

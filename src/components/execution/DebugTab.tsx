@@ -14,12 +14,14 @@ import {
     PauseCircle,
     Square
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface DebugTabProps {
     onStop: () => void;
 }
 
 export const DebugTab: React.FC<DebugTabProps> = ({ onStop }) => {
+    const { t } = useTranslation();
     const [inspectorTab, setInspectorTab] = useState<'input' | 'output' | 'logs' | 'diff'>('input');
     const [isStepping, setIsStepping] = useState(true);
 
@@ -42,7 +44,7 @@ export const DebugTab: React.FC<DebugTabProps> = ({ onStop }) => {
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
                             <Bug size={14} className="text-indigo-400" />
-                            <span className="text-[11px] font-bold text-slate-100 uppercase tracking-widest">Debug Session</span>
+                            <span className="text-[11px] font-bold text-slate-100 uppercase tracking-widest">{t('execution.debug.session')}</span>
                         </div>
                         <span className="text-[10px] font-medium text-slate-500">Run #12</span>
                     </div>
@@ -50,11 +52,11 @@ export const DebugTab: React.FC<DebugTabProps> = ({ onStop }) => {
                     <div className="flex items-center gap-2">
                         <button className="flex-1 flex items-center justify-center gap-2 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold rounded-lg transition-all">
                             <ArrowRight size={14} />
-                            Step
+                            {t('execution.debug.step')}
                         </button>
                         <button className="flex-1 flex items-center justify-center gap-2 py-2 bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold rounded-lg transition-all">
                             <Play size={14} fill="currentColor" />
-                            Continue
+                            {t('execution.debug.continue')}
                         </button>
                         <button
                             onClick={onStop}
@@ -70,7 +72,7 @@ export const DebugTab: React.FC<DebugTabProps> = ({ onStop }) => {
                             <div className="w-6 h-3.5 bg-indigo-500 rounded-full relative">
                                 <div className="absolute right-0.5 top-0.5 w-2.5 h-2.5 bg-white rounded-full shadow-sm" />
                             </div>
-                            <span className="text-[9px] font-bold text-slate-400 uppercase group-hover:text-slate-200">Break on error</span>
+                            <span className="text-[9px] font-bold text-slate-400 uppercase group-hover:text-slate-200">{t('execution.debug.breakOnError')}</span>
                         </label>
                         <span className="text-[9px] font-bold text-indigo-400">Step 4/12</span>
                     </div>
@@ -80,7 +82,7 @@ export const DebugTab: React.FC<DebugTabProps> = ({ onStop }) => {
             {/* Step Inspector */}
             <div className="flex-1 px-6">
                 <div className="mb-4">
-                    <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Step Inspector</h4>
+                    <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">{t('execution.debug.inspector')}</h4>
                     <div className="p-1 bg-slate-50 dark:bg-slate-800/50 rounded-lg flex">
                         {(['input', 'output', 'logs', 'diff'] as const).map((tab) => (
                             <button
@@ -88,7 +90,7 @@ export const DebugTab: React.FC<DebugTabProps> = ({ onStop }) => {
                                 onClick={() => setInspectorTab(tab)}
                                 className={`flex-1 py-1 text-[10px] font-bold uppercase transition-all rounded-md ${inspectorTab === tab ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}
                             >
-                                {tab}
+                                {t(`execution.debug.tabs.${tab}`)}
                             </button>
                         ))}
                     </div>
@@ -145,15 +147,15 @@ export const DebugTab: React.FC<DebugTabProps> = ({ onStop }) => {
                 <div className="mt-6 grid grid-cols-2 gap-2">
                     <button className="flex items-center gap-2 px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg text-[11px] font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                         <Code size={12} />
-                        Open Editor
+                        {t('execution.debug.openEditor')}
                     </button>
                     <button className="flex items-center gap-2 px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg text-[11px] font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                         <MessageSquare size={12} />
-                        Add Note
+                        {t('execution.debug.addNote')}
                     </button>
                     <button className="col-span-2 flex items-center justify-center gap-2 px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg text-[11px] font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                         <Zap size={12} />
-                        Save as Test Case
+                        {t('execution.debug.saveTestCase')}
                     </button>
                 </div>
             </div>

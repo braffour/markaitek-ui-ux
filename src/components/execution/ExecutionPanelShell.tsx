@@ -11,6 +11,7 @@ import {
     Trash2
 } from 'lucide-react';
 import { StatusPill, ExecutionStatus } from './StatusPill';
+import { useTranslation } from 'react-i18next';
 
 interface ExecutionPanelShellProps {
     children: React.ReactNode;
@@ -23,6 +24,7 @@ export const ExecutionPanelShell: React.FC<ExecutionPanelShellProps> = ({
     status,
     onClear
 }) => {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(true);
     const [width, setWidth] = useState(380);
     const [isResizing, setIsResizing] = useState(false);
@@ -66,13 +68,13 @@ export const ExecutionPanelShell: React.FC<ExecutionPanelShellProps> = ({
                         <PanelRightOpen size={20} className="text-slate-400 group-hover:text-indigo-500 transition-colors" />
                         {status !== 'idle' && (
                             <span className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-slate-900 ${status === 'running' ? 'bg-indigo-500' :
-                                    status === 'failed' ? 'bg-rose-500' :
-                                        status === 'success' ? 'bg-emerald-500' : 'bg-amber-500'
+                                status === 'failed' ? 'bg-rose-500' :
+                                    status === 'success' ? 'bg-emerald-500' : 'bg-amber-500'
                                 }`} />
                         )}
                     </div>
                     <span className="[writing-mode:vertical-lr] text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200 transition-colors">
-                        Execution
+                        {t('execution.title')}
                     </span>
                 </button>
             </div>
@@ -108,7 +110,7 @@ export const ExecutionPanelShell: React.FC<ExecutionPanelShellProps> = ({
                 {/* Panel Header */}
                 <div className="h-16 shrink-0 flex items-center justify-between px-6 border-b border-slate-100 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-10">
                     <div className="flex items-center gap-3">
-                        <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100">Execution</h2>
+                        <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100">{t('execution.title')}</h2>
                         <StatusPill status={status} />
                     </div>
 
@@ -116,14 +118,14 @@ export const ExecutionPanelShell: React.FC<ExecutionPanelShellProps> = ({
                         <button
                             onClick={onClear}
                             className="p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-md transition-all"
-                            title="Clear history"
+                            title={t('execution.tooltips.clear')}
                         >
                             <Trash2 size={16} />
                         </button>
                         <button
                             onClick={() => setIsPinned(!isPinned)}
                             className={`p-1.5 rounded-md transition-all ${isPinned ? 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30' : 'text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}`}
-                            title={isPinned ? 'Unpin panel' : 'Pin panel'}
+                            title={isPinned ? t('execution.tooltips.unpin') : t('execution.tooltips.pin')}
                         >
                             <Pin size={16} className={isPinned ? 'fill-current' : ''} />
                         </button>
@@ -144,8 +146,8 @@ export const ExecutionPanelShell: React.FC<ExecutionPanelShellProps> = ({
                 {/* Footer (Metadata) */}
                 <div className="h-12 shrink-0 flex items-center justify-between px-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 backdrop-blur-sm text-[10px] text-slate-400 font-medium">
                     <div className="flex items-center gap-4">
-                        <span>Last run: 2m ago</span>
-                        <span>Duration: 1.4s</span>
+                        <span>{t('execution.lastRun', { time: '2m ago' })}</span>
+                        <span>{t('execution.duration', { value: '1.4s' })}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-[9px]">DRAFT</span>

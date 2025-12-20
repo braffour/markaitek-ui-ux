@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck, RefreshCw, Mail } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { AuthHeader } from './AuthHeader';
 import { AuthCard } from './AuthCard';
 import { Button } from '../ui/Button';
@@ -15,6 +16,7 @@ export const EmailVerificationView: React.FC<EmailVerificationViewProps> = ({
     onContinue,
     onNavigate
 }) => {
+    const { t } = useTranslation();
     const [isResending, setIsResending] = useState(false);
 
     const handleResend = async () => {
@@ -31,8 +33,8 @@ export const EmailVerificationView: React.FC<EmailVerificationViewProps> = ({
                 </div>
 
                 <AuthHeader
-                    title="Verify your email"
-                    subtitle={`We've sent a verification link to ${email}. Please check your inbox and follow the instructions.`}
+                    title={t('auth.verifyEmailTitle')}
+                    subtitle={`${t('auth.verifyEmailDesc')} ${email}`}
                 />
 
                 <div className="w-full space-y-4 mt-8">
@@ -40,12 +42,12 @@ export const EmailVerificationView: React.FC<EmailVerificationViewProps> = ({
                         onClick={onContinue}
                         className="w-full py-3 text-base font-bold"
                     >
-                        I've verified my email
+                        {t('auth.verifiedBtn')}
                     </Button>
 
                     <div className="flex flex-col gap-2">
                         <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                            Didn't receive the email?
+                            {t('auth.didntReceiveEmail').split('?')[0] + '?'}{' '}
                         </p>
                         <div className="flex items-center justify-center gap-4">
                             <button
@@ -54,14 +56,14 @@ export const EmailVerificationView: React.FC<EmailVerificationViewProps> = ({
                                 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1"
                             >
                                 {isResending && <RefreshCw size={14} className="animate-spin" />}
-                                Resend email
+                                {t('auth.resendEmail')}
                             </button>
                             <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></span>
                             <button
                                 onClick={() => onNavigate('register')}
                                 className="text-sm font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:underline"
                             >
-                                Change email
+                                {t('auth.changeEmail')}
                             </button>
                         </div>
                     </div>

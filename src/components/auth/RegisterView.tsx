@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, User, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { AuthHeader } from './AuthHeader';
 import { AuthCard } from './AuthCard';
 import { TextField } from '../ui/TextField';
@@ -16,6 +17,7 @@ interface RegisterViewProps {
 }
 
 export const RegisterView: React.FC<RegisterViewProps> = ({ onNavigate, onRegisterSuccess }) => {
+    const { t } = useTranslation();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,11 +32,11 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ onNavigate, onRegist
         setValidationErrors({});
 
         const errors: Record<string, string> = {};
-        if (!name) errors.name = 'Full name is required';
-        if (!email) errors.email = 'Email is required';
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = 'Invalid email format';
-        if (password.length < 8) errors.password = 'Password must be at least 8 characters';
-        if (!agree) errors.agree = 'You must agree to the terms';
+        if (!name) errors.name = t('auth.validation.nameRequired');
+        if (!email) errors.email = t('auth.validation.emailRequired');
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = t('auth.validation.emailInvalid');
+        if (password.length < 8) errors.password = t('auth.validation.passwordLength');
+        if (!agree) errors.agree = t('auth.validation.agreeRequired');
 
         if (Object.keys(errors).length > 0) {
             setValidationErrors(errors);
@@ -51,16 +53,16 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ onNavigate, onRegist
     return (
         <AuthCard>
             <AuthHeader
-                title="Create Account"
-                subtitle="Join thousands of teams building with AI"
+                title={t('auth.createAccount')}
+                subtitle={t('auth.joinTeams')}
             />
 
             <form onSubmit={handleSubmit} className="space-y-5">
                 {error && <InlineErrorText message={error} />}
 
                 <TextField
-                    label="Full Name"
-                    placeholder="John Doe"
+                    label={t('auth.fullName')}
+                    placeholder={t('auth.fullNamePlaceholder')}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     leftIcon={<User size={16} />}
@@ -68,7 +70,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ onNavigate, onRegist
                 />
 
                 <TextField
-                    label="Email Address"
+                    label={t('auth.email')}
                     placeholder="name@company.com"
                     type="email"
                     value={email}
@@ -79,19 +81,20 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ onNavigate, onRegist
 
                 <div className="space-y-1">
                     <PasswordField
+                        label={t('auth.password')}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
                         error={validationErrors.password}
                     />
                     <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 ml-1">
-                        Use 8 or more characters with a mix of letters, numbers & symbols
+                        {t('auth.passwordHint')}
                     </p>
                 </div>
 
                 <div className="py-2">
                     <Checkbox
-                        label="I agree to the Terms of Service and Privacy Policy"
+                        label={t('auth.agreeTerms')}
                         checked={agree}
                         onChange={(e) => setAgree(e.target.checked)}
                     />
@@ -103,11 +106,11 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ onNavigate, onRegist
                     isLoading={isLoading}
                     rightIcon={!isLoading && <ArrowRight size={18} />}
                 >
-                    Create account
+                    {t('auth.createAccountBtn')}
                 </Button>
             </form>
 
-            <Divider>or</Divider>
+            <Divider>{t('auth.or')}</Divider>
             <div className="grid grid-cols-2 gap-3">
                 <SocialAuthButton provider="google" />
                 <SocialAuthButton provider="apple" />
@@ -117,12 +120,12 @@ export const RegisterView: React.FC<RegisterViewProps> = ({ onNavigate, onRegist
 
             <div className="mt-8 text-center">
                 <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                    Already have an account?{' '}
+                    {t('auth.alreadyHaveAccount').split('?')[0] + '?'}{' '}
                     <button
                         onClick={() => onNavigate('login')}
                         className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline"
                     >
-                        Log in
+                        {t('auth.alreadyHaveAccount').split('?')[1].trim()}
                     </button>
                 </p>
             </div>

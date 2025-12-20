@@ -1,0 +1,194 @@
+{
+    "nav": {
+        "workflows": "Workflows",
+        "advisor": "ADVISOR",
+        "agent": "AGENT",
+        "editor": "EDITOR",
+        "insights": "INSIGHTS"
+    },
+    "shell": {
+        "searchPlaceholder": "Search workflows library...",
+        "draft": "Draft"
+    },
+    "advisor": {
+        "welcome": "How can I advise you today?",
+        "description": "I help clarify strategy, diagnose issues, and prepare execution plans. Choose an intent to get started.",
+        "intents": {
+            "objective": {
+                "title": "Define a business objective",
+                "desc": "Clarify what you want to achieve and why."
+            },
+            "diagnose": {
+                "title": "Diagnose a problem",
+                "desc": "Identify root causes of business or marketing issues."
+            },
+            "strategy": {
+                "title": "Plan a strategy",
+                "desc": "Map out a roadmap for growth or launch."
+            },
+            "tools": {
+                "title": "Evaluate tools & workflows",
+                "desc": "Find the right tech stack for your needs."
+            },
+            "brief": {
+                "title": "Prepare execution brief",
+                "desc": "Create a clear spec for the technical team."
+            }
+        }
+    },
+    "execution": {
+        "title": "Execution",
+        "status": {
+            "idle": "IDLE",
+            "running": "RUNNING",
+            "success": "SUCCEEDED",
+            "failed": "FAILED",
+            "warning": "WARNING"
+        },
+        "tabs": {
+            "run": "Run",
+            "debug": "Debug",
+            "history": "History"
+        },
+        "idle": {
+            "title": "No runs yet",
+            "desc": "Start a workflow to see execution details, logs, and potential errors here.",
+            "runMain": "Run workflow",
+            "useSample": "Use sample input",
+            "hint": "Hint: Runs and errors will appear here."
+        },
+        "running": {
+            "title": "Now Running",
+            "stepProgress": "Step {{current}} of {{total}}"
+        },
+        "success": {
+            "title": "Run completed",
+            "metrics": "Total duration: {{duration}} • {{passed}}/{{total}} steps passed",
+            "viewInsights": "View Insights",
+            "runAgain": "Run again"
+        },
+        "error": {
+            "banner": "Run failed at {{step}}",
+            "techDetails": "Technical Details",
+            "suggestedFixes": "Suggested Fixes",
+            "openDebug": "Open Debug",
+            "retry": "Retry"
+        },
+        "history": {
+            "search": "Search runs...",
+            "filter": {
+                "all": "ALL",
+                "success": "SUCCESS",
+                "failed": "FAILED"
+            },
+            "lastRun": "Last run: {{time}}",
+            "duration": "Duration: {{duration}}"
+        }
+    },
+    "agent": {
+        "terminal": "Agent Terminal",
+        "description": "What are we automating today? Markaitek handles the governance.",
+        "placeholder": "e.g., Whenever a high-priority ticket arrives in Jira, summarize it with GPT-4 and slack the Engineering Ops channel...",
+        "execute": "Execute",
+        "quickPrompts": "QUICK PROMPTS",
+        "syncLeads": "Sync Leads to CRM",
+        "dailyReport": "Daily Report",
+        "onboardUser": "Onboard User",
+        "governance": "GOVERNANCE CONTEXT",
+        "policyScope": "Policy Scope",
+        "gdprStrict": "GDPR Strict",
+        "contextFile": "Context File (RAG)",
+        "uploadHint": "Drag spec or click to upload",
+        "params": "EXECUTION PARAMETERS",
+        "urgency": "Urgency",
+        "asap": "ASAP",
+        "today": "Today",
+        "flexible": "Flexible",
+        "environments": "Target Environments",
+        "dev": "Dev",
+        "staging": "Staging",
+        "prod": "Prod",
+        "trace": "Agent Trace",
+        "online": "ONLINE",
+        "waiting": "Waiting for intent...",
+        "auditActive": "AUDIT LOGGING ACTIVE"
+    },
+    "editor": {
+        "library": "Library",
+        "searchWorkspace": "Search workspace...",
+        "triggers": "TRIGGERS",
+        "webhookListener": "Webhook Listener",
+        "certified": "Certified",
+        "actions": "ACTIONS",
+        "transformJson": "Transform JSON",
+        "safe": "Safe",
+        "postgresQuery": "PostgreSQL Query",
+        "connectors": "CONNECTORS",
+        "inspector": "Inspector",
+        "noSelection": "No Selection",
+        "noSelectionDesc": "Select a node from the canvas to access configuration properties.",
+        "lastSaved": "Last Saved: {{time}}",
+        "autoLayout": "Auto Layout"
+    },
+    "insights": {
+        "magic": "Let's make magic happen.",
+        "description": "Auto-fit automation based on your historical success patterns.",
+        "intent": "DESCRIBE INTEGRATION INTENT",
+        "intentPlaceholder": "e.g. Sync Salesforce Closed-Won deals to NetSuite as invoices",
+        "primarySystems": "PRIMARY SYSTEMS",
+        "constraints": "CONSTRAINTS",
+        "budget": "Budget: Standard",
+        "security": "Sec: High",
+        "suggestion": "AI SUGGESTION",
+        "memoryInsight": "Memory Insight",
+        "recommendation": "Based on your last 50 workflows, we recommend using the Finance-v2 connector pack.",
+        "reliable": "{{value}}% Reliable",
+        "timeAgo": "{{time}} ago"
+    },
+    "auth": {
+        "welcomeBack": "Welcome Back",
+        "signInDesc": "Sign in to your account to continue",
+        "email": "Email Address",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "keepSignedIn": "Keep me signed in",
+        "login": "Log in",
+        "or": "OR",
+        "continueWith": "Continue with {{provider}}",
+        "newToMarkaitek": "New to Markaitek? Create an account",
+        "createAccount": "Create Account",
+        "joinTeams": "Join thousands of teams building with AI",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "John Doe",
+        "passwordHint": "Use 8 or more characters with a mix of letters, numbers & symbols",
+        "agreeTerms": "I agree to the Terms of Service and Privacy Policy",
+        "createAccountBtn": "Create account",
+        "alreadyHaveAccount": "Already have an account? Log in",
+        "validation": {
+            "nameRequired": "Full name is required",
+            "emailRequired": "Email is required",
+            "emailInvalid": "Invalid email format",
+            "passwordLength": "Password must be at least 8 characters",
+            "agreeRequired": "You must agree to the terms",
+            "emailInvalidForgot": "Please enter a valid email address"
+        },
+        "backToLogin": "Back to login",
+        "forgotPasswordTitle": "Forgot Password?",
+        "forgotPasswordSubtitle": "No worries, we'll send you reset instructions",
+        "sendResetLink": "Send reset link",
+        "checkEmail": "Check your email",
+        "resetSentDesc": "We've sent a password reset link to",
+        "didntReceiveEmail": "Didn't receive the email? Check your spam folder or",
+        "resendEmail": "Resend email",
+        "clickToResend": "Click to resend",
+        "resendIn": "Resend in {{seconds}}s",
+        "verifyEmailTitle": "Verify your email",
+        "verifyEmailDesc": "We've sent a verification code to",
+        "enterCode": "Enter the 6-digit code sent to your inbox",
+        "verifyEmailBtn": "Verify Email",
+        "verifiedBtn": "I've verified my email",
+        "didntReceiveCode": "Didn't receive the code?",
+        "resendCode": "Resend Code",
+        "changeEmail": "Change email"
+    }
+}

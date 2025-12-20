@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { AuthHeader } from './AuthHeader';
 import { AuthCard } from './AuthCard';
 import { TextField } from '../ui/TextField';
@@ -16,6 +17,7 @@ interface LoginViewProps {
 }
 
 export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess }) => {
+    const { t, i18n } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -25,8 +27,8 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
 
     const validateEmail = (val: string) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!val) return 'Email is required';
-        if (!re.test(val)) return 'Please enter a valid email';
+        if (!val) return i18n.language.startsWith('fr') ? 'L\'e-mail est requis' : 'Email is required';
+        if (!re.test(val)) return i18n.language.startsWith('fr') ? 'Veuillez saisir un e-mail valide' : 'Please enter a valid email';
         return null;
     };
 
@@ -46,7 +48,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         if (email === 'error@example.com') {
-            setError('Invalid email or password. Please try again.');
+            setError(i18n.language.startsWith('fr') ? 'Email ou mot de passe invalide. Veuillez réessayer.' : 'Invalid email or password. Please try again.');
             setIsLoading(false);
         } else {
             onLoginSuccess();
@@ -59,7 +61,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
         setSocialLoading(null);
         // Toggle error state randomly for demo
         if (Math.random() > 0.8) {
-            setError(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login failed. Try again.`);
+            setError(i18n.language.startsWith('fr') ? `Échec de la connexion avec ${provider}. Réessayez.` : `${provider.charAt(0).toUpperCase() + provider.slice(1)} login failed. Try again.`);
         } else {
             onLoginSuccess();
         }
@@ -68,15 +70,15 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
     return (
         <AuthCard>
             <AuthHeader
-                title="Welcome Back"
-                subtitle="Sign in to your account to continue"
+                title={t('auth.welcomeBack')}
+                subtitle={t('auth.signInDesc')}
             />
 
             <form onSubmit={handleSubmit} className="space-y-5">
                 {error && <InlineErrorText message={error} />}
 
                 <TextField
-                    label="Email Address"
+                    label={t('auth.email')}
                     placeholder="name@company.com"
                     type="email"
                     value={email}
@@ -87,6 +89,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
 
                 <div className="space-y-1">
                     <PasswordField
+                        label={t('auth.password')}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
@@ -97,13 +100,13 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                             onClick={() => onNavigate('forgot-password')}
                             className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
                         >
-                            Forgot password?
+                            {t('auth.forgotPassword')}
                         </button>
                     </div>
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <Checkbox label="Keep me signed in" />
+                    <Checkbox label={t('auth.keepSignedIn')} />
                 </div>
 
                 <Button
@@ -112,11 +115,11 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
                     isLoading={isLoading}
                     rightIcon={!isLoading && <ArrowRight size={18} />}
                 >
-                    Log in
+                    {t('auth.login')}
                 </Button>
             </form>
 
-            <Divider>or</Divider>
+            <Divider>{t('auth.or')}</Divider>
             <div className="grid grid-cols-2 gap-3">
                 <SocialAuthButton
                     provider="google"
@@ -142,12 +145,12 @@ export const LoginView: React.FC<LoginViewProps> = ({ onNavigate, onLoginSuccess
 
             <div className="mt-8 text-center">
                 <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                    New to Markaitek?{' '}
+                    {i18n.language.startsWith('fr') ? 'Nouveau sur Markaitek ?' : t('auth.newToMarkaitek').split('?')[0] + '?'}{' '}
                     <button
                         onClick={() => onNavigate('register')}
                         className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline"
                     >
-                        Create an account
+                        {i18n.language.startsWith('fr') ? 'Créer un compte' : t('auth.newToMarkaitek').split('?')[1].trim()}
                     </button>
                 </p>
             </div>

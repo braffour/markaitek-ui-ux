@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MailCheck, ArrowLeft, RefreshCw } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { AuthHeader } from './AuthHeader';
 import { AuthCard } from './AuthCard';
 import { Button } from '../ui/Button';
@@ -10,6 +11,7 @@ interface ResetLinkSentViewProps {
 }
 
 export const ResetLinkSentView: React.FC<ResetLinkSentViewProps> = ({ email, onNavigate }) => {
+    const { t } = useTranslation();
     const [isResending, setIsResending] = useState(false);
     const [resendCooldown, setResendCooldown] = useState(0);
 
@@ -40,8 +42,8 @@ export const ResetLinkSentView: React.FC<ResetLinkSentViewProps> = ({ email, onN
                 </div>
 
                 <AuthHeader
-                    title="Check your email"
-                    subtitle={`We've sent a password reset link to ${email}`}
+                    title={t('auth.checkEmail')}
+                    subtitle={`${t('auth.resetSentDesc')} ${email}`}
                 />
 
                 <div className="w-full space-y-4 mt-4">
@@ -51,25 +53,25 @@ export const ResetLinkSentView: React.FC<ResetLinkSentViewProps> = ({ email, onN
                         className="w-full py-3 text-base font-bold"
                         leftIcon={<ArrowLeft size={18} />}
                     >
-                        Back to login
+                        {t('auth.backToLogin')}
                     </Button>
 
                     <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                        Didn't receive the email?{' '}
+                        {t('auth.didntReceiveEmail').split('?')[0] + '?'}{' '}
                         <button
                             onClick={handleResend}
                             disabled={isResending || resendCooldown > 0}
                             className={`font-bold transition-colors ${resendCooldown > 0
-                                    ? 'text-slate-400 cursor-not-allowed'
-                                    : 'text-indigo-600 dark:text-indigo-400 hover:underline'
+                                ? 'text-slate-400 cursor-not-allowed'
+                                : 'text-indigo-600 dark:text-indigo-400 hover:underline'
                                 }`}
                         >
                             {isResending ? (
                                 <RefreshCw size={14} className="animate-spin inline mr-1" />
                             ) : null}
                             {resendCooldown > 0
-                                ? `Resend in ${resendCooldown}s`
-                                : 'Click to resend'
+                                ? t('auth.resendIn', { seconds: resendCooldown })
+                                : t('auth.clickToResend')
                             }
                         </button>
                     </p>

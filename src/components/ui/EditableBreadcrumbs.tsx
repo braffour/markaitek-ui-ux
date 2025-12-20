@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Pencil } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface EditableBreadcrumbsProps {
     workspace: string;
@@ -18,6 +19,7 @@ export const EditableBreadcrumbs: React.FC<EditableBreadcrumbsProps> = ({
     onWorkspaceChange,
     onWorkflowChange
 }) => {
+    const { t } = useTranslation();
     const [isEditing, setIsEditing] = useState<'workspace' | 'workflow' | null>(null);
     const [tempValue, setTempValue] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
@@ -46,7 +48,7 @@ export const EditableBreadcrumbs: React.FC<EditableBreadcrumbsProps> = ({
 
     return (
         <div className="flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-lg border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all group">
-            <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">Workflows</span>
+            <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">{t('shell.workflows')}</span>
             <span className="text-slate-300 dark:text-slate-600">/</span>
 
             {/* Workspace (Optional in breadcrumbs, but adhering to request) */}
@@ -75,7 +77,7 @@ export const EditableBreadcrumbs: React.FC<EditableBreadcrumbsProps> = ({
                 <span className="text-xs font-mono text-slate-400 dark:text-slate-500">{version}</span>
                 {isDraft && (
                     <span className="text-[10px] bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full font-bold tracking-wide border border-indigo-200 dark:border-indigo-800">
-                        Draft
+                        {t('shell.draft')}
                     </span>
                 )}
             </div>
