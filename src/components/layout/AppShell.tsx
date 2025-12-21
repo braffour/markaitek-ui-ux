@@ -60,8 +60,30 @@ const AppShell = () => {
                 {/* Left: Brand & Context */}
                 <div className="flex items-center gap-6">
                     <div className="relative group cursor-pointer">
-                        <div className="absolute inset-0 bg-brand-accent blur-xl opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                        <img src={logo} alt="Markaitek" className="w-14 h-14 rounded-2xl shadow-xl relative z-10" />
+                        {/* Enhanced Ambient Glow behind the badge */}
+                        <div className="absolute inset-0 bg-brand-accent/20 blur-2xl -z-10 rounded-full scale-150 group-hover:opacity-100 opacity-70 transition-opacity animate-pulse-soft"></div>
+                        {/* Outer Ring Glow */}
+                        <div className="absolute inset-0 border-2 border-brand-accent/30 rounded-2xl -z-10 scale-110 group-hover:border-brand-accent/50 group-hover:scale-115 transition-all duration-300"></div>
+                        {/* Elevated Logo Badge with Gradient Background */}
+                        <div className="relative w-14 h-14 rounded-2xl overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_16px_32px_-8px_rgba(13,148,136,0.4)]">
+                            {/* Gradient Background */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-brand-accent via-brand-accent/90 to-brand-accent/80"></div>
+                            {/* Subtle Pattern Overlay */}
+                            <div className="absolute inset-0 opacity-10" style={{
+                                backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                                backgroundSize: '16px 16px'
+                            }}></div>
+                            {/* Logo Container with Inverted/White Filter */}
+                            <div className="relative w-full h-full flex items-center justify-center">
+                                <img 
+                                    src={logo} 
+                                    alt="Markaitek" 
+                                    className="w-10 h-10 object-contain brightness-0 invert opacity-95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" 
+                                />
+                            </div>
+                            {/* Shine Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none"></div>
+                        </div>
                     </div>
 
                     <div className="hidden md:block h-6 w-px bg-brand-border-base mx-1"></div>

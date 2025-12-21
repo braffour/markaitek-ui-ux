@@ -13,7 +13,7 @@
 
   body {
     @apply bg-brand-bg text-brand-text-primary antialiased selection:bg-brand-accent/30;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   /* Custom scrollbar for premium feel */
