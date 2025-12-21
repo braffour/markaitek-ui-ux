@@ -3,17 +3,71 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  /* ========================================
+   * THEME TOKENS (CSS Custom Properties)
+   * ======================================== */
+
+  /* Dark Theme (Default) */
+  :root,
+  .dark {
     --brand-bg: #222E34;
+    --brand-surface-1: #2A3A42;
+    --brand-surface-2: #354852;
+    --brand-surface-3: #3F5560;
+    --brand-border-low: rgba(255, 255, 255, 0.06);
+    --brand-border-base: rgba(255, 255, 255, 0.1);
+    --brand-border-high: rgba(255, 255, 255, 0.2);
+    --brand-text-primary: #F8FAFC;
+    --brand-text-secondary: #CBD5E1;
+    --brand-text-muted: #94A3B8;
+    --brand-accent: #0D9488;
+    --brand-accent-hover: #0F766E;
+    --brand-accent-light: #2DD4BF;
+    --brand-accent-soft: rgba(13, 148, 136, 0.1);
+    --brand-warning: #F59E0B;
+    --brand-warning-soft: rgba(245, 158, 11, 0.1);
   }
+
+  /* Light Theme */
+  .light {
+    --brand-bg: #F8FAFC;
+    --brand-surface-1: #FFFFFF;
+    --brand-surface-2: #F1F5F9;
+    --brand-surface-3: #E2E8F0;
+    --brand-border-low: rgba(0, 0, 0, 0.06);
+    --brand-border-base: rgba(0, 0, 0, 0.1);
+    --brand-border-high: rgba(0, 0, 0, 0.2);
+    --brand-text-primary: #0F172A;
+    --brand-text-secondary: #475569;
+    --brand-text-muted: #64748B;
+    --brand-accent: #0D9488;
+    --brand-accent-hover: #0F766E;
+    --brand-accent-light: #14B8A6;
+    --brand-accent-soft: rgba(13, 148, 136, 0.1);
+    --brand-warning: #D97706;
+    --brand-warning-soft: rgba(217, 119, 6, 0.1);
+  }
+
+  /* ========================================
+   * BASE STYLES
+   * ======================================== */
 
   html {
     background-color: var(--brand-bg);
+    color-scheme: light dark;
   }
 
   body {
-    @apply bg-brand-bg text-brand-text-primary antialiased selection:bg-brand-accent/30;
+    background-color: var(--brand-bg);
+    color: var(--brand-text-primary);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--brand-accent-soft);
   }
 
   /* Custom scrollbar for premium feel */
@@ -23,11 +77,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-transparent;
+    background: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-brand-border-high rounded-full hover:bg-brand-text-muted transition-colors;
+    background: var(--brand-border-high);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-text-muted);
   }
 }
 
@@ -40,5 +99,5 @@
 #root {
   width: 100%;
   height: 100dvh;
-  @apply overflow-hidden;
+  overflow: hidden;
 }

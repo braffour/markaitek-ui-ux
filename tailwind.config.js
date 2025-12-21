@@ -9,31 +9,31 @@ export default {
     extend: {
       colors: {
         brand: {
-          bg: '#222E34',
+          bg: 'var(--brand-bg)',
           surface: {
-            1: '#2A3A42',
-            2: '#354852',
-            3: '#3F5560',
+            1: 'var(--brand-surface-1)',
+            2: 'var(--brand-surface-2)',
+            3: 'var(--brand-surface-3)',
           },
           border: {
-            low: 'rgba(255, 255, 255, 0.06)',
-            base: 'rgba(255, 255, 255, 0.1)',
-            high: 'rgba(255, 255, 255, 0.2)',
+            low: 'var(--brand-border-low)',
+            base: 'var(--brand-border-base)',
+            high: 'var(--brand-border-high)',
           },
           text: {
-            primary: '#F8FAFC',
-            secondary: '#CBD5E1', // Slate 300 (was 400)
-            muted: '#94A3B8',     // Slate 400 (was 500)
+            primary: 'var(--brand-text-primary)',
+            secondary: 'var(--brand-text-secondary)',
+            muted: 'var(--brand-text-muted)',
           },
           accent: {
-            DEFAULT: '#0D9488', // Teal 600
-            hover: '#0F766E',   // Teal 700
-            light: '#2DD4BF',   // Teal 400
-            soft: 'rgba(13, 148, 136, 0.1)',
+            DEFAULT: 'var(--brand-accent)',
+            hover: 'var(--brand-accent-hover)',
+            light: 'var(--brand-accent-light)',
+            soft: 'var(--brand-accent-soft)',
           },
           warning: {
-            DEFAULT: '#F59E0B', // Amber 500
-            soft: 'rgba(245, 158, 11, 0.1)',
+            DEFAULT: 'var(--brand-warning)',
+            soft: 'var(--brand-warning-soft)',
           }
         }
       },
