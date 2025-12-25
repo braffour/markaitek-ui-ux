@@ -1,0 +1,9 @@
+# Features
+
+- 001-authentication-ui: UI-only login/register/forgot/reset/verify flows. Users: end users. Evidence: `src/components/auth/AuthShell.tsx`, `src/components/auth/*View.tsx`. Risk: no real auth or validation. Dependencies: none.
+- 002-app-shell-navigation: Header, workspace breadcrumbs, mode navigation, theme toggle, language selector. Users: authenticated users. Evidence: `src/components/layout/AppShell.tsx`, `src/context/ThemeContext.tsx`, `src/components/ui/LanguageSelector.tsx`. Risk: purely cosmetic, no persistence. Dependencies: i18n setup.
+- 003-advisor-mode: Intent selection and advisor chat simulation. Users: workflow planners. Evidence: `src/components/views/AdvisorView.tsx`. Risk: simulated responses, unclear business rules. Dependencies: i18n strings.
+- 004-yolo-mode: Natural language intent input with simulated agent transcript and governance inputs. Users: workflow builders. Evidence: `src/components/views/YoloView.tsx`. Risk: simulated processing, unclear policy enforcement. Dependencies: constants/policies.
+- 005-classic-workflow-builder: Drag-and-drop workflow canvas with node connections and inspector panel. Users: workflow designers. Evidence: `src/components/views/ClassicView.tsx`, `src/components/layout/LibrarySidebar.tsx`, `src/components/nodes/WorkflowNode.tsx`. Risk: in-memory only, no persistence. Dependencies: `@xyflow/react`.
+- 006-lucky-mode: AI-assist intent and recommendations UI with past success insights. Users: workflow designers. Evidence: `src/components/views/LuckyView.tsx`, `src/constants.ts`. Risk: static suggestions, no back-end. Dependencies: constants.
+- 007-execution-panel-ui: Run/debug/history tabs and status UI. Users: operators. Evidence: `src/components/execution/ExecutionPanel.tsx`, `src/components/execution/*`. Risk: no real execution data. Dependencies: mode selection.
