@@ -15,7 +15,9 @@
   - Governance inputs → `src/components/views/YoloView.tsx`
 - 005-classic-workflow-builder
   - Drag/drop nodes → `src/components/views/ClassicView.tsx`, `src/components/layout/LibrarySidebar.tsx`
+  - Auto-connect compatibility → `src/utils/connectionUtils.js`
   - Connect edges → `src/components/views/ClassicView.tsx`
+  - Auto-layout → `src/utils/layoutUtils.js`
   - Node inspector → `src/components/views/ClassicView.tsx`
 - 006-lucky-mode
   - Intent input + insights list → `src/components/views/LuckyView.tsx`, `src/constants.ts`
@@ -24,4 +26,5 @@
   - Simulated steps/status → `src/components/execution/ExecutionPanel.tsx`
 
 ## Contracts → Tests → Handlers
+- 005-classic-workflow-builder graph schema → `specs/005-classic-workflow-builder/contracts/graph-schema.md` → (tests TBD)
 - No external contracts implemented. Evidence: `specs/000-system-baseline/contracts/README.md`.
